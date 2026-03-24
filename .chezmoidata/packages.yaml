@@ -110,6 +110,7 @@ packages:
       - gammastep
       - difftastic
       - python-pywal16
+      - signal-desktop
 
   ubuntu:
     packages:
