@@ -16,6 +16,21 @@
       }
    },
    "providers": {
+      "@Ninetonine/store.vicinae.searxng": {
+         "preferences": {
+            "default_category": "general",
+            "details_start_open": false,
+            "engines": "",
+            "instance_domain": "https://search.ramoul.org/search",
+            "keep_previous_search": true,
+            "languages": ""
+         },
+         "entrypoints": {
+            "search-with-searxng": {
+               "alias": "xng"
+            }
+         }
+      },
       "@sovereign/store.vicinae.awww-switcher": {
          "preferences": {
             "wallpaperPath": "/home/rayanramoul/wallpapers"
