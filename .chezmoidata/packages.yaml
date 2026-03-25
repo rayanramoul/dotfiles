@@ -69,7 +69,6 @@ packages:
     non_wsl_packages:
       - bitwarden-bin
       - vicinae
-      - swww
       - awww
       - docker
       - ags-hyprpanel-git
@@ -77,7 +76,6 @@ packages:
       - obsidian
       - vlc
       - wine
-      - hyprpaper
       - hyprlock
       - hyprland
       - hyprshot
@@ -98,18 +96,14 @@ packages:
       - overskride
       - ghostty
       - xsensors
-      - nmtui
       - nm-connection-editor
       - steamtinkerlaunch
       - vesktop
       - opencode
       - lutris
-      - cursor-cli
-      - cursor-bin
       - lxappearance
       - gammastep
       - difftastic
-      - python-pywal16
       - signal-desktop
 
   ubuntu:
