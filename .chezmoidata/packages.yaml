@@ -21,16 +21,12 @@ packages:
   arch:
     # Common packages for all Arch Linux systems (including WSL)
     packages:
-      - lmstudio-bin
-      - noctalia-shell   
-      - millennium
       - adw-gtk-theme 
       - nwg-look
       - wlsunset
       - copyq
       - wl-clipboard
       - just
-      - cryptomator
       - git
       - cargo
       - neovim
@@ -67,11 +63,13 @@ packages:
 
     # Packages only for non-WSL Arch Linux systems (GUI applications, games, etc.)
     non_wsl_packages:
+      - lmstudio-bin
+      - noctalia-shell   
+      - millennium
       - bitwarden-bin
       - vicinae
       - awww
       - docker
-      - ags-hyprpanel-git
       - steam
       - obsidian
       - vlc
