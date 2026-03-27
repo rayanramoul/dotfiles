@@ -64,6 +64,7 @@ packages:
     # Packages only for non-WSL Arch Linux systems (GUI applications, games, etc.)
     non_wsl_packages:
       - lmstudio-bin
+      - protonplus
       - noctalia-shell   
       - millennium
       - bitwarden-bin
