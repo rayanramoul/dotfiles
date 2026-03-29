@@ -44,8 +44,7 @@ alias vi="nvim"
 alias v="nvim"
 alias oldvi="\vi"
 
-alias zshconfig="nvim ~/.zshrc"
-alias ohmyzsh="nvim ~/.oh-my-zsh"
+alias zshconfig="nvim ~/.local/share/chezmoi/dot_zshrc"
 alias yz="yazi"
 
 # Git stuff
@@ -99,7 +98,7 @@ alias please='sudo !!'
 # add bpytop as an alias for both top and htop
 alias top="bpytop"
 alias htop="bpytop"
-# alias cd="z"
+alias cd="z"
 
 # add bat as an alias for cat
 # if bat command is detected alias it to cat, otherwise alias batcat
@@ -161,7 +160,6 @@ PERL_MM_OPT="INSTALL_BASE=$HOME/perl5"; export PERL_MM_OPT;
 export PATH="$HOME/google-cloud-sdk/bin:$PATH"
 
 export PATH=$PATH:~/miniconda3/bin
-export PATH=$PATH:~/.local/bin
 
 
 # bun
@@ -171,8 +169,13 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 
 
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# Lazy-load nvm — loads on first use of node/npm/nvm
+nvm() {
+  unfunction nvm
+  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+  nvm "$@"
+}
 
 
 eval "$(uv generate-shell-completion zsh)"
@@ -189,11 +192,7 @@ compdef _uv_run_mod uv
 
 export DOCKER_BUILDKIT=1
 
-if [ -f ~/.env_exports ]; then
-  source ~/.env_exports
-else
-  echo "File ~/.env_exports not found."
-fi
+[ -f ~/.env_exports ] && source ~/.env_exports
 
 
 autoload -Uz bashcompinit && bashcompinit
