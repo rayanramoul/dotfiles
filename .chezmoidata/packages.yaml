@@ -86,7 +86,6 @@ packages:
       - sunshine
       - ollama
       - libreoffice-fresh
-      - prismlauncher-qt5
       - ttf-meslo-nerd
       - ttf-material-symbols-variable-git
       - awesome-terminal-fonts
