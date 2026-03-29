@@ -1,7 +1,7 @@
 # Setup fzf
 # ---------
-if [[ ! "$PATH" == */Users/r.ramoul/.fzf/bin* ]]; then
-  PATH="${PATH:+${PATH}:}/$HOME/.fzf/bin"
+if [[ ! "$PATH" == */.fzf/bin* ]]; then
+  PATH="${PATH:+${PATH}:}$HOME/.fzf/bin"
 fi
 
 # Auto-completion
