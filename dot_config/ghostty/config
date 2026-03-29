@@ -1,10 +1,11 @@
 # To Reload config:
 # Ctrl + Shift + ,
-theme = Black Metal
+theme = noctalia
 mouse-hide-while-typing = true
 mouse-scroll-multiplier = 0.5
 macos-titlebar-style = transparent
-font-family = FiraMono Nerd Font
+#font-family = FiraMono Nerd Font
+font-family = "JetBrainsMono NFM Regular"
 font-size = 18
 background-opacity = 0.75
 background-blur-radius = 20

@@ -1,16 +1,20 @@
 return {
   -- Configure LazyVim to load tokyodark
   {
-    "tiagovla/tokyodark.nvim",
-    opts = {
-      -- custom options here
-      transparent_background = true,
-    },
+    "rose-pine/neovim",
+    name = "rose-pine",
+    config = function()
+      require("rose-pine").setup({
+        styles = {
+          transparency = true,
+        },
+      })
+    end,
   },
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "tokyodark",
+      colorscheme = "rose-pine",
     },
   },
 }

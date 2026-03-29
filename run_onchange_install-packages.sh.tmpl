@@ -55,6 +55,9 @@ elif [ -f /etc/debian_version ]; then
 
 fi
 
+# Set GTK theme
+echo "Setting GTK theme to adw-gtk3..."
+gsettings set org.gnome.desktop.interface gtk-theme 'adw-gtk3'
 
 {{- end }}
 

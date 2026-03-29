@@ -21,17 +21,19 @@ packages:
   arch:
     # Common packages for all Arch Linux systems (including WSL)
     packages:
-      - lmstudio-bin
+      - adw-gtk-theme 
+      - nwg-look
+      - wlsunset
+      - copyq
+      - wl-clipboard
       - just
-      - cryptomator
       - git
       - cargo
-      - neovim-git
+      - neovim
       - python-pip
       - bpytop
       - zsh
       - tmux
-      - copyq
       - git
       - lazygit
       - lazydocker
@@ -61,17 +63,18 @@ packages:
 
     # Packages only for non-WSL Arch Linux systems (GUI applications, games, etc.)
     non_wsl_packages:
+      - lmstudio-bin
+      - protonplus
+      - noctalia-shell   
+      - millennium
       - bitwarden-bin
       - vicinae
-      - swww
       - awww
       - docker
-      - ags-hyprpanel-git
       - steam
       - obsidian
       - vlc
       - wine
-      - hyprpaper
       - hyprlock
       - hyprland
       - hyprshot
@@ -83,7 +86,6 @@ packages:
       - sunshine
       - ollama
       - libreoffice-fresh
-      - prismlauncher-qt5
       - ttf-meslo-nerd
       - ttf-material-symbols-variable-git
       - awesome-terminal-fonts
@@ -92,18 +94,15 @@ packages:
       - overskride
       - ghostty
       - xsensors
-      - nmtui
       - nm-connection-editor
       - steamtinkerlaunch
       - vesktop
       - opencode
       - lutris
-      - cursor-cli
-      - cursor-bin
       - lxappearance
       - gammastep
       - difftastic
-      - python-pywal16
+      - signal-desktop
 
   ubuntu:
     packages:
