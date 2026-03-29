@@ -30,7 +30,7 @@ function M.update(cwd)
     if type(bufnr) == "number" and vim.api.nvim_buf_is_valid(bufnr) then
       path = vim.api.nvim_buf_get_name(bufnr)
     end
-    path = path and path ~= "" and svim.fs.normalize(path) or nil
+    path = path and path ~= "" and vim.fs.normalize(path) or nil
     if path then
       add(path, diag)
       add(cwd, diag)

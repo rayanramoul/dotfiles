@@ -26,20 +26,11 @@ vim.keymap.set({ "n", "v" }, "<leader>q", [["_d]])
 -- This is going to get me cancelled
 vim.keymap.set("i", "<C-c>", "<Esc>")
 
--- next greatest remap ever : asbjornHaland
--- interactions with the system copy buffers
-vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]])
-vim.keymap.set("n", "<leader>Y", [["+Y]])
-
-vim.keymap.set({ "n", "v" }, "<leader>q", [["_d]])
-
--- This is going to get me cancelled
-vim.keymap.set("i", "<C-c>", "<Esc>")
-
 -- Add visual keymap so that when in visual mode, selected text get searched globally
 vim.keymap.set("v", "*", ":<C-u>call VisualSelection('f')<CR>", { noremap = true, silent = true })
 vim.keymap.set("n", ";", ":", { noremap = true, silent = true })
 
+-- Tmux navigation (also configured in plugins/tmux.lua for lazy-loading)
 vim.keymap.set("n", "<C-h>", "<cmd>TmuxNavigateLeft<cr>")
 vim.keymap.set("n", "<C-j>", "<cmd>TmuxNavigateDown<cr>")
 vim.keymap.set("n", "<C-k>", "<cmd>TmuxNavigateUp<cr>")
@@ -64,4 +55,4 @@ vim.keymap.set("n", "<leader>cu", "<cmd>silent !cursor %<CR>", { desc = "Open cu
 -- go from terminal mode to normal mode
 vim.keymap.set("t", "<Esc>", "<C-\\><C-n>", { noremap = true })
 
-vim.api.nvim_set_option("clipboard", "unnamed")
+vim.opt.clipboard = "unnamed"
