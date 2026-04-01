@@ -6,6 +6,7 @@
 
 $env.config.show_banner = false
 $env.config.buffer_editor = "nvim"
+$env.config.edit_mode = "vi"
 
 $env.config.history.sync_on_enter = true
 $env.config.history.max_size = 10000
