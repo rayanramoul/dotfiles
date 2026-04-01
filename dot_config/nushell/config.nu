@@ -4,6 +4,7 @@
 
 # ── Shell settings ─────────────────────────────────────────────────────────────
 
+$env.config.show_banner = false
 $env.config.buffer_editor = "nvim"
 
 $env.config.history.sync_on_enter = true
@@ -25,12 +26,10 @@ alias vim = nvim
 alias vi = nvim
 alias v = nvim
 alias vimdiff = nvim -d
-alias zshconfig = nvim ~/.local/share/chezmoi/dot_zshrc
 
 # ── Aliases: file browsing ─────────────────────────────────────────────────────
 
 alias yz = yazi
-alias ls = lsd
 
 # Note: `open` is a nushell built-in; use `xdg-open` directly or the def below
 def xopen [...args: string] {
@@ -104,7 +103,7 @@ alias ld = lazydocker
 # Open (or attach to) a Notes tmux session with nvim
 def notes [] {
   let has_session = (^tmux has-session -t Notes | complete | get exit_code) == 0
-  let in_tmux = ($env | get -i TMUX | is-not-empty)
+  let in_tmux = ($env | get -o TMUX | is-not-empty)
 
   if not $has_session {
     ^tmux new-session -ds Notes -c $"($env.HOME)/Documents/Notes" "nvim ."
@@ -121,7 +120,7 @@ def notes [] {
 def fzf-open [] {
   let candidates = (
     do {
-      ^find $"($env.HOME)/Downloads" $"($env.HOME)/Documents" -maxdepth 8 \( -type f -o -type d \)
+      ^find $"($env.HOME)/Downloads" $"($env.HOME)/Documents" -maxdepth 8 "(" -type f -o -type d ")"
     }
     | complete
     | get stdout
@@ -178,16 +177,9 @@ $env.config.keybindings = (
 # ── Tool integrations ──────────────────────────────────────────────────────────
 
 # Carapace completions
-source $"($nu.cache-dir)/carapace.nu"
-
-
-# uv completions — generate once with:
-#   uv generate-shell-completion nushell | save -f ~/.config/nushell/uv_completions.nu
-if ($"($env.HOME)/.config/nushell/uv_completions.nu" | path exists) {
-  source ~/.config/nushell/uv_completions.nu
+# Generate with: carapace _carapace nushell | save -f ($nu.cache-dir | path join "carapace.nu")
+let carapace_path = ($nu.cache-dir | path join "carapace.nu")
+if ($carapace_path | path exists) {
+  source $"($nu.cache-dir)/carapace.nu"
 }
 
-# nvm note: nvm is bash/zsh-only. Use fnm instead:
-#   cargo install fnm  (or pacman -S fnm)
-#   fnm env --use-on-cd --shell nushell | save -f ~/.config/nushell/fnm.nu
-#   source ~/.config/nushell/fnm.nu
