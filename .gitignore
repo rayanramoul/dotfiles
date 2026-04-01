@@ -1,4 +1,5 @@
 .aider*
 .webui_secret_key
 dot_config/nushell/history.txt
+private_dot_ssh/config.gcp
 
