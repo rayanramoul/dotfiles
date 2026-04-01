@@ -1,20 +1,24 @@
 return {
-  -- Configure LazyVim to load tokyodark
   {
-    "rose-pine/neovim",
-    name = "rose-pine",
-    config = function()
-      require("rose-pine").setup({
-        styles = {
-          transparency = true,
-        },
-      })
-    end,
+    "folke/tokyonight.nvim",
+    lazy = false,
+    priority = 1000,
+    opts = {
+      style = "night",         -- night | storm | day | moon
+      transparent = true,
+      terminal_colors = true,
+      styles = {
+        comments = { italic = true },
+        keywords = { italic = true },
+        sidebars = "transparent",
+        floats = "transparent",
+      },
+    },
   },
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "rose-pine",
+      colorscheme = "tokyonight",
     },
   },
 }
