@@ -1,6 +1,10 @@
 packages:
   darwin:
     brews:
+      - carapace
+      - zellij
+      - starship
+      - nushell
       - just
       - git
       - neovim
@@ -21,6 +25,10 @@ packages:
   arch:
     # Common packages for all Arch Linux systems (including WSL)
     packages:
+      - carapace-bin
+      - zellij
+      - starship
+      - nushell
       - adw-gtk-theme 
       - nwg-look
       - wlsunset
@@ -108,6 +116,10 @@ packages:
 
   ubuntu:
     packages:
+      - carapace
+      - zellij
+      - starship
+      - nushell
       - just
       - git
       - neovim

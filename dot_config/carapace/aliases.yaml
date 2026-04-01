@@ -1,0 +1,50 @@
+# Carapace alias completions
+# Maps shell aliases to their underlying commands so carapace applies
+# the correct completions. Mirrors the aliases defined in nushell/config.nu.
+
+# Git
+ga:  [git, add]
+gap: [git, add, --patch]
+gb:  [git, branch]
+gba: [git, branch, --all]
+gc:  [git, commit]
+gca: [git, commit, --amend, --no-edit]
+gce: [git, commit, --amend]
+gco: [git, checkout]
+gcl: [git, clone, --recursive]
+gd:  [git, diff]
+gds: [git, diff, --staged]
+gi:  [git, init]
+gl:  [git, log]
+gm:  [git, merge]
+gn:  [git, checkout, -b]
+gp:  [git, push]
+gr:  [git, reset]
+gs:  [git, status, --short]
+gu:  [git, pull]
+
+# Docker
+dps: [docker, ps]
+dl:  [docker, logs]
+dc:  [docker, compose]
+
+# Chezmoi
+cz:  [chezmoi]
+cza: [chezmoi, apply]
+czd: [chezmoi, diff]
+czl: [chezmoi, ls]
+czp: [chezmoi, preview]
+czr: [chezmoi, resolve]
+czs: [chezmoi, status]
+czc: [chezmoi, cd]
+
+# Tmux
+ta: [tmux, attach]
+tl: [tmux, list-sessions]
+tn: [tmux, new-session, -s]
+
+# Editors
+vim:     [nvim]
+vi:      [nvim]
+v:       [nvim]
+vimdiff: [nvim, -d]
