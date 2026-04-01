@@ -113,6 +113,7 @@ alt-enter = 'exec-and-forget open -a "Ghostty"'
 alt-slash = 'layout tiles horizontal vertical'
 alt-comma = 'layout accordion horizontal vertical'
 alt-f = 'fullscreen'
+alt-ctrl-f = 'layout floating tiling'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#focus
 alt-left = 'focus left'
@@ -155,12 +156,16 @@ alt-shift-7 = 'move-node-to-workspace 7'
 
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#workspace-back-and-forth
-#alt-tab = 'workspace-back-and-forth'
+alt-tab = 'workspace-back-and-forth'
 # See: https://nikitabobko.github.io/AeroSpace/commands#move-workspace-to-monitor
-#alt-shift-tab = 'move-workspace-to-monitor --wrap-around next'
+alt-shift-tab = 'move-workspace-to-monitor --wrap-around next'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#mode
-#
+alt-shift-enter = 'mode apps'
+
+# App launchers
+alt-o = 'exec-and-forget open -a /Applications/Obsidian.app'
+alt-s = 'exec-and-forget open -a /Applications/Slack.app'
 
 ctrl-space = 'mode X'
 
@@ -190,6 +195,16 @@ alt-shift-j = ['join-with down', 'mode main']
 alt-shift-k = ['join-with up', 'mode main']
 alt-shift-l = ['join-with right', 'mode main']
 
+[mode.apps.binding]
+alt-enter = ['exec-and-forget open -a "Ghostty"', 'mode main']
+alt-o = ['exec-and-forget open -a /Applications/Obsidian.app', 'mode main']
+alt-s = ['exec-and-forget open -a /Applications/Slack.app', 'mode main']
+esc = 'mode main'
+
+[workspace-to-monitor-force-assignment]
+# 1 = '^Built-in.*$'
+# 2 = '^DELL U.*$'
+# 3 = '^DELL S.*$'
 
 # this needs to be on the bottom of the file
 # run 'aerospace list-apps'  to list to apps IDs
@@ -277,6 +292,14 @@ if.app-id = 'com.valvesoftware.steam'
 run = 'move-node-to-workspace 5'
 
 # floating apps
-# [[on-window-detected]]
-# if.app-id = 'com.googlecode.iterm2'
-# run = 'layout floating'
+[[on-window-detected]]
+if.app-name-regex-substring = 'telegram'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-name-regex-substring = 'safari'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-name-regex-substring = 'quicktime'
+run = 'layout floating'

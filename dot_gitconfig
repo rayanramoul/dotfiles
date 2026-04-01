@@ -1,91 +1,130 @@
+# ── Identity ───────────────────────────────────────────────────────────────────
 [user]
-	name = Rayan Samy Ramoul
+    name  = Rayan Samy Ramoul
+    email = r.ramoul@instadeep.com
 
-[commit]
-	template = ~/commit-template.txt
-	verbose = true # add more context to commit messages
-
-[user]
-	name = rayanramoul
-	email = r.ramoul@instadeep.com
-
+# ── Core ───────────────────────────────────────────────────────────────────────
 [core]
-	editor = nvim
+    editor     = nvim
+    pager      = delta
+    autocrlf   = input
+    whitespace = fix,trailing-space,cr-at-eol
 
 [credential]
-	helper = /usr/local/share/gcm-core/git-credential-manager
+    helper = /usr/local/share/gcm-core/git-credential-manager
 
-[blame]
-    coloring = highlightRecent
-    date = relative
+# ── Delta (diff pager) ─────────────────────────────────────────────────────────
+[delta]
+    navigate    = true   # n/N to jump between diff sections
+    side-by-side = true
+    line-numbers = true
+    syntax-theme = Catppuccin-mocha
+    file-style   = bold yellow
+    hunk-header-style = file line-number syntax
 
+[interactive]
+    diffFilter = delta --color-only
+
+# ── Commit ─────────────────────────────────────────────────────────────────────
+[commit]
+    template = ~/commit-template.txt
+    verbose  = true
+
+# ── Diff & Merge ───────────────────────────────────────────────────────────────
 [diff]
-    context = 3  # less context in diffs
-    renames = copies  # detect copies as renames in diffs
-    interHunkContext = 10  # merge near hunks in diffs
+    context          = 3
+    renames          = copies
+    interHunkContext = 10
+    colorMoved       = default
+    tool             = nvimdiff
 
-[log]
-    abbrevCommit = true  # short commits
-    graphColors = blue,yellow,cyan,magenta,green,red
+[merge]
+    tool          = nvimdiff
+    conflictstyle = diff3
+
+[rerere]
+    enabled = true   # remember conflict resolutions
+
+# ── Fetch / Push / Pull ────────────────────────────────────────────────────────
+[fetch]
+    prune     = true   # auto-remove deleted remote branches
+    pruneTags = true
 
 [push]
-    autoSetupRemote = true  # easier to push new branches
-    default = current  # push only current branch by default
-    followTags = true  # push also tags
+    autoSetupRemote = true
+    default         = current
+    followTags      = true
 
 [pull]
     rebase = true
 
+[rebase]
+    autoStash = true   # stash dirty state before rebase, pop after
+
+# ── Submodules ─────────────────────────────────────────────────────────────────
 [submodule]
     fetchJobs = 16
 
+# ── Log ────────────────────────────────────────────────────────────────────────
+[log]
+    abbrevCommit = true
+    graphColors  = blue,yellow,cyan,magenta,green,red
+    date         = human
+
+[blame]
+    coloring = highlightRecent
+    date     = relative
 
 [status]
-    branch = true
-    short = true
-    showStash = true
-    showUntrackedFiles = all  # show individual untracked files
+    branch          = true
+    short           = true
+    showStash       = true
+    showUntrackedFiles = all
 
-
+# ── Aliases ────────────────────────────────────────────────────────────────────
 [alias]
-	co = checkout
-	st = status
-	ci = commit
-  cim = commit -m
-	cia = commit -a
-	wip = commit -m "WIP" -n
-	rbi = rebase -i
-	rbc = rebase --continue
+    # basics
+    co   = checkout
+    st   = status
+    ci   = commit
+    cim  = commit -m
+    cia  = commit -a
+    wip  = commit -m "WIP" -n
 
-	# display the 10 branches with the latest commits 
-	recent = for-each-ref --sort=-committerdate --count=10 --format='%(refname:short)' refs/heads
+    # rebase
+    rbi  = rebase -i
+    rbc  = rebase --continue
+    rba  = rebase --abort
 
-	# delete local branches merged
-	dlb = "! f() { git co main && git pull -p && for branch in `git branch -vv | grep ': gone]' | awk '{print $1}'`; do git branch -D $branch; done; }; f"
-	
-	# open the GitHub / GitLab repository in your browser
-	open = "!f(){ python -m webbrowser `git config --get remote.origin.url | sed -Ee 's#(git@|git://)#https://#' -e 's@com:@com/@' -e 's@\\.git@@'`| head -n1; }; f"
+    # pretty log
+    lg   = log --oneline --graph --decorate --all
+    tree = log --oneline --graph --decorate --all
+    ll   = log --stat --abbrev-commit
 
-	# open the issue board in your browser
-	# /!\ gitlab only
-	board = "!f(){ python -m webbrowser `git config --get remote.origin.url | sed -Ee 's#(git@|git://)#https://#' -e 's@com:@com/@' -e 's@\\.git@/-/boards@'`| head -n1; }; f"
+    # branch housekeeping
+    recent = for-each-ref --sort=-committerdate --count=10 --format='%(refname:short)' refs/heads
+    dlb    = "!f() { git co main && git pull -p && for b in $(git branch -vv | grep ': gone]' | awk '{print $1}'); do git branch -D $b; done; }; f"
 
-	# open the issue list in your browser
-	# /!\ gitlab only
-	issues = "!f(){ python -m webbrowser `git config --get remote.origin.url | sed -Ee 's#(git@|git://)#https://#' -e 's@com:@com/@' -e 's@\\.git@/-/issues@'`| head -n1; }; f"
-	
-	# erase your current local branch with the remote one 
-	rh =!git fetch && git reset --hard origin/$(git branch --show-current)
-  
-  # display repository logs as tree
-  tree = log --oneline --graph --decorate --all
+    # open remote in browser
+    open   = "!f(){ python -m webbrowser $(git config --get remote.origin.url | sed -Ee 's#(git@|git://)#https://#' -e 's@com:@com/@' -e 's@\\.git@@') | head -n1; }; f"
+    board  = "!f(){ python -m webbrowser $(git config --get remote.origin.url | sed -Ee 's#(git@|git://)#https://#' -e 's@com:@com/@' -e 's@\\.git@/-/boards@') | head -n1; }; f"
+    issues = "!f(){ python -m webbrowser $(git config --get remote.origin.url | sed -Ee 's#(git@|git://)#https://#' -e 's@com:@com/@' -e 's@\\.git@/-/issues@') | head -n1; }; f"
 
-# Colors
+    # reset local branch to remote
+    rh = !git fetch && git reset --hard origin/$(git branch --show-current)
+
+    # undo last commit, keep changes staged
+    undo = reset --soft HEAD~1
+
+    # show what changed in last commit
+    last = log -1 HEAD --stat
+
+# ── Colors ─────────────────────────────────────────────────────────────────────
 [color "blame"]
     highlightRecent = black bold,1 year ago,white,1 month ago,default,7 days ago,blue
 
 [color "branch"]
-    current  = magenta
+    current  = magenta bold
     local    = default
     remote   = yellow
     upstream = green
@@ -93,14 +132,20 @@
 
 [color "diff"]
     meta       = black bold
-    frag       = magenta
+    frag       = magenta bold
     context    = white
     whitespace = yellow reverse
     old        = red
+    new        = green
+
+[color "status"]
+    added     = green bold
+    changed   = yellow bold
+    untracked = red bold
+    branch    = magenta bold
 
 [color.decorate]
-    HEAD = red
-    branch = blue
-    tag = yellow
+    HEAD         = red bold
+    branch       = blue bold
+    tag          = yellow bold
     remoteBranch = magenta
-
