@@ -1,0 +1,163 @@
+# ~/Documents/justfile
+# Run `just` to list all recipes, `just <recipe>` to run one.
+
+projects_dir := "~/Documents/Github"
+
+# ── Python project scaffolding ─────────────────────────────────────────────────
+
+# Create a new Python app project with uv + direnv
+new-app name:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    dest="{{ projects_dir }}/{{ name }}"
+    if [ -d "$dest" ]; then echo "Error: $dest already exists"; exit 1; fi
+    mkdir -p "$dest"
+    cd "$dest"
+    command -v uv &>/dev/null || python3 -m pip install uv
+    uv init --name "{{ name }}"
+    git init
+    echo "layout uv" > .envrc
+    direnv allow
+    just _write-gitignore "$dest"
+    echo ""
+    echo "✓ App ready: $dest"
+    echo "  cd {{ name }} — direnv will activate the venv automatically"
+
+# Create a new Python library project with uv + direnv
+new-lib name:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    dest="{{ projects_dir }}/{{ name }}"
+    if [ -d "$dest" ]; then echo "Error: $dest already exists"; exit 1; fi
+    mkdir -p "$dest"
+    cd "$dest"
+    command -v uv &>/dev/null || python3 -m pip install uv
+    uv init --lib --name "{{ name }}"
+    git init
+    echo "layout uv" > .envrc
+    direnv allow
+    just _write-gitignore "$dest"
+    echo ""
+    echo "✓ Library ready: $dest"
+
+# Internal: write a comprehensive .gitignore into a directory
+_write-gitignore dest:
+    #!/usr/bin/env bash
+    cat > "{{ dest }}/.gitignore" << 'EOF'
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+wheels/
+.eggs/
+MANIFEST
+
+# Virtual environments
+.venv/
+venv/
+env/
+.env
+
+# uv
+.python-version
+uv.lock
+
+# direnv
+.envrc.local
+
+# Testing
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+
+# Type checkers
+.mypy_cache/
+.dmypy.json
+.pyright/
+.ruff_cache/
+
+# Editors
+.vim/
+.nvim/
+*.swp
+*.swo
+.idea/
+.vscode/
+*.iml
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Secrets
+*.env
+*.env.*
+!*.env.example
+.secrets/
+secrets.toml
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+
+# Logs
+*.log
+logs/
+EOF
+
+# ── Project navigation ─────────────────────────────────────────────────────────
+
+# Open (or attach to) a tmux session for a Github project
+open name:
+    #!/usr/bin/env bash
+    dest="{{ projects_dir }}/{{ name }}"
+    if [ ! -d "$dest" ]; then echo "Error: $dest not found"; exit 1; fi
+    session="{{ name }}"
+    if tmux has-session -t "$session" 2>/dev/null; then
+        tmux switch-client -t "$session" 2>/dev/null || tmux attach -t "$session"
+    else
+        tmux new-session -ds "$session" -c "$dest"
+        tmux send-keys -t "$session" "nvim ." Enter
+        tmux switch-client -t "$session" 2>/dev/null || tmux attach -t "$session"
+    fi
+
+# List all Github projects
+ls:
+    @ls -1 {{ projects_dir }}
+
+# ── Dotfiles ───────────────────────────────────────────────────────────────────
+
+# Apply chezmoi dotfiles
+dots-apply:
+    chezmoi apply
+
+# Show pending chezmoi changes
+dots-diff:
+    chezmoi diff
+
+# Open chezmoi directory in nvim
+dots-edit:
+    nvim {{ "$(chezmoi source-path)" }}
+
+# ── Maintenance ────────────────────────────────────────────────────────────────
+
+# Update all uv-managed tools
+update-tools:
+    uv tool upgrade --all
+
+# Update tmux plugins
+update-tmux:
+    ~/.tmux/plugins/tpm/bin/update_plugins all
+
+# Show this help
+help:
+    @just --list
