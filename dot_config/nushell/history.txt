@@ -1,8 +1,0 @@
-ls
-zoxide init nushell | save -f ~/.zoxide.nu
-yay -S starship
-mkdir ~/.config/starship
-tarship init nu | save -f ~/.config/nushell/starship.nu
-starship init nu | save -f ~/.config/nushell/starship.nu
-clear
-ls

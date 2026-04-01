@@ -1,1 +1,2 @@
-# No OS-specific ignores needed - using single source with conditional destination 
+# No OS-specific ignores needed - using single source with conditional destination
+dot_config/nushell/history.txt

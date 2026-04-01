@@ -82,7 +82,7 @@ outer.right = 5
 # Fallback value (if you omit the key): mode.main.binding = {}
 [mode.main.binding]
 #alt-shift-q = 'close-focused-window'                  # Replace 'close-focused-window' with the actual command
-alt-enter = 'exec-and-forget open -a "Brave Browser"'
+alt-enter = 'exec-and-forget open -a "Ghostty"'
 
 # All possible keys:
 # - Letters.        a, b, c, ..., z

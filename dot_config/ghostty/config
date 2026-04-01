@@ -1,17 +1,13 @@
 # To Reload config:
 # Ctrl + Shift + ,
-theme = noctalia
 mouse-hide-while-typing = true
 mouse-scroll-multiplier = 0.5
 macos-titlebar-style = transparent
-#font-family = FiraMono Nerd Font
-font-family = "JetBrainsMono NFM Regular"
-font-size = 18
-background-opacity = 0.75
-background-blur-radius = 20
-title = RayTerm
-background = #000000
+font-family = "JetBrainsMono NF"
+font-size = 19
 clipboard-paste-protection = false
+background-blur-radius = 20
+mouse-hide-while-typing = true
+window-decoration = false
+macos-option-as-alt = true
 
-# Shell integration features for proper term info communication
-# shell-integration-features = ssh-env, ssh-terminfo
