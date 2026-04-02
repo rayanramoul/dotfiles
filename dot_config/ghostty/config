@@ -13,3 +13,4 @@ macos-option-as-alt = true
 background-opacity = 0.85
 background = #000000
 
+theme = noctalia
