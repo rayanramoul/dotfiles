@@ -1,0 +1,18 @@
+game:
+  exe: /home/rayanramoul/MegaDrive/SteamLibrary/steamapps/common/Command & Conquer
+    Red Alert II/CnCNetYRLauncher.exe
+system:
+  env:
+    __GL_SYNC_TO_VBLANK: "0"
+    WINEDEBUG: "-all"
+    DISABLE_WAYLAND: "1"
+    DXVK_LOG_LEVEL: "none"
+    WINEDLLOVERRIDES: "mscoree,mshtml=;winemenubuilder.exe=d"
+wine:
+  battleye: false
+  dgvoodoo: true
+  eac: false
+  esync: true
+  fsr: false
+  fsync: true
+  version: cachyos-10.0-20260321-slr
