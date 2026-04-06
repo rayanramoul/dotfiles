@@ -184,3 +184,5 @@ if ($carapace_path | path exists) {
   source $"($nu.cache-dir)/carapace.nu"
 }
 
+# Atuin
+source ~/.local/share/atuin/init.nu
