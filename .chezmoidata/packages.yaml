@@ -26,6 +26,7 @@ packages:
   arch:
     # Common packages for all Arch Linux systems (including WSL)
     packages:
+      - transmission-qt
       - atuin
       - carapace-bin
       - zellij
