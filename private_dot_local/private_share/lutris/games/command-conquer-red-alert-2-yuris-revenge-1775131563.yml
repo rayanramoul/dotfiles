@@ -1,13 +1,10 @@
 game:
   exe: /home/rayanramoul/MegaDrive/SteamLibrary/steamapps/common/Command & Conquer
     Red Alert II/CnCNetYRLauncher.exe
+  prefix: /home/rayanramoul/MegaDrive/Lutris/YurisRevengePrefix
 system:
-  env:
-    __GL_SYNC_TO_VBLANK: "0"
-    WINEDEBUG: "-all"
-    DISABLE_WAYLAND: "1"
-    DXVK_LOG_LEVEL: "none"
-    WINEDLLOVERRIDES: "mscoree,mshtml=;winemenubuilder.exe=d"
+  env: {}
+  prefer_system_libs: true
 wine:
   battleye: false
   dgvoodoo: true
@@ -15,4 +12,9 @@ wine:
   esync: true
   fsr: false
   fsync: true
-  version: cachyos-10.0-20260321-slr
+  overrides:
+    ddraw: n,b
+  show_debug: ''
+  system_winetricks: true
+  version: GE-Proton10-34
+  vkd3d: false
