@@ -29,23 +29,22 @@ is_wsl() {
 }
 
 if [ -f /etc/arch-release ]; then
-  echo "Installing packages on Arch Linux using yay..."
-  if ! command -v yay &> /dev/null; then
-    echo "❌ yay is not installed. Please install yay first."
-    sudo pacman -S --needed git base-devel && git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si
-    exit 1
+  echo "Installing packages on Arch Linux using paru..."
+  if ! command -v paru &> /dev/null; then
+    echo "❌ paru is not installed. Installing paru..."
+    sudo pacman -S --needed git base-devel && git clone https://aur.archlinux.org/paru.git && cd paru && makepkg -si
   fi
-  
+
   # Install common packages
   echo "📦 Installing common Arch Linux packages..."
-  yay -S --noconfirm {{ range .packages.arch.packages }}"{{ . }}" {{ end }}
-  
+  paru -S --noconfirm {{ range .packages.arch.packages }}"{{ . }}" {{ end }}
+
   # Check if we're in WSL and install non-WSL packages accordingly
   if is_wsl; then
     echo "🐧 WSL detected - skipping GUI applications and games"
   else
     echo "🖥️  Native Linux detected - installing GUI applications and games..."
-    yay -S --noconfirm {{ range .packages.arch.non_wsl_packages }}"{{ . }}" {{ end }}
+    paru -S --noconfirm {{ range .packages.arch.non_wsl_packages }}"{{ . }}" {{ end }}
   fi
 
 elif [ -f /etc/debian_version ]; then

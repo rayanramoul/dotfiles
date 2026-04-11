@@ -63,14 +63,14 @@ install_chezmoi() {
     
     case $os in
         arch)
-            if command -v pacman &> /dev/null; then
-                sudo pacman -S --noconfirm chezmoi
+            if command -v paru &> /dev/null; then
+                paru -S --noconfirm chezmoi
             elif command -v yay &> /dev/null; then
                 yay -S --noconfirm chezmoi
-            elif command -v paru &> /dev/null; then
-                paru -S --noconfirm chezmoi
+            elif command -v pacman &> /dev/null; then
+                sudo pacman -S --noconfirm chezmoi
             else
-                print_error "No package manager found (pacman/yay/paru)"
+                print_error "No package manager found (paru/yay/pacman)"
                 return 1
             fi
             ;;
