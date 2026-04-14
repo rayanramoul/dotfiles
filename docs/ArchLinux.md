@@ -249,6 +249,23 @@ Install arandr (GUI for xrandr)
 Create launcher with Lutris then install with winetricks : xna40 and dotnet40
 And/Or activate dgvoodoo in lutris settings
 
+To launch **CnCNet Red Alert 2 / Yuri's Revenge**, run the Unix launcher directly:
+
+```sh
+cd "/path/to/steamapps/common/Command & Conquer Red Alert II"
+./YRLauncherUnix.sh
+```
+
+### Mental Omega (Yuri's Revenge mod)
+
+1. Download Mental Omega 3.3.0, the 3.3.6 patch, and optionally the soundtracks from ModDB. Extract them all into the RA2 game directory (patch last, so it overwrites base files).
+2. Download the modified `Syringe.exe` from the Mental Omega Discord. Replace the existing `Syringe.exe` in the game directory with it (required for the Steam version).
+3. Open **Lutris** and add the game directory via "Add locally installed Game".
+4. In the **Game Settings** tab, set the Executable to `Resources/clientxna.exe`.
+5. In the **Runner Options** tab, set Wine version to `wine-staging`.
+6. Launch the game — the Mental Omega launcher should open.
+7. Inside the launcher, set the Renderer to **CnC-DDraw**.
+
 ### Playing VR
 
 <https://github.com/alvr-org/alvr>

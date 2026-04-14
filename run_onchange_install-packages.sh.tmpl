@@ -5,6 +5,9 @@ set -e
 # macOS installation using Homebrew
 echo "Installing packages on macOS using Homebrew..."
 brew bundle --file=/dev/stdin <<EOF
+{{- range .packages.global }}
+brew "{{ . }}"
+{{- end }}
 {{- range .packages.darwin.brews }}
 brew "{{ . }}"
 {{- end }}
@@ -35,9 +38,11 @@ if [ -f /etc/arch-release ]; then
     sudo pacman -S --needed git base-devel && git clone https://aur.archlinux.org/paru.git && cd paru && makepkg -si
   fi
 
-  # Install common packages
-  echo "📦 Installing common Arch Linux packages..."
-  paru -S --noconfirm {{ range .packages.arch.packages }}"{{ . }}" {{ end }}
+  # Install global + Arch-specific packages
+  echo "📦 Installing global and Arch Linux packages..."
+  paru -S --noconfirm \
+    {{ range .packages.global }}"{{ . }}" {{ end }} \
+    {{ range .packages.arch.packages }}"{{ . }}" {{ end }}
 
   # Check if we're in WSL and install non-WSL packages accordingly
   if is_wsl; then
@@ -50,7 +55,9 @@ if [ -f /etc/arch-release ]; then
 elif [ -f /etc/debian_version ]; then
   echo "Installing packages on Ubuntu/Debian using apt..."
   sudo apt update
-  sudo apt install -y {{ range .packages.ubuntu.packages }}"{{ . }}" {{ end }}
+  sudo apt install -y \
+    {{ range .packages.global }}"{{ . }}" {{ end }} \
+    {{ range .packages.ubuntu.packages }}"{{ . }}" {{ end }}
 
 fi
 
@@ -59,4 +66,3 @@ echo "Setting GTK theme to adw-gtk3..."
 gsettings set org.gnome.desktop.interface gtk-theme 'adw-gtk3'
 
 {{- end }}
-
