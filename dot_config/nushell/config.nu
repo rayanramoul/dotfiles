@@ -182,6 +182,14 @@ $env.config.keybindings = (
 let carapace_path = ($nu.cache-dir | path join "carapace.nu")
 if ($carapace_path | path exists) {
   source $"($nu.cache-dir)/carapace.nu"
+  # Nushell doesn't pass a trailing empty span when the cursor is after a space,
+  # but carapace needs it to know a new argument is expected (e.g. `git checkout `).
+  let _carapace = $env.config.completions.external.completer
+  $env.config.completions.external.completer = {|spans: list<string>|
+    let at_word_boundary = (commandline | str ends-with " ")
+    let spans = if $at_word_boundary { $spans | append "" } else { $spans }
+    do $_carapace $spans
+  }
 }
 
 # Atuin
