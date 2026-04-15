@@ -6,6 +6,7 @@ packages:
     - bpytop
     - eza
     - fzf
+    - git-delta
     - git
     - just
     - neovim

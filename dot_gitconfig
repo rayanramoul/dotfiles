@@ -18,7 +18,7 @@
     navigate    = true   # n/N to jump between diff sections
     side-by-side = true
     line-numbers = true
-    syntax-theme = Catppuccin-mocha
+    syntax-theme = Catppuccin Mocha
     file-style   = bold yellow
     hunk-header-style = file line-number syntax
 
