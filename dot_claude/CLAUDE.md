@@ -4,6 +4,7 @@ These apply across all projects. When a project has its own `CLAUDE.md`, `AGENTS
 
 ## Code quality rules (universal)
 - **DRY where it reduces complexity** — three similar lines are fine; the same block repeated across modules is not.
+- **Consolidate shared types** — when the same shape (dataclass, `TypedDict`, `Protocol`, Pydantic / Zod / equivalent model) appears in more than one module, move it to a common location and import it. Don't redefine equivalent types locally.
 - **No dead code** — grep before deleting to confirm no callers (include configs, scripts, entry points, tests).
 - **No circular imports** — extract the shared piece into a lower-level module rather than patching with local imports or conditional-import workarounds.
 - **No weak types** — `Any`, untyped `dict` / `list`, bare `object`, or blanket type-suppressions need a written one-line justification.
