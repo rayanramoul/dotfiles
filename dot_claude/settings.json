@@ -127,6 +127,11 @@
             "type": "command",
             "command": "[ -n \"$(git status --porcelain 2>/dev/null)\" ] || exit 0; [ -f .pre-commit-config.yaml ] || exit 0; out=$(uvx pre-commit run --all-files 2>&1) || { printf '%s\\n' \"$out\" >&2; exit 2; }",
             "timeout": 300
+          },
+          {
+            "type": "command",
+            "command": "case \"$(uname -s)\" in Darwin) osascript -e 'display notification \"Claude is ready for more action!\" with title \"Claude Code\"' ;; Linux) command -v notify-send >/dev/null 2>&1 && notify-send 'Claude Code' 'Claude is ready for more action!' ;; esac",
+            "timeout": 10
           }
         ]
       }
