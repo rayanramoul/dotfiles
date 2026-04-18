@@ -15,6 +15,9 @@ $env.config.history.isolation = false  # share history across sessions
 $env.config.completions.algorithm = "fuzzy"
 $env.config.completions.case_sensitive = false
 
+# "Did you mean?" suggestions on typos (from nu_scripts)
+$env.config.hooks.command_not_found = (source ~/.config/nushell/hooks/did_you_mean.nu)
+
 $env.config.color_config = {
   command: "cyan"
   string: "green"
@@ -177,20 +180,36 @@ $env.config.keybindings = (
 
 # ── Tool integrations ──────────────────────────────────────────────────────────
 
-# Carapace completions
+# Carapace completions (fallback for commands without custom completers)
 # Generate with: carapace _carapace nushell | save -f ($nu.cache-dir | path join "carapace.nu")
 let carapace_path = ($nu.cache-dir | path join "carapace.nu")
 if ($carapace_path | path exists) {
   source $"($nu.cache-dir)/carapace.nu"
-  # Nushell doesn't pass a trailing empty span when the cursor is after a space,
-  # but carapace needs it to know a new argument is expected (e.g. `git checkout `).
-  let _carapace = $env.config.completions.external.completer
-  $env.config.completions.external.completer = {|spans: list<string>|
-    let at_word_boundary = (commandline | str ends-with " ")
-    let spans = if $at_word_boundary { $spans | append "" } else { $spans }
-    do $_carapace $spans
-  }
 }
+
+# Native completions (from nu_scripts) — override carapace for these commands
+use ~/.config/nushell/completions/bat-completions.nu *
+use ~/.config/nushell/completions/bitwarden-cli-completions.nu *
+use ~/.config/nushell/completions/cargo-completions.nu *
+use ~/.config/nushell/completions/claude-completions.nu *
+use ~/.config/nushell/completions/curl-completions.nu *
+use ~/.config/nushell/completions/docker-completions.nu *
+use ~/.config/nushell/completions/gh-completions.nu *
+use ~/.config/nushell/completions/git-completions.nu *
+use ~/.config/nushell/completions/just-completions.nu *
+use ~/.config/nushell/completions/less-completions.nu *
+use ~/.config/nushell/completions/make-completions.nu *
+use ~/.config/nushell/completions/man-completions.nu *
+use ~/.config/nushell/completions/nix-completions.nu *
+use ~/.config/nushell/completions/npm-completions.nu *
+use ~/.config/nushell/completions/pnpm-completions.nu *
+use ~/.config/nushell/completions/pre-commit-completions.nu *
+use ~/.config/nushell/completions/rg-completions.nu *
+use ~/.config/nushell/completions/rustup-completions.nu *
+use ~/.config/nushell/completions/ssh-completions.nu *
+use ~/.config/nushell/completions/tar-completions.nu *
+use ~/.config/nushell/completions/uv-completions.nu *
+use ~/.config/nushell/completions/zoxide-completions.nu *
 
 # Atuin
 source ~/.local/share/atuin/init.nu
