@@ -35,6 +35,7 @@ $env.PATH = (
       $"($env.HOME)/google-cloud-sdk/bin"
       $"($env.HOME)/miniconda3/bin"
       $"($env.BUN_INSTALL)/bin"
+      $"($env.HOME)/.lmstudio/bin"
     ]
   | uniq
 )
