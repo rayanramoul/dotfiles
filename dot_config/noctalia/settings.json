@@ -103,6 +103,7 @@
                 {
                     "colorizeDistroLogo": false,
                     "colorizeSystemIcon": "error",
+                    "colorizeSystemText": "none",
                     "customIconPath": "",
                     "enableColorization": true,
                     "icon": "noctalia",

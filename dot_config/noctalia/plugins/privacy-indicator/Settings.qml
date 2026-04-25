@@ -133,6 +133,7 @@ ColumnLayout {
     pluginApi.pluginSettings.activeColor = root.activeColor;
     pluginApi.pluginSettings.inactiveColor = root.inactiveColor;
     pluginApi.pluginSettings.micFilterRegex = root.micFilterRegex;
+    pluginApi.pluginSettings.camFilterRegex = root.camFilterRegex;
 
     pluginApi.saveSettings();
 

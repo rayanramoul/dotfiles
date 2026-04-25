@@ -1,7 +1,7 @@
 return {
-  "Cannon07/claude-preview.nvim",
+  "Cannon07/code-preview.nvim",
   config = function()
-    require("claude-preview").setup({
+    require("code-preview").setup({
       diff = {
         layout = "tab",
         labels = { current = "CURRENT", proposed = "PROPOSED" },

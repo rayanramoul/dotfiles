@@ -57,7 +57,7 @@ Item {
 
         var appNames = [];
         for (var i = 0; i < apps.length; i++) {
-            appName = apps[i];
+            var appName = apps[i];
             if (filterRegex && appName && filterRegex.test(appName)) continue;
             if (appName && appNames.indexOf(appName) === -1) appNames.push(appName);
         }
