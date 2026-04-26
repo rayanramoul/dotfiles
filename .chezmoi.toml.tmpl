@@ -1,0 +1,27 @@
+[data]
+    # OS detection data for templates
+    os = "{{ .chezmoi.os }}"
+
+[data.git]
+    # Prompted once on `chezmoi init`, stored in ~/.config/chezmoi/chezmoi.toml
+    name  = {{ promptStringOnce . "git.name"  "Git author name" "Your Name"        | quote }}
+    email = {{ promptStringOnce . "git.email" "Git author email" "you@example.com" | quote }}
+
+[data.searxng]
+    # URL of a self-hosted SearXNG instance. Leave blank to disable SearXNG integrations.
+    url = {{ promptStringOnce . "searxng.url" "SearXNG instance URL (blank to skip)" "" | quote }}
+
+# macOS-specific configuration
+[data.darwin]
+    libraryPath = "{{ .chezmoi.homeDir }}/Library"
+
+[scriptCondition.darwin]
+    command = "test"
+    args = ["-d", "{{ .chezmoi.homeDir }}/Library"]
+
+# Platform-specific directory mappings
+{{- if eq .chezmoi.os "darwin" }}
+[cd."{{ .chezmoi.homeDir }}/Library/Application Support/Cursor"]
+    exact = true
+    type = "directory"
+{{- end }} 

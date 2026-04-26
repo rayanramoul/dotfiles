@@ -34,8 +34,8 @@ curl -fsSL https://raw.githubusercontent.com/rayanramoul/dotfiles/main/install.s
 # Arch Linux
 sudo pacman -S chezmoi
 
-# Ubuntu/Debian
-sudo apt install chezmoi
+# Ubuntu/Debian (no apt package — use the upstream installer)
+sh -c "$(curl -fsLS get.chezmoi.io)" -- -b "$HOME/.local/bin"
 
 # MacOS
 brew install chezmoi
@@ -46,16 +46,23 @@ chezmoi init --apply https://github.com/rayanramoul/dotfiles
 chezmoi init --apply git@github.com:rayanramoul/dotfiles
 ```
 
+After applying, run the package installer to pick up everything from `.chezmoidata/packages.yaml`:
+
+```bash
+chezmoi cd && ./run_onchange_install-packages.sh.tmpl
+```
+
 
 # What is this ?
 
-RayTerm is a set of configuration, dotfiles and software to ensure a vision on the optimal environement to code in.
+RayTerm is a set of configurations, dotfiles and software defining an opinionated, optimal environment to code in.
 It is :
 
-- Tiling Window Management.
-- Coherent and reproducible workflows from an OS to another.
-- Strongly relying on terminal tools : Neovim, Tmux, Zsh, Fzf, etc.
-- All prettier with Catppuccin !
+- Tiling Window Management on every OS (Hyprland on Linux, AeroSpace on macOS, GlazeWM on Windows).
+- Coherent and reproducible workflows from an OS to another, managed with [chezmoi](https://chezmoi.io).
+- Strongly relying on terminal tools : Neovim, Tmux/Zellij, Zsh, Nushell, Fzf, etc.
+- AI-native — first-class integration with Claude Code, Ollama, LM Studio and opencode.
+- All prettier with Catppuccin Mocha (and pywal for dynamic theming).
 
 # How ?
 
@@ -65,6 +72,26 @@ The idea is to have one main key associated with each part of the system
 - `Ctrl` for the terminal.
 - `Ctrl + b` for tmux.
 - `Ctrl` and `Space` for neovim.
+
+# Stack at a glance
+
+| Layer | Linux (Arch / CachyOS) | macOS | Windows |
+| --- | --- | --- | --- |
+| Window manager | Hyprland | AeroSpace | GlazeWM |
+| Status bar | Waybar / HyprPanel / Noctalia | SketchyBar (+ JankyBorders) | GlazeWM bar |
+| Launcher | Vicinae (Raycast-style) | Raycast | Wox |
+| Terminal | Ghostty | Ghostty / Alacritty | Alacritty / Windows Terminal |
+| Shells | Zsh (Powerlevel10k) + Nushell (Starship) | same | same (via WSL) |
+| Editor | Neovim (LazyVim) | Neovim (LazyVim) | Neovim (LazyVim) |
+| Multiplexer | Tmux / Zellij | Tmux / Zellij | Tmux / Zellij |
+| File manager | Yazi / Dolphin | Yazi / Finder | Yazi / Explorer |
+| Lock / idle | Hyprlock + Hypridle | — | — |
+| Wallpaper | swww (with `wallpaperctl.sh`) | — | — |
+| Notifications | SwayNC | native | native |
+
+Shared CLI utilities across all platforms: `bat`, `eza` / `lsd`, `fzf`, `ripgrep`, `fd`, `zoxide`, `atuin`, `starship`, `just`, `git-delta`, `difftastic`, `lazygit`, `lazydocker`, `bpytop`, `tldr`, `yazi`.
+
+AI tooling: [Claude Code](docs/ClaudeCode.md) (with `claude-diff` hook), Ollama, LM Studio, opencode, and Neovim integrations (`claude-code.nvim`, `minuet`, custom code-diff/preview plugins).
 
 # Docs
 

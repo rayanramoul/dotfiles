@@ -1,47 +1,43 @@
 
 # Keybindings Reference
 
-Here is a table summarizing the keybindings that you will be able to use with my configs whatever your OS is :
+Cross-OS keybindings shared by Hyprland (Linux), AeroSpace (macOS) and GlazeWM (Windows). `$mod` is `SUPER` on Linux/Windows and `Alt` on macOS (AeroSpace's i3 default).
 
-| Keybinding |	Action |
-| ------------- | -------------
-| $mod+Return | Open terminal (alacritty) |
-| $mod+Shift+q | Kill focused window |
-| $mod+space | Open application launcher (rofi) |
-| $mod+j/k/l/semicolon | Change focus between windows |
-| $mod+Shift+j/k/l/semicolon | Move focused window |
-| $mod+h/v | Split in horizontal/vertical orientation |
-| $mod+f | Toggle fullscreen for the focused container |
-| $mod+s/w/e | Change container layout (stacked, tabbed, toggle split) |
-| $mod+Shift+space | Toggle tiling/floating mode |
-| $mod+1-0 | Switch to workspaces 1-10 |
-| $mod+Shift+1-0 | Move focused container to workspaces 1-10 |
-| $mod+r | Enter resize mode |
-| $mod+Shift+c | Reload configuration file | 
-| $mod+Shift+r | Restart i3 in place |
-| $mod+Shift+e | Exit i3 |
-| $mod+Shift+X | Lock screen using a custom script |
-| Mod + ← | Focus left |
-| Mod + → |	Focus right |
-| Mod + ↑ |	Focus up |
-| Mod + ↓ |	Focus down |
-| Mod + Shift + ←| Move the window to the left side |
-| Mod + Shift + → | Move the window to the right side |
-| Mod + Shift + ↑ | Move the window up |
-| Mod + Shift + ↓ | Move the window down |
-| Mod + f |	Toggle the focused window to full-screen |
-| Mod + v | The next window will be placed vertically |
-| Mod + h | The next window will be placed horizontally |
-| Mod + s | Enables the stacked window layout |
-| Mod + w | Enables the tabbed window layout |
-| Mod + Shift + Space | Enables the floating window (for focused window) |
-| Mod + Left-mouse-click | Drag the entire window using the mouse |
-| Mod + 0-9 | Switch to another workspace |
-| Mod + Shift + 0-9 | Move the window to another workspace |
-| Mod + d | Open the application launcher (D menu) |
-| Mod + Shift + q | Kills the focused window |
-| Mod + Shift + c | Reloads the I3 config file |
-| Mod + Shift + r | Restart the I3 WM |
-| Mod + Shift + e | Exit I3 WM |
+## Apps & system
 
-These keybindings provide efficient control over window management, workspace switching, and system actions within the i3wm environment. The configuration is tailored for a productive and visually pleasing desktop experience.
+| Keybinding | Action |
+| --- | --- |
+| `$mod + Return` | Open terminal (Ghostty / Alacritty) |
+| `$mod + Q` | Kill focused window |
+| `$mod + Space` | Open launcher (Vicinae / Raycast / Wox) |
+| `$mod + E` | Open file manager (Dolphin / Finder / Explorer) |
+| `$mod + V` | Toggle floating |
+| `$mod + F` | Toggle fullscreen |
+| `$mod + W` / `$mod + Shift + W` | Next / previous wallpaper (Linux only) |
+| `$mod + End` | Region screenshot to clipboard (`hyprshot`) |
+| `$mod + X` | Lock screen (`hyprlock`) |
+| `$mod + C` | Open Zen browser at chat.com on workspace 2 |
+| `$mod + Shift + D` | Open Ghostty + Neovim in the chezmoi source dir |
+| `$mod + Shift + A` | `chezmoi apply` and reload Hyprland |
+| `$mod + Shift + C` | Open the Obsidian-style Notes tmux session |
+
+## Focus & movement
+
+| Keybinding | Action |
+| --- | --- |
+| `$mod + H/J/K/L` (or arrows) | Focus left / down / up / right |
+| `$mod + Shift + H/J/K/L` | Move window in the same direction |
+| `$mod + Ctrl + H/J/K/L` | Resize active window by 20px |
+| `$mod + 1-9, 0` | Switch to workspaces 1-10 |
+| `$mod + Shift + 1-9, 0` | Move window to workspace 1-10 |
+| `$mod + S` / `$mod + Shift + S` | Toggle / move-to scratchpad workspace |
+| `$mod + mouse_wheel` | Cycle workspaces |
+| `$mod + LMB` / `$mod + RMB` | Drag / resize window with mouse |
+
+## Media
+
+| Keybinding | Action |
+| --- | --- |
+| `XF86AudioPlay` / `Prev` / `Next` | `playerctl` play-pause / previous / next |
+| `XF86AudioRaise/LowerVolume` | `pactl` volume ±5% |
+| `XF86AudioMicMute` | Toggle microphone mute |

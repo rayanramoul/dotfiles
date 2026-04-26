@@ -5,18 +5,23 @@
 
 # Summary
 
-- Fetch Script : neoFetch
-- Editor : Neovim
+- Fetch Script : Fastfetch
+- Editor : Neovim (LazyVim)
 - Terminal : Ghostty
-- Window Manager : Hyprland
-- Status Bar : Waybar
-- Terminal Multiplexer : Tmux
+- Window Manager : Hyprland (with Hyprlock + Hypridle)
+- Status Bar : Waybar (alternatives configured: HyprPanel, Noctalia)
+- Terminal Multiplexers : Tmux, Zellij
 - Hotkeys : Managed by Hyprland
-- Launcher : Ulauncher
-- Fonts : Fira Code, JetBrains Mono, SF Mono, Nerd Fonts
-- Color Scheme : Catppuccin Mocha
-- Zsh Theme : Powerlevel10k
-- Other Terminal Utilities : Bat, Exa, Fzf, Ripgrep, Starship, Tldr, Zoxide, Lsd, LazyGit
+- Launcher : Vicinae (Raycast-style — replaces Ulauncher)
+- Notifications : SwayNC
+- Wallpaper : swww (managed by `scripts/executable_wallpaperctl.sh`)
+- File Manager : Yazi (TUI) / Dolphin (GUI)
+- Browser : Zen Browser (Helium also installed)
+- Shells : Zsh + Powerlevel10k, Nushell + Starship + Carapace
+- Fonts : Meslo Nerd, Material Symbols, Noto, awesome-terminal-fonts
+- Color Scheme : Catppuccin Mocha (+ pywal for dynamic theming)
+- AI Stack : Claude Code, Ollama, LM Studio, opencode
+- Other Terminal Utilities : bat, eza / lsd, fzf, ripgrep, fd, zoxide, atuin, just, tldr, lazygit, lazydocker, git-delta, difftastic, bpytop
 
 # Summary
 
@@ -34,31 +39,21 @@
 
 # How To
 
-One command :
+One command:
 
 ```bash
-sh -c "$(wget https://raw.githubusercontent.com/rayanramoul/RayTerm/master/install.sh -O -)"
+curl -fsSL https://raw.githubusercontent.com/rayanramoul/dotfiles/main/install.sh | bash
 ```
 
-The script will clone this repository and install ansible then prompt you to choose which part of the install you want to run. <br>
-If you only want to check the dotfiles you can get them at this link : [Dotfiles](dotfiles) and for example run [Stow](https://www.gnu.org/software/stow/) to symlink your config with the repositories ones :
+The script installs `chezmoi` if missing, then clones and applies this repo. After applying, run the package installer to pick up everything from `.chezmoidata/packages.yaml`:
 
 ```bash
-git clone https://github.com/rayanramoul/RayTerm/
-cd RayTerm
-stow -t $HOME -R dotfiles
+chezmoi cd && ./run_onchange_install-packages.sh.tmpl
 ```
 
-# Autostart Applications
+# Autostart (Hyprland)
 
-- dex is used for XDG autostart.
-- xss-lock is employed to lock the screen before suspend.
-- nm-applet is started for NetworkManager support.
-- Keyboard layout is set using setxkbmap.
-- Volume control is configured using keybindings and pactl.
-- feh is used to set the wallpaper.
-- compton is started for compositor support.
-    rofi is configured as the application launcher.
+Autostart entries live in `dot_config/hypr/autostart.conf` and are sourced from `hyprland.conf`. Compositing, lock-on-idle, network/Bluetooth applets and the wallpaper daemon (`swww`) are all started from there.
 
 # Tips
 
@@ -201,16 +196,22 @@ Exec=/bin/sh -c 'while read -r trg; do case $trg in linux) exit 0; esac; done; /
 
 # Mindmap of the important OS Apps
 
-- Audio Control : pavucontrol : <https://aur.archlinux.org/packages/pavucontrol-git>
-- Group Messaging Apps : <https://github.com/getferdi/ferdi/tree/v5.8.1>
-- Heroic Game Launcher : Epic Games Store
-- arandr : Managing screen resolutions
-- Wallpaper management : nitrogen
-- Browser : Zen Browser
-- File browser : xplr
-- Drive Sync : rclone
-- Create multiple terminal inside one for SSH : tmux
-- File explorer : yazi
+- Audio control : `pavucontrol` (PipeWire stack: `pipewire-pulse`, `pipewire-alsa`, `wireplumber`)
+- Bluetooth : `overskride`, `nm-connection-editor` for networking
+- Browser : Zen Browser (Helium also installed)
+- Wallpaper management : `swww` (wrapped by `scripts/executable_wallpaperctl.sh`, with `awww` for picking)
+- File explorer (TUI) : `yazi`
+- File explorer (GUI) : `dolphin`
+- Clipboard : `wl-clipboard`, `copyq` (history)
+- Screenshot : `hyprshot` (region → clipboard, bound to `SUPER + End`)
+- Notifications : `swaync`
+- Lock / idle : `hyprlock` + `hypridle`
+- Multi-terminal / SSH : `tmux` (or `zellij`)
+- Local LLMs : `ollama-cuda`, `lmstudio-bin`
+- Coding agents : Claude Code, `opencode`
+- Notes : Obsidian (vault auto-opened by `SUPER + SHIFT + C` in a tmux Notes session)
+- Messaging : Signal, Vesktop (Discord), Bitwarden
+- Gaming : Steam + ProtonPlus, Lutris, SteamTinkerLaunch
 
 ## Optimizaitons and Tips
 

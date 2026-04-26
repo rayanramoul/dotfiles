@@ -52,11 +52,11 @@ return {
           auto_trigger_ignore_ft = { "TelescopePrompt", "snacks_picker_input" },
           show_on_completion_menu = true,
           keymap = {
-            accept = "<A-a>",
-            accept_line = "<A-l>",
-            prev = "<A-[>",
-            next = "<A-]>",
-            dismiss = "<A-e>",
+            accept = "<C-y>",
+            accept_line = "<C-l>",
+            prev = "<C-\\>",
+            next = "<C-]>",
+            dismiss = "<C-e>",
           },
         },
       })
@@ -70,7 +70,7 @@ return {
     "saghen/blink.cmp",
     opts = {
       keymap = {
-        ["<A-y>"] = {
+        ["<C-Space>"] = {
           function(cmp)
             cmp.show({ providers = { "minuet" } })
           end,

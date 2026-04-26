@@ -3,38 +3,38 @@
 </div>
 
 # Summary :
-- Fetch Script : neoFetch
-- Editor : Neovim
-- Terminal : Alacritty
+- Fetch Script : Fastfetch
+- Editor : Neovim (LazyVim)
+- Terminal : Alacritty / Windows Terminal (Ghostty in WSL)
 - Window Manager : GlazeWM
-- Status Bar : GlazeWM bar
-- Terminal Multiplexer : Tmux
+- Status Bar : GlazeWM bar (config in `dot_config/glaze_config.yaml`)
+- Terminal Multiplexers : Tmux, Zellij (inside WSL)
 - Hotkeys : Managed by GlazeWM
 - Launcher : Wox
-- Fonts : Fira Code, JetBrains Mono, SF Mono, Nerd Fonts
+- Shells : Zsh + Powerlevel10k, Nushell + Starship + Carapace (inside WSL)
+- Fonts : Meslo Nerd, JetBrains Mono, SF Mono, Nerd Fonts
 - Color Scheme : Catppuccin Mocha
-- Zsh Theme : Powerlevel10k
-- Other Terminal Utilities : Bat, Exa, Fzf, Ripgrep, Starship, Tldr, Zoxide, Lsd, LazyGit
+- AI Stack : Claude Code, Ollama, LM Studio, opencode (inside WSL)
+- Other Terminal Utilities : bat, eza / lsd, fzf, ripgrep, fd, zoxide, atuin, just, tldr, lazygit, lazydocker, git-delta, bpytop
 
-# How to 
-- Install [WSL](https://learn.microsoft.com/en-us/windows/wsl/install).
-- Install [Wox](https://github.com/Wox-launcher/Wox/releases) Launcher.
-- Install [GlazeWM](https://github.com/glazerdesktop/GlazeWM)
-- Put this [file](https://github.com/rayanramoul/RayTerm/blob/master/dotfiles/.glaze-wm/config.yaml) in your C:/Users/<USER>/.glaze-wm/config.yaml
-- Download [Alacritty](https://github.com/alacritty/alacritty/releases] on Windows or get Windos Terminal and some [themes](https://terminalsplash.com/).
-- Download and install the [fonts](https://github.com/rayanramoul/RayTerm/tree/master/dotfiles/.fonts).
-- To use WSL as default in Alacritty : rrun wsl --set-default Arch
-- And then go to %APPDATA%\alacritty\alacritty.yml, and put this [config](https://github.com/rayanramoul/RayTerm/blob/master/dotfiles/.config/alacritty/alacritty.yml) and uncomment the  line for WSL shell
-- Install  [ExplorerPatcher](https://github.com/valinet/ExplorerPatcher/releases) to get rid of the Windows Task Bar.
-- Then inside your WSL you can run the command :
+# How to
+- Install [WSL](https://learn.microsoft.com/en-us/windows/wsl/install) (Arch via [archwsl](https://github.com/yuk7/ArchWSL) is what this repo targets).
+- Install [Wox](https://github.com/Wox-launcher/Wox/releases) launcher.
+- Install [GlazeWM](https://github.com/glzr-io/glazewm). The config lives at `dot_config/glaze_config.yaml` in this repo and is symlinked by chezmoi to `%USERPROFILE%\.glzr\glazewm\config.yaml` (or copy it manually).
+- Install a terminal — either [Alacritty](https://github.com/alacritty/alacritty/releases) or Windows Terminal (with [themes](https://terminalsplash.com/)).
+- Install the Nerd Fonts (Meslo recommended) — see [`dot_fonts/`](../dot_fonts/).
+- Make WSL Arch your default: `wsl --set-default Arch`.
+- (Optional) Install [ExplorerPatcher](https://github.com/valinet/ExplorerPatcher/releases) to hide the Windows taskbar.
+
+Inside WSL, run the chezmoi-based installer (same as Linux):
 
 ```bash
-sh -c "$(wget https://raw.githubusercontent.com/rayanramoul/RayTerm/master/install.sh -O -)"
+curl -fsSL https://raw.githubusercontent.com/rayanramoul/dotfiles/main/install.sh | bash
 ```
-The script will clone this repository and install ansible then prompt you to choose which part of the install you want to run. <br>
-If you only want to check the dotfiles you can get them at this link : [Dotfiles](dotfiles) and for example run [Stow](https://www.gnu.org/software/stow/) to symlink your config with the repositories ones :
+
+Or manually:
+
 ```bash
-git clone https://github.com/rayanramoul/RayTerm/
-cd RayTerm
-stow -t $HOME -R dotfiles
+sudo pacman -S chezmoi
+chezmoi init --apply https://github.com/rayanramoul/dotfiles
 ```

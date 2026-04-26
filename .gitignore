@@ -3,3 +3,6 @@
 dot_config/nushell/history.txt
 private_dot_ssh/config.gcp
 
+# Claude Code runtime state — created when Claude Code runs inside this repo
+.claude/
+
