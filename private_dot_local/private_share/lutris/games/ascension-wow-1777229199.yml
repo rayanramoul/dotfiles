@@ -1,0 +1,83 @@
+game:
+  arch: win64
+  exe: /home/rayanramoul/MegaDrive/Games/Ascension/Ascension Launcher.exe
+  prefix: /home/rayanramoul/Games/ascension-wow
+game_slug: ascension-wow
+name: Ascension WoW
+script:
+  files:
+  - launcher:
+      filename: ascension-setup.exe
+      url: https://api.ascension.gg/api/bootstrap/launcher/latest
+  game:
+    arch: win64
+    exe: $GAMEDIR/drive_c/Program Files/Ascension Launcher/Ascension Launcher.exe
+    prefix: $GAMEDIR
+  installer:
+  - task:
+      arch: win64
+      install_mono: 'True'
+      prefix: /home/rayanramoul/Games/ascension-wow
+      wine_path: /home/rayanramoul/.local/share/lutris/runtime/umu/umu-run
+  - task:
+      app: win10
+      arch: win64
+      prefix: /home/rayanramoul/Games/ascension-wow
+      wine_path: /home/rayanramoul/.local/share/lutris/runtime/umu/umu-run
+  - task:
+      app: vcrun2015
+      arch: win64
+      prefix: /home/rayanramoul/Games/ascension-wow
+      wine_path: /home/rayanramoul/.local/share/lutris/runtime/umu/umu-run
+  - task:
+      app: vcrun2019
+      arch: win64
+      prefix: /home/rayanramoul/Games/ascension-wow
+      wine_path: /home/rayanramoul/.local/share/lutris/runtime/umu/umu-run
+  - task:
+      app: win10
+      arch: win64
+      prefix: /home/rayanramoul/Games/ascension-wow
+      wine_path: /home/rayanramoul/.local/share/lutris/runtime/umu/umu-run
+  - task:
+      arch: win64
+      key: divxtac
+      path: HKEY_CURRENT_USER\Software\Wine\DllOverrides
+      prefix: /home/rayanramoul/Games/ascension-wow
+      type: REG_SZ
+      value: ''
+      wine_path: /home/rayanramoul/.local/share/lutris/runtime/umu/umu-run
+  - move:
+      dst: $GAMEDIR/ascension-setup.exe
+      src: launcher
+  - execute:
+      command: 'WINEPREFIX="$GAMEDIR" WINEDEBUG=fixme-all PROTON_DISABLE_XALIA=1 wine
+        "$GAMEDIR/ascension-setup.exe"
+
+        sleep 90
+
+        wait
+
+        '
+  system:
+    env:
+      PROTON_DISABLE_XALIA: '1'
+  wine:
+    overrides:
+      divxtac: disabled
+slug: ascension-wow-ascension-wow
+system:
+  env:
+    PROTON_DISABLE_XALIA: '1'
+version: ascension-wow
+wine:
+  battleye: false
+  d3d_extras: false
+  d3d_extras_version: v2
+  dxvk_nvapi: false
+  eac: false
+  fsr: false
+  overrides:
+    divxtac: disabled
+  version: Proton-CachyOS Latest
+year: 2004
