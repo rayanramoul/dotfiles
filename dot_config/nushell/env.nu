@@ -28,6 +28,8 @@ $env.FZF_DEFAULT_OPTS = (
 $env.PATH = (
   $env.PATH
   | prepend [
+      "/opt/homebrew/bin"
+      "/opt/homebrew/sbin"
       $"($env.HOME)/.local/bin"
       $"($env.HOME)/perl5/bin"
     ]
