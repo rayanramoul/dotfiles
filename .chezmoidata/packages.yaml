@@ -77,6 +77,7 @@ packages:
       - hyprland
       - hyprlock
       - hyprshot
+      - hyprland-preview-share-picker-git
       - libreoffice-fresh
       - lmstudio-bin
       - lutris
