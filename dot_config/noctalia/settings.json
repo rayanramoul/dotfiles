@@ -244,7 +244,7 @@
         "manualSunrise": "06:30",
         "manualSunset": "18:30",
         "monitorForColors": "",
-        "predefinedScheme": "Rose Pine",
+        "predefinedScheme": "Occult Umbral",
         "schedulingMode": "off",
         "syncGsettings": true,
         "useWallpaperColors": false
@@ -682,6 +682,10 @@
             {
                 "enabled": true,
                 "id": "yazi"
+            },
+            {
+                "enabled": true,
+                "id": "starship"
             }
         ],
         "enableUserTheming": false
