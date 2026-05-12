@@ -147,6 +147,42 @@ def fzf-open [] {
   }
 }
 
+# ── Custom commands: LLM stack ─────────────────────────────────────────────────
+
+# Start ollama with tuned env (long context, q4 KV cache, exposed on LAN)
+def ollama-up [] {
+  with-env {
+    OLLAMA_CONTEXT_LENGTH: "100000"
+    OLLAMA_KV_CACHE_TYPE: "q4_0"
+    OLLAMA_HOST: "0.0.0.0:11434"
+    OLLAMA_MAX_LOADED_MODELS: "3"
+  } { ^ollama serve }
+}
+
+# Launch opencode pointed at the local ollama
+def opencode-up [...args: string] {
+  with-env { OLLAMA_HOST: "http://localhost:11434" } { ^opencode ...$args }
+}
+
+# (Re)deploy the open-webui docker container
+def openwebui-up [] {
+  ^sudo docker run ...[
+    -d
+    --name open-webui
+    --restart unless-stopped
+    -p 3000:8080
+    --add-host=host.docker.internal:host-gateway
+    -e OLLAMA_BASE_URL=http://host.docker.internal:11434
+    -e ENABLE_RAG_WEB_SEARCH=true
+    -e RAG_WEB_SEARCH_ENGINE=searxng
+    -e "SEARXNG_QUERY_URL=https://search.ramoul.org/search?q=<query>"
+    -e RAG_WEB_SEARCH_RESULT_COUNT=3
+    -e RAG_WEB_SEARCH_CONCURRENT_REQUESTS=10
+    -v open-webui:/app/backend/data
+    ghcr.io/open-webui/open-webui:main
+  ]
+}
+
 # ── Keybindings ────────────────────────────────────────────────────────────────
 
 $env.config.keybindings = (
