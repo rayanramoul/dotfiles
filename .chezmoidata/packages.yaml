@@ -100,7 +100,6 @@ packages:
       - sunshine
       - ttf-material-symbols-variable-git
       - ttf-meslo-nerd
-      - vesktop
       - vlc
       - xdg-desktop-portal-hyprland
       - xsensors
