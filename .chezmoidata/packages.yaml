@@ -10,10 +10,10 @@ packages:
     - git
     - just
     - neovim
-    - nushell
     - ripgrep
     - starship
     - tmux
+    - xonsh
     - zellij
     - zsh
 
@@ -51,6 +51,7 @@ packages:
       - pipewire-pulse
       - playerctl
       - python-pip
+      - python-prompt_toolkit
       - swww
       - tectonic
       - transmission-qt
@@ -66,7 +67,6 @@ packages:
     non_wsl_packages:
       - awesome-terminal-fonts
       - awww
-      - bitwarden-bin
       - difftastic
       - docker
       - fuzzel-git
@@ -111,4 +111,5 @@ packages:
       - carapace
       - fd-find
       - python3-pip
+      - python3-prompt-toolkit
       - tldr
