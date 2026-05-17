@@ -14,6 +14,29 @@ private_dot_ssh/config.gcp
 .config/lmstudio
 .netrc
 
+# Defensive patterns for keys/tokens/service accounts. These never belong in
+# a public dotfiles repo. Listed as TARGET paths so `chezmoi add` on any of
+# these refuses (chezmoi consults this file before adding).
+gcp.json
+**/*service-account*.json
+**/credentials.json
+**/*credentials*.json
+**/*api*key*
+**/*.pem
+**/*.p12
+**/*.pfx
+**/id_rsa
+**/id_rsa.*
+**/id_ed25519
+**/id_ed25519.*
+**/id_ecdsa
+**/id_ecdsa.*
+**/*.kdbx
+**/*.kdb
+**/.npmrc
+**/.pypirc
+**/known_hosts
+
 # Cache / runtime artefacts some apps drop in tracked dirs
 .config/yazi/state
 .config/bat/cache
