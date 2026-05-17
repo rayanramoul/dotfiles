@@ -3,7 +3,7 @@
 <h1>RayTerm</h1>
 <p><em>An opinionated, reproducible coding environment across Linux, macOS and Windows.</em></p>
 
-![RayTerm](https://github.com/rayanramoul/dotfiles/blob/main/assets/rayterm_screenshot.png?raw=true)
+![RayTerm](assets/rayterm_screenshot.png)
 
 </div>
 
