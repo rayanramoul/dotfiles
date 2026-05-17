@@ -88,7 +88,10 @@ hl.bind(mainMod .. " + mouse:272",  hl.dsp.window.drag(),   { mouse = true })
 hl.bind(mainMod .. " + mouse:273",  hl.dsp.window.resize(), { mouse = true })
 
 -- Utilities
-hl.bind(mainMod .. " + End",        hl.dsp.exec_cmd("hyprshot -m region --clipboard-only"))
+-- Region screenshot → satty annotation UI → clipboard.
+-- grim+slurp give a true cross-monitor selection on Wayland (which
+-- flameshot's portal-based grab can't do); satty replaces flameshot's UI.
+hl.bind(mainMod .. " + End",        hl.dsp.exec_cmd([[grim -g "$(slurp)" - | satty --filename - --copy-command wl-copy --early-exit]]))
 hl.bind(mainMod .. " + X",          hl.dsp.exec_cmd("hyprlock"))
 hl.bind(mainMod .. " + C",          hl.dsp.exec_cmd("zen-browser https://www.chat.com/ && hyprctl dispatch workspace 2"))
 

@@ -76,7 +76,7 @@ packages:
       - helium-browser-bin
       - hyprland
       - hyprlock
-      - hyprshot
+      - satty
       - hyprland-preview-share-picker-git
       - libreoffice-fresh
       - lmstudio-bin

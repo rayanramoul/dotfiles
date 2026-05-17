@@ -203,7 +203,7 @@ Exec=/bin/sh -c 'while read -r trg; do case $trg in linux) exit 0; esac; done; /
 - File explorer (TUI) : `yazi`
 - File explorer (GUI) : `dolphin`
 - Clipboard : `wl-clipboard`, `copyq` (history)
-- Screenshot : `hyprshot` (region → clipboard, bound to `SUPER + End`)
+- Screenshot : `grim + slurp + satty` (region select → annotation UI → clipboard, bound to `SUPER + End`)
 - Notifications : `swaync`
 - Lock / idle : `hyprlock` + `hypridle`
 - Multi-terminal / SSH : `tmux` (or `zellij`)

@@ -14,7 +14,7 @@ Cross-OS keybindings shared by Hyprland (Linux), AeroSpace (macOS) and GlazeWM (
 | `$mod + V` | Toggle floating |
 | `$mod + F` | Toggle fullscreen |
 | `$mod + W` / `$mod + Shift + W` | Next / previous wallpaper (Linux only) |
-| `$mod + End` | Region screenshot to clipboard (`hyprshot`) |
+| `$mod + End` | Region screenshot → annotate (`grim + slurp + satty`) → clipboard |
 | `$mod + X` | Lock screen (`hyprlock`) |
 | `$mod + C` | Open Zen browser at chat.com on workspace 2 |
 | `$mod + Shift + D` | Open Ghostty + Neovim in the chezmoi source dir |

@@ -12,6 +12,7 @@
 import subprocess
 
 from prompt_toolkit.application import run_in_terminal
+from prompt_toolkit.filters import to_filter
 from prompt_toolkit.keys import Keys
 from xonsh.history.main import history_main
 
@@ -70,18 +71,23 @@ def _custom_keybindings(prompter, history, completer, bindings, **kw):
 
     # zsh history-substring-search style: move within multi-line buffer if
     # not at edge, otherwise step through history filtered by current prefix.
+    # prompt_toolkit's history_backward()/forward() honour the buffer's
+    # `enable_history_search` filter — flipping it on tells them to skip
+    # entries that don't start with the text before the cursor.
     @bindings.add(Keys.Up, eager=True)
     def _hist_prefix_up(event):
         buf = event.current_buffer
         if buf.document.cursor_position_row > 0:
             buf.cursor_up(count=event.arg)
-        else:
-            buf.history_backward(count=event.arg, history_search=True)
+            return
+        buf.enable_history_search = to_filter(True)
+        buf.history_backward(count=event.arg)
 
     @bindings.add(Keys.Down, eager=True)
     def _hist_prefix_down(event):
         buf = event.current_buffer
         if buf.document.cursor_position_row < buf.document.line_count - 1:
             buf.cursor_down(count=event.arg)
-        else:
-            buf.history_forward(count=event.arg, history_search=True)
+            return
+        buf.enable_history_search = to_filter(True)
+        buf.history_forward(count=event.arg)
