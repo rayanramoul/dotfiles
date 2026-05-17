@@ -43,6 +43,9 @@ gcp.json
 
 # Runtime plugin installs (TPM manages these) and per-machine app state.
 # Were previously tracked; now ignored so chezmoi doesn't try to delete them.
-.tmux/plugins/**
+# Whole ~/.tmux is runtime-managed (TPM clones plugins into it); the legacy
+# symlink_dot_tmux pointed at a Linux-only path and breaks on macOS.
+.tmux
+.tmux/**
 .local/share/lutris/**
 .local/share/nvim/lazy/**

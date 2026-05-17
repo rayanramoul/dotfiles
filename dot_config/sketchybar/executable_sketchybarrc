@@ -1,42 +1,48 @@
-PLUGIN_DIR="$CONFIG_DIR/plugins"
+#!/usr/bin/env bash
+# sketchybar — Occult Umbral palette, floating capsule layout
 
-##### Bar Appearance #####
-# Sleek black bar with blur
+PLUGIN_DIR="$CONFIG_DIR/plugins"
+source "$CONFIG_DIR/colors.sh"
+
+##### Bar — floating with rounded outer corners (mirrors noctalia bar.* settings) #####
 sketchybar --bar position=top \
-                 height=37 \
+                 height=32 \
                  blur_radius=30 \
-                 color=0xe0000000 \
-                 shadow=off \
+                 color="$BAR_BG" \
+                 border_width=1 \
+                 border_color="$BAR_BORDER" \
+                 shadow=on \
                  sticky=on \
                  padding_left=8 \
                  padding_right=8 \
-                 y_offset=0 \
-                 margin=0 \
-                 corner_radius=0
+                 y_offset=4 \
+                 margin=8 \
+                 corner_radius=12
 
-##### Default Item Appearance #####
+##### Default item appearance — capsule pill #####
 default=(
-  padding_left=5
-  padding_right=5
-  icon.font="FiraCode Nerd Font Mono:Bold:15.0"
-  label.font="FiraCode Nerd Font Mono:Regular:13.0"
-  icon.color=0xffffffff
-  label.color=0xffffffff
+  padding_left=4
+  padding_right=4
+  icon.font="$ICON_FONT"
+  label.font="$LABEL_FONT"
+  icon.color="$TEXT"
+  label.color="$TEXT"
   icon.padding_left=8
   icon.padding_right=4
   label.padding_left=4
   label.padding_right=8
-  background.corner_radius=6
-  background.height=24
+  background.corner_radius=8
+  background.height=22
+  background.color="$PILL_BG"
+  background.drawing=on
 )
 sketchybar --default "${default[@]}"
 
-##### Aerospace Workspace Items #####
+##### Events #####
 sketchybar --add event aerospace_workspace_change
-exec-on-workspace-change = ['/bin/bash', '-c',
-    'sketchybar --trigger aerospace_workspace_change FOCUSED=$AEROSPACE_FOCUSED_WORKSPACE'
-]
+sketchybar --add event window_changed
 
+##### Aerospace workspaces #####
 WORKSPACE_LABELS=(
   " Terminal"
   " Browser"
@@ -46,88 +52,97 @@ WORKSPACE_LABELS=(
   " Code"
   " Work"
 )
-sketchybar --add event aerospace_workspace_change
 
-##### Workspace Items #####
-for sid in $(aerospace list-workspaces --all); do
-  index=$((sid - 1))
-  label_and_icon=(${WORKSPACE_LABELS[index]})
-  icon="${label_and_icon[0]}"
-  label="${label_and_icon[@]:1}"
+# Only render the workspaces we have named labels for — 8/9/10 would sit under
+# the MacBook notch, so we deliberately hide them rather than push past it.
+for index in "${!WORKSPACE_LABELS[@]}"; do
+  sid=$((index + 1))
+  pair=(${WORKSPACE_LABELS[$index]})
+  icon="${pair[0]}"
+  label="${pair[@]:1}"
 
   sketchybar --add item space.$sid left \
-    --subscribe space.$sid aerospace_workspace_change \
-    --set space.$sid \
-      label="$label" \
-      icon="$icon" \
-      icon.font="FiraCode Nerd Font Mono:Bold:14.0" \
-      icon.color=0xccffffff \
-      label.color=0xccffffff \
-      icon.padding_left=10 \
-      icon.padding_right=4 \
-      label.padding_left=4 \
-      label.padding_right=10 \
-      background.color=0x30ffffff \
-      background.corner_radius=6 \
-      background.height=26 \
-      background.drawing=off \
-      click_script="aerospace workspace $sid" \
-      script="$PLUGIN_DIR/aerospace.sh $sid"
+             --subscribe space.$sid aerospace_workspace_change \
+             --set space.$sid \
+               icon="$icon" \
+               label="$label" \
+               icon.padding_left=10 \
+               icon.padding_right=4 \
+               label.padding_left=4 \
+               label.padding_right=10 \
+               background.color="$PILL_BG_DIM" \
+               click_script="aerospace workspace $sid" \
+               script="$PLUGIN_DIR/aerospace.sh $sid"
 done
 
-##### Left Side Items #####
-sketchybar --add item chevron left \
-           --set chevron icon=│ \
-                         label.drawing=off \
-                         background.drawing=off \
-                         icon.color=0x50ffffff \
-                         padding_left=5 \
-                         padding_right=5
-
-sketchybar --add item front_app left \
-           --set front_app icon.drawing=off \
+##### Separator #####
+sketchybar --add item sep.left left \
+           --set sep.left icon="│" \
+                          icon.color="$TEXT_DIM" \
+                          label.drawing=off \
                           background.drawing=off \
-                          label.color=0xaaffffff \
-                          label.font="FiraCode Nerd Font Mono:Medium:13.0" \
-                          padding_left=8 \
-                          script="$PLUGIN_DIR/front_app.sh" \
+                          padding_left=4 \
+                          padding_right=4
+
+##### Front app (focused app name) #####
+sketchybar --add item front_app left \
+           --set front_app update_freq=3 \
+                           icon.drawing=off \
+                           background.drawing=off \
+                           label.color="$TEXT_HOT" \
+                           label.font="FiraCode Nerd Font Mono:Bold:12.0" \
+                           padding_left=4 \
+                           padding_right=8 \
+                           script="$PLUGIN_DIR/front_app.sh" \
            --subscribe front_app front_app_switched
 
-##### Right Side Items #####
+##### Open-app tray (dynamic; populated by apps.sh) #####
+sketchybar --add item apps.refresh left \
+           --set apps.refresh drawing=off \
+                              update_freq=10 \
+                              script="$PLUGIN_DIR/apps.sh" \
+           --subscribe apps.refresh aerospace_workspace_change
+
+##### Right side — added in reverse visual order so leftmost is added last #####
+# (rightmost first → notification → clock → battery → volume → network → system_monitor)
+# The MacBook notch sits in the screen centre, so we keep everything on the
+# right and use the area left of the workspaces for app tray.
+
+sketchybar --add item notification right \
+           --set notification icon="󰂚" \
+                              icon.color="$ALT" \
+                              label.drawing=off \
+                              click_script="$PLUGIN_DIR/notification.sh"
+
 sketchybar --add item clock right \
            --set clock update_freq=10 \
-                      icon= \
-                      icon.color=0xffffffff \
-                      label.color=0xffffffff \
-                      background.color=0x30ffffff \
-                      background.corner_radius=6 \
-                      background.height=26 \
-                      padding_left=5 \
-                      padding_right=5 \
-                      script="$PLUGIN_DIR/clock.sh"
-
-sketchybar --add item volume right \
-           --set volume icon.color=0xffffffff \
-                       label.color=0xffffffff \
-                       background.color=0x30ffffff \
-                       background.corner_radius=6 \
-                       background.height=26 \
-                       padding_left=5 \
-                       padding_right=5 \
-                       script="$PLUGIN_DIR/volume.sh" \
-           --subscribe volume volume_change
+                       icon="󰥔" \
+                       icon.color="$ALT" \
+                       script="$PLUGIN_DIR/clock.sh" \
+                       click_script="open -a Calendar"
 
 sketchybar --add item battery right \
            --set battery update_freq=120 \
-                        icon.color=0xffffffff \
-                        label.color=0xffffffff \
-                        background.color=0x30ffffff \
-                        background.corner_radius=6 \
-                        background.height=26 \
-                        padding_left=5 \
-                        padding_right=5 \
-                        script="$PLUGIN_DIR/battery.sh" \
+                         script="$PLUGIN_DIR/battery.sh" \
+                         click_script="open 'x-apple.systempreferences:com.apple.preference.battery'" \
            --subscribe battery system_woke power_source_change
 
-##### Force Initial Update #####
+sketchybar --add item volume right \
+           --set volume update_freq=5 \
+                        script="$PLUGIN_DIR/volume.sh" \
+                        click_script="$PLUGIN_DIR/volume_click.sh" \
+           --subscribe volume volume_change
+
+sketchybar --add item network right \
+           --set network update_freq=15 \
+                         script="$PLUGIN_DIR/network.sh" \
+                         click_script="open 'x-apple.systempreferences:com.apple.preference.network'"
+
+sketchybar --add item system_monitor right \
+           --set system_monitor update_freq=5 \
+                                icon="󰘚" \
+                                script="$PLUGIN_DIR/system_monitor.sh" \
+                                click_script="open -a 'Activity Monitor'"
+
+##### Force initial update #####
 sketchybar --update

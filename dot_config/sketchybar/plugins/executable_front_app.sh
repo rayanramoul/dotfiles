@@ -1,10 +1,11 @@
-#!/bin/sh
+#!/usr/bin/env bash
+# Show focused app name. Reads the system rather than relying solely on the
+# front_app_switched event, so the label is populated on bar restart.
 
-# Some events send additional information specific to the event in the $INFO
-# variable. E.g. the front_app_switched event sends the name of the newly
-# focused application in the $INFO variable:
-# https://felixkratz.github.io/SketchyBar/config/events#events-and-scripting
-
-if [ "$SENDER" = "front_app_switched" ]; then
-  sketchybar --set "$NAME" label="$INFO"
+if [ "$SENDER" = "front_app_switched" ] && [ -n "$INFO" ]; then
+  APP="$INFO"
+else
+  APP=$(osascript -e 'tell application "System Events" to get name of (first process whose frontmost is true)' 2>/dev/null)
 fi
+
+sketchybar --set "$NAME" label="$APP"

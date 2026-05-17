@@ -1,13 +1,11 @@
 {
   "mcpServers": {
-{{- if .searxng.url }}
     "searxng": {
       "command": "npx",
       "args": ["-y", "mcp-searxng"],
       "env": {
-        "SEARXNG_URL": {{ .searxng.url | quote }}
+        "SEARXNG_URL": "https://search.ramoul.org"
       }
     }
-{{- end }}
   }
 }
