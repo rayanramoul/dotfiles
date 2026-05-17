@@ -11,6 +11,13 @@
     # URL of a self-hosted SearXNG instance. Leave blank to disable SearXNG integrations.
     url = {{ promptStringOnce . "searxng.url" "SearXNG instance URL (blank to skip)" "" | quote }}
 
+# Pipe `chezmoi diff` output through delta for syntax-highlighted, side-by-side
+# rendering. delta reads its options (side-by-side, line-numbers, navigate,
+# syntax-theme) from the [delta] section of ~/.gitconfig, so no duplicate
+# configuration is needed here. --paging=never prevents a nested pager.
+[diff]
+    pager = "delta --paging=never"
+
 # macOS-specific configuration
 [data.darwin]
     libraryPath = "{{ .chezmoi.homeDir }}/Library"

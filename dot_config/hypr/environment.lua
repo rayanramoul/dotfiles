@@ -1,6 +1,9 @@
 -- Cursor / Qt / menu prefix
 hl.env("XCURSOR_SIZE", "32")
-hl.env("QT_QPA_PLATFORMTHEME", "qt5ct")
+-- qt6ct drives Qt6 apps; QT_STYLE_OVERRIDE=kvantum forces Kvantum styling
+-- on Qt5+Qt6 so dolphin/Bitwarden/etc. follow the rose-pine theme.
+hl.env("QT_QPA_PLATFORMTHEME", "qt6ct")
+hl.env("QT_STYLE_OVERRIDE", "kvantum")
 hl.env("XDG_MENU_PREFIX", "arch-")
 
 -- NVIDIA: NVENC + Wayland

@@ -1,0 +1,28 @@
+# topgrade preferences.
+# `topgrade` runs all configured update steps in one command.
+# Steps we skip below run via other channels:
+#   - node/npm/pnpm/yarn → managed by mise
+#   - containers          → manual `docker pull` when needed
+#   - remote_topgrades    → not running topgrade against remotes from this box
+
+[misc]
+assume_yes = false
+cleanup = true
+notify_each_step = false
+no_retry = false
+disable = [
+    "containers",
+    "node",
+    "npm",
+    "pnpm",
+    "yarn",
+    "remote_topgrades",
+]
+
+[git]
+max_concurrency = 4
+arguments = "--rebase --autostash"
+
+[linux]
+arch_package_manager = "paru"
+show_arch_news = true

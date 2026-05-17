@@ -61,8 +61,10 @@ elif [ -f /etc/debian_version ]; then
 
 fi
 
-# Set GTK theme
-echo "Setting GTK theme to adw-gtk3..."
-gsettings set org.gnome.desktop.interface gtk-theme 'adw-gtk3'
+# Set GTK theme + icon theme + dark color scheme
+echo "Setting GTK theme to Rose-Pine + Papirus-Dark..."
+gsettings set org.gnome.desktop.interface gtk-theme 'Rose-Pine'
+gsettings set org.gnome.desktop.interface icon-theme 'Papirus-Dark'
+gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
 
 {{- end }}

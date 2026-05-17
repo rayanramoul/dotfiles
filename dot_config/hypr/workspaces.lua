@@ -11,7 +11,7 @@ local workspaces = {
     { id =  4, name = "󰭹 chat",     monitor = "DP-2", layout = "scrolling", persistent = true },
     { id =  5, name = "󰊗 games",    monitor = "DP-1",                       persistent = true, extras = NO_DECO },
     { id =  6, name = "󰒍 vault",    monitor = "DP-2", layout = "scrolling", persistent = true },
-    { id =  7, name = "󰀻 misc",     monitor = "DP-2" },
+    { id =  7, name = "󰋋 media",    monitor = "DP-2", layout = "scrolling", persistent = true },
     { id =  8, name = "󰀻 misc",     monitor = "DP-2" },
     { id =  9, name = "󰀻 misc",     monitor = "DP-2" },
     { id = 10, name = "󰀻 misc" },

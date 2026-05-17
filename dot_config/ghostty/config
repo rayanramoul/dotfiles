@@ -6,11 +6,13 @@ macos-titlebar-style = transparent
 font-family = "JetBrainsMono NF"
 font-size = 19
 clipboard-paste-protection = false
-background-blur-radius = 20
 mouse-hide-while-typing = true
 window-decoration = none
 macos-option-as-alt = true
-background-opacity = 0.85
 background = #000000
 
 theme = noctalia
+background-opacity = 0.70
+background-blur-radius = 20
+
+

@@ -1,0 +1,43 @@
+# XDG default-application registry.
+# Used by `xdg-open` and "Open With" dialogs across GTK + Qt apps.
+
+[Default Applications]
+# PDFs
+application/pdf=org.pwmt.zathura.desktop
+application/x-pdf=org.pwmt.zathura.desktop
+
+# Video → mpv (cross-monitor Wayland, works with yt-dlp via mpv.conf)
+video/mp4=mpv.desktop
+video/mpeg=mpv.desktop
+video/quicktime=mpv.desktop
+video/webm=mpv.desktop
+video/x-flv=mpv.desktop
+video/x-matroska=mpv.desktop
+video/x-msvideo=mpv.desktop
+
+# Audio → mpv (Supersonic for library; mpv for one-off files)
+audio/aac=mpv.desktop
+audio/flac=mpv.desktop
+audio/mpeg=mpv.desktop
+audio/ogg=mpv.desktop
+audio/opus=mpv.desktop
+audio/x-flac=mpv.desktop
+audio/x-wav=mpv.desktop
+
+# Web → Zen
+text/html=zen.desktop
+x-scheme-handler/http=zen.desktop
+x-scheme-handler/https=zen.desktop
+
+# Magnet/torrent links → Stremio
+x-scheme-handler/magnet=stremio.desktop
+
+# Plain text + markdown → nvim
+text/markdown=nvim.desktop
+text/plain=nvim.desktop
+
+[Added Associations]
+application/pdf=org.pwmt.zathura.desktop;
+video/mp4=mpv.desktop;
+audio/mpeg=mpv.desktop;
+x-scheme-handler/magnet=stremio.desktop;

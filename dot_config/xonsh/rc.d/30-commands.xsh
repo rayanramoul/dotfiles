@@ -108,9 +108,31 @@ def _openwebui_up(args):
     ])
 
 
+def _pay_respects(args):
+    # `f` runs pay-respects against the last command in xonsh history.
+    # pay-respects has no native xonsh init, so we hand it the command via
+    # _PR_LAST_COMMAND and impersonate bash for its shell-detection logic.
+    import shutil as _sh
+    if not _sh.which('pay-respects'):
+        print("pay-respects: binary not found on PATH", flush=True)
+        return
+    inps = list(__xonsh__.history.inps) if __xonsh__.history else []
+    last = next(
+        (c.rstrip() for c in reversed(inps)
+         if c.strip() and not c.strip().startswith(('f ', 'f\n')) and c.strip() != 'f'),
+        None,
+    )
+    if not last:
+        print("pay-respects: no previous command in history", flush=True)
+        return
+    env = {**os.environ, '_PR_LAST_COMMAND': last, '_PR_SHELL': 'bash'}
+    subprocess.run(['pay-respects'], env=env)
+
+
 aliases['xopen'] = _xopen
 aliases['notes'] = _notes
 aliases['fzf-open'] = _fzf_open
 aliases['ollama-up'] = _ollama_up
 aliases['opencode-up'] = _opencode_up
 aliases['openwebui-up'] = _openwebui_up
+aliases['f'] = _pay_respects

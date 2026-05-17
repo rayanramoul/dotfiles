@@ -104,6 +104,29 @@ hl.bind(mainMod .. " + SHIFT + C",  hl.dsp.exec_cmd("ghostty -e nvim " .. home .
 hl.bind(mainMod .. " + W",          hl.dsp.exec_cmd(home .. "/.local/share/chezmoi/scripts/executable_wallpaperctl.sh next"))
 hl.bind(mainMod .. " + SHIFT + W",  hl.dsp.exec_cmd(home .. "/.local/share/chezmoi/scripts/executable_wallpaperctl.sh prev"))
 
+-- App launchers
+hl.bind(mainMod .. " + SHIFT + M",  hl.dsp.exec_cmd("supersonic"))
+hl.bind(mainMod .. " + SHIFT + O",  hl.dsp.exec_cmd("obsidian"))
+hl.bind(mainMod .. " + SHIFT + V",  hl.dsp.exec_cmd("copyq toggle"))
+
+-- Cheatsheet: glow-rendered docs/Keybindings.md in a floating terminal.
+-- GTK app-id must be reverse-DNS (otherwise ghostty logs "invalid 'class'"
+-- and falls back to com.mitchellh.ghostty, which would route to ws1 instead
+-- of floating).
+hl.bind(mainMod .. " + slash",      hl.dsp.exec_cmd("ghostty --class=dev.local.cheatsheet -e glow -p " .. home .. "/.local/share/chezmoi/docs/Keybindings.md"))
+
+-- Window ops
+hl.bind(mainMod .. " + P",          hl.dsp.window.pin())
+
+-- Workspace / monitor nav
+hl.bind(mainMod .. " + Tab",        hl.dsp.focus({ workspace = "previous" }))
+hl.bind(mainMod .. " + Comma",      hl.dsp.focus({ monitor = "l" }))
+hl.bind(mainMod .. " + Period",     hl.dsp.focus({ monitor = "r" }))
+
+-- Brightness
+hl.bind("XF86MonBrightnessUp",      hl.dsp.exec_cmd("brightnessctl set +5%"), { locked = true, repeating = true })
+hl.bind("XF86MonBrightnessDown",    hl.dsp.exec_cmd("brightnessctl set 5%-"), { locked = true, repeating = true })
+
 -- Awakened PoE Trade: pass keys to the overlay
 hl.bind("SHIFT + Space",  hl.dsp.pass({ window = "class:awakened-poe-trade" }))
 hl.bind("CTRL + ALT + D", hl.dsp.pass({ window = "class:awakened-poe-trade" }))

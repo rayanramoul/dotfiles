@@ -9,10 +9,19 @@ aliases['vimdiff'] = ['nvim', '-d']
 # File browsing
 aliases['yz'] = 'yazi'
 
+# Modern ls (lsd) — wraps with icons + colors; aliased over the builtin.
+aliases['ls'] = 'lsd'
+aliases['ll'] = 'lsd -l'
+aliases['la'] = 'lsd -la'
+aliases['lt'] = 'lsd --tree'
+
 # System monitoring
-aliases['top'] = 'bpytop'
-aliases['htop'] = 'bpytop'
+aliases['top'] = 'btop'
+aliases['htop'] = 'btop'
 aliases['cat'] = 'bat'
+
+# Documents
+aliases['pdf'] = 'zathura'
 
 # Git
 aliases['ga'] = 'git add'

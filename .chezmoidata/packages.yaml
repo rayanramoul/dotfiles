@@ -3,27 +3,35 @@ packages:
   global:
     - atuin
     - bat
-    - bpytop
-    - eza
+    - btop
+    - fastfetch
     - fzf
     - git-delta
     - git
+    - glow
     - just
+    - mpv
     - neovim
     - ripgrep
     - starship
     - tmux
     - xonsh
     - zellij
+    - zoxide
     - zsh
 
   darwin:
     brews:
       - carapace
+      - dive
       - fd
+      - gh
+      - onefetch
+      - presenterm
       - python
       - stow
       - tldr
+      - topgrade
     casks:
       - google-chrome
 
@@ -33,28 +41,42 @@ packages:
       - adw-gtk-theme
       - alsa-utils
       - archlinux-xdg-menu
+      - brightnessctl
       - carapace-bin
       - cargo
       - compton
       - copyq
+      - dive
       - dolphin
       - fd
+      - github-cli
       - jre-openjdk
+      - kvantum
       - lazydocker
       - lazygit
       - lsd
       - luarocks
       - nwg-look
+      - onefetch
       - openssh
+      - papirus-icon-theme
+      - pay-respects-bin
       - pavucontrol
       - pipewire-alsa
       - pipewire-pulse
       - playerctl
+      - presenterm
       - python-pip
       - python-prompt_toolkit
+      - qt5ct
+      - qt6ct
+      - rose-pine-gtk-theme-full
       - swww
+      - tealdeer
       - tectonic
+      - topgrade
       - transmission-qt
+      - udiskie
       - uv
       - vicinae
       - wl-clipboard
@@ -62,6 +84,8 @@ packages:
       - wireplumber
       - wine
       - yazi
+      - zathura
+      - zathura-pdf-mupdf
 
     # Packages only for non-WSL Arch Linux systems (GUI applications, games, etc.)
     non_wsl_packages:
@@ -97,10 +121,11 @@ packages:
       - slurp
       - steam
       - steamtinkerlaunch
+      - stremio
       - sunshine
+      - supersonic-desktop
       - ttf-material-symbols-variable-git
       - ttf-meslo-nerd
-      - vlc
       - xdg-desktop-portal-hyprland
       - xsensors
       - zen-browser-bin
@@ -110,6 +135,9 @@ packages:
     packages:
       - carapace
       - fd-find
+      - gh
       - python3-pip
       - python3-prompt-toolkit
       - tldr
+      - zathura
+      - zathura-pdf-poppler

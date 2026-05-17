@@ -19,16 +19,58 @@ each_class({
 
 each_class({
     "^(Alacritty|Tilix|Kitty|kitty|ghostty|Ghostty|com\\.mitchellh\\.ghostty)$",
-}, { workspace = "3" })
-hl.window_rule({ match = { title = "RayTerm" }, workspace = "3" })
+}, { workspace = "1" })
+hl.window_rule({ match = { title = "RayTerm" }, workspace = "1" })
 
+each_class({ "^(Code|code)$", "^(Cursor|cursor)$" }, { workspace = "3" })
+
+hl.window_rule({
+    match = { class = "^(discord|Discord|Spotify|Slack|slack|Signal|signal-desktop)$" },
+    workspace = "4",
+})
+
+-- Vault: secrets + creative
 hl.window_rule({ match = { class = "^Bitwarden$" }, workspace = "6" })
-
-each_class({ "^(Code|code)$", "^(Cursor|cursor)$" }, { workspace = "1" })
-
-hl.window_rule({ match = { class = "^(discord|Spotify|vesktop|Slack|slack)$" }, workspace = "4" })
-
+each_class({ "^(obsidian|Obsidian)$" }, { workspace = "6" })
 each_class({ "^(Gimp|gimp|Inkscape)$" }, { workspace = "6" })
+
+-- Media: music + streaming
+each_class({
+    "^(Supersonic|supersonic|supersonic-desktop)$",
+    "^(Stremio|stremio|com\\.stremio\\.Stremio)$",
+}, { workspace = "7" })
+
+-- Downloads
+hl.window_rule({
+    match = { class = "^(transmission-qt|Transmission-qt|Transmission)$" },
+    workspace = "8",
+})
+
+-- Floating utility dialogs (audio/network/theme/system)
+each_class({
+    "^[Pp]avucontrol$",
+    "^nm-connection-editor$",
+    "^(overskride|com\\.github\\.bjarosze\\.overskride)$",
+    "^lxappearance$",
+    "^[Nn]wg-look$",
+    "^xsensors$",
+    "^(qalculate-gtk|org\\.gnome\\.Calculator|gnome-calculator)$",
+}, { float = true })
+
+-- Zen browser — match Ghostty's translucency (0.85 + global blur).
+hl.window_rule({
+    match   = { class = "^(zen-bin|zen|Zen|Zen-browser)$" },
+    opacity = 0.85,
+})
+
+-- Cheatsheet (mod+/) — floating glow terminal centered on current monitor.
+-- Class is reverse-DNS because GTK rejects bare names as invalid app-id.
+local CHEATSHEET = "^dev\\.local\\.cheatsheet$"
+hl.window_rule({ match = { class = CHEATSHEET }, float       = true })
+hl.window_rule({ match = { class = CHEATSHEET }, size        = "1100 800" })
+hl.window_rule({ match = { class = CHEATSHEET }, center      = true })
+hl.window_rule({ match = { class = CHEATSHEET }, no_blur     = true })
+hl.window_rule({ match = { class = CHEATSHEET }, border_size = 0 })
 
 -- Gaming launchers / clients / wrappers
 local gaming = {

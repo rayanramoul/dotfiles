@@ -1,3 +1,25 @@
 # No OS-specific ignores needed - using single source with conditional destination
+
+# Misc state
 .config/nushell/history.txt
 private_dot_ssh/config.gcp
+
+# Secrets — never track these, even if `chezmoi add` is accidentally run.
+# These files contain OAuth tokens / auth keys that must not land in git.
+.config/gh/hosts.yml
+.config/atuin/key
+.config/atuin/session
+.config/atuin/login_session
+.config/discord
+.config/lmstudio
+.netrc
+
+# Cache / runtime artefacts some apps drop in tracked dirs
+.config/yazi/state
+.config/bat/cache
+
+# Runtime plugin installs (TPM manages these) and per-machine app state.
+# Were previously tracked; now ignored so chezmoi doesn't try to delete them.
+.tmux/plugins/**
+.local/share/lutris/**
+.local/share/nvim/lazy/**

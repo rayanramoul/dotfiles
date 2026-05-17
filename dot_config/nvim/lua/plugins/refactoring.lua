@@ -1,6 +1,10 @@
+-- refactoring.nvim — extract / inline / debug-print helpers (ThePrimeagen).
+-- Recent versions `require "async"` from a separate plugin; without it
+-- LazyVim errors on startup with "module 'async' not found".
 return {
   {
     "ThePrimeagen/refactoring.nvim",
-    commit = "8b2c64a",
+    dependencies = { "lewis6991/async.nvim" },
+    lazy = false,
   },
 }
