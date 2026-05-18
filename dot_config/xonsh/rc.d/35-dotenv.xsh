@@ -10,7 +10,10 @@
 #   - Variables defined in the user's shell config get preserved (we only
 #     unload keys that *.env set, not keys that pre-existed).
 #   - Lines must be `KEY=value` (with optional surrounding quotes). No `export`,
-#     no shell substitution, no multiline values.
+#     no multiline values. `$VAR` and `${VAR}` are expanded at load time against
+#     the current environment, so self-referential paths like
+#     `PYTHONPATH=${PYTHONPATH}:./src` resolve to a flat string and don't
+#     recurse when xonsh later detypes path-type vars.
 
 import glob
 import os
@@ -19,8 +22,26 @@ import shlex
 _dotenv_loaded = {}   # key -> previous value (None if it didn't exist before)
 
 
+def _dotenv_expand(value, env_lookup):
+    # Resolve $VAR / ${VAR} against the live environment so stored values
+    # never contain unresolved references (which would recurse in EnvPath).
+    def repl(match):
+        name = match.group(1) or match.group(2)
+        resolved = env_lookup(name)
+        if resolved is None:
+            return ''
+        # xonsh path-type vars come back as EnvPath; stringify with pathsep.
+        if isinstance(resolved, (list, tuple)):
+            return os.pathsep.join(str(p) for p in resolved)
+        return str(resolved)
+
+    import re
+    return re.sub(r'\$\{([A-Za-z_][A-Za-z0-9_]*)\}|\$([A-Za-z_][A-Za-z0-9_]*)', repl, value)
+
+
 def _dotenv_parse(path):
     pairs = {}
+    env_lookup = lambda name: __xonsh__.env.get(name, os.environ.get(name))
     with open(path) as fh:
         for raw in fh:
             line = raw.strip()
@@ -38,7 +59,7 @@ def _dotenv_parse(path):
                 value = parts[0] if parts else ''
             except ValueError:
                 continue
-            pairs[key] = value
+            pairs[key] = _dotenv_expand(value, env_lookup)
     return pairs
 
 
