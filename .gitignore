@@ -6,3 +6,6 @@ private_dot_ssh/config.gcp
 # Claude Code runtime state — created when Claude Code runs inside this repo
 .claude/
 
+# Opencode config (contains MCP URLs with tokens)
+dot_config/opencode/opencode.jsonc
+

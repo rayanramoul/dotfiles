@@ -63,6 +63,13 @@ hl.window_rule({
     opacity = 0.85,
 })
 
+-- Satty screenshot annotation — floating centered window.
+hl.window_rule({ match = { class = "^com\\.gabm\\.satty$" }, float       = true })
+hl.window_rule({ match = { class = "^com\\.gabm\\.satty$" }, center      = true })
+hl.window_rule({ match = { class = "^com\\.gabm\\.satty$" }, size        = "1400 900" })
+hl.window_rule({ match = { class = "^com\\.gabm\\.satty$" }, no_blur     = true })
+hl.window_rule({ match = { class = "^com\\.gabm\\.satty$" }, border_size = 0 })
+
 -- Cheatsheet (mod+/) — floating glow terminal centered on current monitor.
 -- Class is reverse-DNS because GTK rejects bare names as invalid app-id.
 local CHEATSHEET = "^dev\\.local\\.cheatsheet$"

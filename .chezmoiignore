@@ -37,6 +37,9 @@ gcp.json
 **/.pypirc
 **/known_hosts
 
+# Opencode config (contains MCP URLs with tokens)
+dot_config/opencode/opencode.jsonc
+
 # Cache / runtime artefacts some apps drop in tracked dirs
 .config/yazi/state
 .config/bat/cache
