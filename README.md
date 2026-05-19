@@ -21,7 +21,6 @@ A set of dotfiles + a package manifest that, in one command, gives you:
 ## Quick install
 
 ```bash
-# One-liner (Linux + macOS)
 curl -fsSL https://raw.githubusercontent.com/rayanramoul/dotfiles/main/install.sh | bash
 ```
 
@@ -29,15 +28,11 @@ Or manual:
 
 ```bash
 # 1. Install chezmoi
-sudo pacman -S chezmoi               # Arch / CachyOS
-brew install chezmoi                 # macOS
-sh -c "$(curl -fsLS get.chezmoi.io)" -- -b "$HOME/.local/bin"  # Ubuntu / Debian
+sh -c "$(curl -fsLS get.chezmoi.io)"
 
 # 2. Apply
 chezmoi init --apply https://github.com/rayanramoul/dotfiles
 ```
-
-`chezmoi apply` chains `run_onchange_install-packages.sh` (paru / brew / apt) and `run_onchange_post-install-services.sh` (enables sshd, docker). Repeat any time.
 
 ## Stack at a glance
 
@@ -150,7 +145,7 @@ Open the live cheatsheet anytime with **`SUPER + /`** (renders via `glow` in a f
 
 - All packages declared in `.chezmoidata/packages.yaml` and installed via `paru` by `run_onchange_install-packages.sh.tmpl`.
 - Autostart entries (vicinae, noctalia, hypridle, copyq, gammastep, udiskie, …) live in `dot_config/hypr/autostart.lua`.
-- Quick OS bootstrap: boot the Arch ISO → `archinstall` → log in → run the install one-liner above. NVIDIA drivers, kernel mode-setting, multilib: see the [Arch wiki — NVIDIA](https://wiki.archlinux.org/title/NVIDIA).
+- Quick OS bootstrap: boot the Arch ISO → `archinstall` → log in → run the one-liner above. NVIDIA drivers, kernel mode-setting, multilib: see the [Arch wiki — NVIDIA](https://wiki.archlinux.org/title/NVIDIA).
 
 ### macOS
 

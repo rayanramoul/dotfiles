@@ -44,9 +44,13 @@ edit FILE:
 re-add FILE:
     chezmoi re-add {{FILE}}
 
-# Run the package install script directly (forces re-evaluation)
+# Run the package install script (renders template + applies).
 packages:
-    bash "$(chezmoi source-path)/run_onchange_install-packages.sh.tmpl"
+    chezmoi apply --include=run_onchange_install-packages.sh.tmpl
+
+# Run chezmoi doctor to diagnose config issues
+doctor:
+    chezmoi doctor
 
 # Just runs `topgrade` (system + langs + plugins). See topgrade.toml.
 upgrade:

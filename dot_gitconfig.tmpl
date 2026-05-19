@@ -11,7 +11,11 @@
     whitespace = fix,trailing-space,cr-at-eol
 
 [credential]
+{{- if eq .chezmoi.os "darwin" }}
     helper = /usr/local/share/gcm-core/git-credential-manager
+{{- else }}
+    helper = !secret-tool lookup service git
+{{- end }}
 
 # ── Delta (diff pager) ─────────────────────────────────────────────────────────
 [delta]

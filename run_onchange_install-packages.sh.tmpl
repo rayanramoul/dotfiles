@@ -61,10 +61,15 @@ elif [ -f /etc/debian_version ]; then
 
 fi
 
-# Set GTK theme + icon theme + dark color scheme
+# Set GTK theme + icon theme + dark color scheme (Arch only — Rose-Pine GTK
+# and Papirus are installed via the arch packages block above).
+{{- if eq .chezmoi.os "linux" }}
+{{- if eq .chezmoi.osRelease.id "arch" }}
 echo "Setting GTK theme to Rose-Pine + Papirus-Dark..."
 gsettings set org.gnome.desktop.interface gtk-theme 'Rose-Pine'
 gsettings set org.gnome.desktop.interface icon-theme 'Papirus-Dark'
 gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
+{{- end }}
+{{- end }}
 
 {{- end }}
