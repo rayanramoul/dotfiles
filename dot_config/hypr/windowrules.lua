@@ -57,10 +57,11 @@ each_class({
     "^(qalculate-gtk|org\\.gnome\\.Calculator|gnome-calculator)$",
 }, { float = true })
 
--- Zen browser — match Ghostty's translucency (0.85 + global blur).
+-- Zen browser — full opacity, no blur.
 hl.window_rule({
     match   = { class = "^(zen-bin|zen|Zen|Zen-browser)$" },
-    opacity = 0.85,
+    opacity = 1.0,        -- Full opacity
+    no_blur = true,       -- Disable blur
 })
 
 -- Satty screenshot annotation — floating centered window.

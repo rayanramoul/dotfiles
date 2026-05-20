@@ -458,7 +458,7 @@
     },
     "idle": {
         "customCommands": "[]",
-        "enabled": true,
+        "enabled": false,
         "fadeDuration": 5,
         "lockCommand": "",
         "lockTimeout": 3600,

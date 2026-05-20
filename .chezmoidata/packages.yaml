@@ -19,6 +19,8 @@ packages:
     - zellij
     - zoxide
     - zsh
+    - hermes-agent
+    - signal-cli
 
   darwin:
     brews:
