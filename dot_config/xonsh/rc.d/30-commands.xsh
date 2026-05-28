@@ -74,10 +74,10 @@ def _ollama_up(args):
     # Start ollama with tuned env (long context, q4 KV cache, exposed on LAN)
     env = {
         **os.environ,
-        'OLLAMA_CONTEXT_LENGTH': '100000',
+        'OLLAMA_CONTEXT_LENGTH': '64000',
         'OLLAMA_KV_CACHE_TYPE': 'q4_0',
         'OLLAMA_HOST': '0.0.0.0:11434',
-        'OLLAMA_MAX_LOADED_MODELS': '3',
+        'OLLAMA_MAX_LOADED_MODELS': '1',
     }
     subprocess.run(['ollama', 'serve'], env=env)
 

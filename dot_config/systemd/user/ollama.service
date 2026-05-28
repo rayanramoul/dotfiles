@@ -1,0 +1,21 @@
+[Unit]
+Description=Ollama Model Server
+After=network-online.target
+Wants=network-online.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/ollama serve
+Environment="OLLAMA_CONTEXT_LENGTH=64000"
+Environment="OLLAMA_KV_CACHE_TYPE=q4_0"
+Environment="OLLAMA_HOST=0.0.0.0:11434"
+Environment="OLLAMA_MAX_LOADED_MODELS=1"
+UnsetEnvironment=CUDA_DISABLE_PERF_BOOST
+Restart=always
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=default.target

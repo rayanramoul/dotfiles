@@ -1,0 +1,29 @@
+#!/bin/bash
+set -e
+
+{{ if eq .chezmoi.os "linux" -}}
+
+if ! command -v systemctl >/dev/null 2>&1; then
+  echo "systemctl not found, skipping Hermes/Ollama user services"
+  exit 0
+fi
+
+if ! systemctl --user show-environment >/dev/null 2>&1; then
+  echo "systemd user manager unavailable, skipping Hermes/Ollama user services"
+  exit 0
+fi
+
+if command -v loginctl >/dev/null 2>&1; then
+  if ! loginctl show-user "$USER" -p Linger 2>/dev/null | grep -qx 'Linger=yes'; then
+    if sudo -n true 2>/dev/null; then
+      sudo loginctl enable-linger "$USER"
+    else
+      echo "  user linger is not enabled; run: sudo loginctl enable-linger $USER"
+    fi
+  fi
+fi
+
+systemctl --user daemon-reload
+systemctl --user enable --now ollama.service hermes-gateway.service
+
+{{- end }}
