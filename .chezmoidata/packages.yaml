@@ -19,8 +19,6 @@ packages:
     - zellij
     - zoxide
     - zsh
-    - hermes-agent
-    - signal-cli
 
   darwin:
     brews:
@@ -40,6 +38,7 @@ packages:
   arch:
     # Packages specific to Arch (different names or Arch-only)
     packages:
+      - pomo-cli
       - adw-gtk-theme
       - alsa-utils
       - archlinux-xdg-menu
