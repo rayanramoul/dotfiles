@@ -2,9 +2,8 @@
 set -euo pipefail
 
 sudo docker run -d --name open-webui --restart unless-stopped \
-  -p 3000:8080 \
-  --add-host=host.docker.internal:host-gateway \
-  -e OLLAMA_BASE_URL=http://host.docker.internal:11434 \
+  --network host \
+  -e OLLAMA_BASE_URL=http://127.0.0.1:18081 \
   -e ENABLE_RAG_WEB_SEARCH=true \
   -e RAG_WEB_SEARCH_ENGINE=searxng \
   -e SEARXNG_QUERY_URL='https://search.ramoul.org/search?q=<query>' \
