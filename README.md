@@ -198,7 +198,7 @@ The local LLM setup uses **llama-server** (llama.cpp) as the inference server, *
 #### Current Model
 
 - **Qwen3.6-35B-IQ4_XS.gguf** (18 GB)
-- Context size: 65,536 tokens
+- Context size: 120,000 tokens
 - Downloaded from HuggingFace: `mradermacher/Qwen3.6-35B-Instruct-GGUF`
 
 #### Updating the Model
