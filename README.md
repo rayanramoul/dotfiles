@@ -174,24 +174,33 @@ The local LLM setup uses **llama-server** (llama.cpp) as the inference server, *
 
 | Component | Config Location | Description |
 |-----------|---------------|-------------|
-| llama-server | `.config/systemd/user/llama-cpp.service` | Systemd user service running Qwen3.5-9B model on port 18081 |
+| llama-server | `.config/systemd/user/llama-cpp.service` | Systemd user service running Qwen3.6-35B model on port 18081 |
 | OpenWebUI | `scripts/executable_deploy_openwebui.sh` | Docker deployment with `--network host` |
 | opencode | `dot_config/opencode/opencode.jsonc.tmpl` | CLI agent config (public parts) |
 
 #### Setup
 
-1. **Download model** (automatically managed by systemd service on first start):
+1. **Build llama.cpp** (once):
    ```bash
-   # Model is downloaded from HuggingFace on first start
-   systemctl --user start llama-cpp
+   ./scripts/install_llama_cpp.sh
    ```
 
-2. **Deploy OpenWebUI**:
+2. **Download model**:
+   ```bash
+   ./scripts/download_models.sh
+   ```
+
+3. **Deploy OpenWebUI**:
    ```bash
    ./scripts/deploy_openwebui.sh
    ```
 
-3. **Access**:
+4. **Start services**:
+   ```bash
+   systemctl --user enable --now llama-cpp
+   ```
+
+5. **Access**:
    - OpenWebUI: http://localhost:8080
    - llama-server API: http://localhost:18081/v1
 
@@ -203,24 +212,25 @@ The local LLM setup uses **llama-server** (llama.cpp) as the inference server, *
 
 #### Updating the Model
 
-1. Download new model from HuggingFace:
+1. Edit `scripts/download_models.sh` to change the model repo/symlink
+
+2. Re-run the download script:
    ```bash
-   hf download mradermacher/[model-name]
-   ln -sf ~/.cache/huggingface/hub/models--[path]/[file] ~/.local/share/llama-models/[symlink].gguf
+   ./scripts/download_models.sh
    ```
 
-2. Update systemd service (`~/.config/systemd/user/llama-cpp.service`):
+3. Update systemd service (`~/.config/systemd/user/llama-cpp.service`) if model name changes:
    ```ini
-   ExecStart=/home/.../llama-server --model /home/.../llama-models/[model].gguf --ctx-size 65536 ...
+   ExecStart=/home/.../llama-server --model /home/.../llama-models/[model].gguf --ctx-size 120000 ...
    ```
 
-3. Reload and restart:
+4. Reload and restart:
    ```bash
    systemctl --user daemon-reload
    systemctl --user restart llama-cpp
    ```
 
-4. Update opencode config (`~/.config/opencode/opencode.jsonc`) with new model name.
+5. Update opencode config template (`dot_config/opencode/opencode.jsonc.tmpl`) with new model name and context size, then run `chezmoi apply`
 
 #### Troubleshooting
 
