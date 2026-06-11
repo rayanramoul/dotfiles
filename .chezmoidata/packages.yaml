@@ -46,7 +46,6 @@ packages:
       - brightnessctl
       - carapace-bin
       - cargo
-      - compton
       - copyq
       - dive
       - dolphin
