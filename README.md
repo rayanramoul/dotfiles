@@ -197,9 +197,9 @@ The local LLM setup uses **llama-server** (llama.cpp) as the inference server, *
 
 #### Current Model
 
-- **Qwen3.5-9B-Claude-HighIQ-IQ4_XS.gguf** (5.1 GB)
-- Context size: 120,000 tokens
-- Downloaded from HuggingFace: `mradermacher/Qwen3.5-9B-Claude-4.6-HighIQ-INSTRUCT-HERETIC-UNCENSORED-GGUF`
+- **Qwen3.6-35B-IQ4_XS.gguf** (18 GB)
+- Context size: 65,536 tokens
+- Downloaded from HuggingFace: `mradermacher/Qwen3.6-35B-Instruct-GGUF`
 
 #### Updating the Model
 
@@ -211,7 +211,7 @@ The local LLM setup uses **llama-server** (llama.cpp) as the inference server, *
 
 2. Update systemd service (`~/.config/systemd/user/llama-cpp.service`):
    ```ini
-   ExecStart=/home/.../llama-server --model /home/.../llama-models/[model].gguf --ctx-size 120000 ...
+   ExecStart=/home/.../llama-server --model /home/.../llama-models/[model].gguf --ctx-size 65536 ...
    ```
 
 3. Reload and restart:
