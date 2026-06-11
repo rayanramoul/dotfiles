@@ -163,9 +163,70 @@ Open the live cheatsheet anytime with **`SUPER + /`** (renders via `glow` in a f
 ## AI tooling
 
 - **[Claude Code](https://claude.com/claude-code)** is the main coding agent. Install: `npm install -g @anthropic-ai/claude-code`. Optional [`claude-diff`](https://github.com/gandarfh/claude-diff) hook for visual diffs of proposed edits.
-- **[opencode](https://opencode.ai/)** — alternative CLI agent, points at the local Ollama by default (`mod+Shift+O` style envs are wired in xonsh).
 - **Ollama (CUDA)** + **LM Studio** for local model hosting.
 - Neovim integrations: `claude-code.nvim`, `minuet-ai`, `codediff` / `vscode-diff` for AI-edit previews. Config in `dot_config/nvim/lua/plugins/`.
+
+### Local LLM Stack (llama-server + OpenWebUI + opencode)
+
+The local LLM setup uses **llama-server** (llama.cpp) as the inference server, **OpenWebUI** as the web interface, and **opencode** as the CLI agent.
+
+#### Components
+
+| Component | Config Location | Description |
+|-----------|---------------|-------------|
+| llama-server | `.config/systemd/user/llama-cpp.service` | Systemd user service running Qwen3.5-9B model on port 18081 |
+| OpenWebUI | `scripts/executable_deploy_openwebui.sh` | Docker deployment with `--network host` |
+| opencode | `dot_config/opencode/opencode.jsonc.tmpl` | CLI agent config (public parts) |
+
+#### Setup
+
+1. **Download model** (automatically managed by systemd service on first start):
+   ```bash
+   # Model is downloaded from HuggingFace on first start
+   systemctl --user start llama-cpp
+   ```
+
+2. **Deploy OpenWebUI**:
+   ```bash
+   ./scripts/deploy_openwebui.sh
+   ```
+
+3. **Access**:
+   - OpenWebUI: http://localhost:8080
+   - llama-server API: http://localhost:18081/v1
+
+#### Current Model
+
+- **Qwen3.5-9B-Claude-HighIQ-IQ4_XS.gguf** (5.1 GB)
+- Context size: 120,000 tokens
+- Downloaded from HuggingFace: `mradermacher/Qwen3.5-9B-Claude-4.6-HighIQ-INSTRUCT-HERETIC-UNCENSORED-GGUF`
+
+#### Updating the Model
+
+1. Download new model from HuggingFace:
+   ```bash
+   hf download mradermacher/[model-name]
+   ln -sf ~/.cache/huggingface/hub/models--[path]/[file] ~/.local/share/llama-models/[symlink].gguf
+   ```
+
+2. Update systemd service (`~/.config/systemd/user/llama-cpp.service`):
+   ```ini
+   ExecStart=/home/.../llama-server --model /home/.../llama-models/[model].gguf --ctx-size 120000 ...
+   ```
+
+3. Reload and restart:
+   ```bash
+   systemctl --user daemon-reload
+   systemctl --user restart llama-cpp
+   ```
+
+4. Update opencode config (`~/.config/opencode/opencode.jsonc`) with new model name.
+
+#### Troubleshooting
+
+- **OpenWebUI can't reach llama-server**: Ensure `--network host` is used in docker run, and `OPENAI_API_BASE_URL=http://127.0.0.1:18081/v1`
+- **Model not loading**: Check `journalctl --user -u llama-cpp` for errors
+- **Port conflict**: llama-server defaults to port 18081
 
 ## Repo layout
 
