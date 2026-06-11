@@ -18,9 +18,4 @@
       }
     }
   }
-{{- if (.opencode_mcp | default "") != "" }}
-  ,"mcp": {
-{{ .opencode_mcp | indent 4 }}
-  }
-{{- end }}
 }
