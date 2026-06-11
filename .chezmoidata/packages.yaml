@@ -52,7 +52,6 @@ packages:
       - dolphin
       - fd
       - github-cli
-      - jre-openjdk
       - kvantum
       - lazydocker
       - lazygit
