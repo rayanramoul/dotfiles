@@ -16,7 +16,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 export LANG=en_US.UTF-8
 export EDITOR='nvim'
 
-plugins=(git fzf-tab zsh-autosuggestions zsh-syntax-highlighting z fzf-zsh-plugin)
+plugins=(git fzf-tab zsh-autosuggestions zsh-syntax-highlighting z fzf)
 
 export DISABLE_AUTO_PROMPT=true
 source $ZSH/oh-my-zsh.sh

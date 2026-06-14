@@ -7,7 +7,7 @@
         }
     ],
     "states": {
-        "privacy-indicator": {
+        "pomodoro": {
             "enabled": true,
             "sourceUrl": "https://github.com/noctalia-dev/noctalia-plugins"
         }

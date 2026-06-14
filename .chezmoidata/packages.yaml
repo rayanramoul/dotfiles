@@ -15,7 +15,6 @@ packages:
     - ripgrep
     - starship
     - tmux
-    - xonsh
     - zellij
     - zoxide
     - zsh
@@ -43,7 +42,7 @@ packages:
       - alsa-utils
       - archlinux-xdg-menu
       - brightnessctl
-      - carapace-bin
+
       - cargo
       - copyq
       - dive
@@ -59,7 +58,7 @@ packages:
       - onefetch
       - openssh
       - papirus-icon-theme
-      - pay-respects-bin
+
       - pavucontrol
       - pipewire-alsa
       - pipewire-pulse
@@ -69,7 +68,7 @@ packages:
       - python-prompt_toolkit
       - qt5ct
       - qt6ct
-      - rose-pine-gtk-theme-full
+
       - swww
       - tealdeer
       - tectonic
@@ -102,10 +101,10 @@ packages:
       - satty
       - hyprland-preview-share-picker-git
       - libreoffice-fresh
-      - lmstudio-bin
+
       - lutris
       - lxappearance
-      - millennium
+
       - nm-connection-editor
       - noctalia-shell
       - noto-fonts
@@ -120,9 +119,9 @@ packages:
       - slurp
       - steam
       - steamtinkerlaunch
-      - stremio
+
       - sunshine
-      - supersonic-desktop
+
       - ttf-material-symbols-variable-git
       - ttf-meslo-nerd
       - xdg-desktop-portal-hyprland

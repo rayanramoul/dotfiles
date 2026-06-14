@@ -164,6 +164,9 @@
                     ]
                 },
                 {
+                    "id": "plugin:pomodoro"
+                },
+                {
                     "displayMode": "onhover",
                     "iconColor": "none",
                     "id": "Bluetooth",
