@@ -6,15 +6,13 @@ StartLimitIntervalSec=0
 
 [Service]
 Type=simple
-ExecStart=%h/.hermes/hermes-agent/venv/bin/python -m hermes_cli.main gateway run --replace
-WorkingDirectory=%h/.hermes/hermes-agent
-Environment="PATH=%h/.hermes/hermes-agent/venv/bin:%h/.hermes/hermes-agent/node_modules/.bin:/usr/bin:%h/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
-Environment="VIRTUAL_ENV=%h/.hermes/hermes-agent/venv"
-Environment="HERMES_HOME=%h/.hermes"
+ExecStart=/home/rayanramoul/.hermes/hermes-agent/venv/bin/python -m hermes_cli.main gateway run
+WorkingDirectory=/home/rayanramoul/.hermes
+Environment="PATH=/home/rayanramoul/.hermes/hermes-agent/venv/bin:/home/rayanramoul/.hermes/hermes-agent/node_modules/.bin:/usr/bin:/home/rayanramoul/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+Environment="VIRTUAL_ENV=/home/rayanramoul/.hermes/hermes-agent/venv"
+Environment="HERMES_HOME=/home/rayanramoul/.hermes"
 Restart=always
 RestartSec=5
-RestartMaxDelaySec=300
-RestartSteps=5
 RestartForceExitStatus=75
 KillMode=mixed
 KillSignal=SIGTERM
