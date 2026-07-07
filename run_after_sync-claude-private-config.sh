@@ -31,10 +31,20 @@ for d in skills hooks; do
   [ -e "$L" ] && [ ! -L "$L" ] && rm -rf "$L"
   ln -sfn "$DEST/$d" "$L"
 done
-# Files.
-for f in CLAUDE.md settings.json; do
-  L="$HOME/.claude/$f"
-  [ -e "$L" ] && [ ! -L "$L" ] && rm -f "$L"
-  ln -sf "$DEST/$f" "$L"
-done
-echo "dotclaude: ~/.claude synced from rayanrsr/dotclaude"
+# settings.json
+L="$HOME/.claude/settings.json"
+[ -e "$L" ] && [ ! -L "$L" ] && rm -f "$L"
+ln -sf "$DEST/settings.json" "$L"
+
+# Agent rules: AGENTS.md is canonical. Claude reads CLAUDE.md, opencode reads AGENTS.md
+# — both point at the same private file.
+CL="$HOME/.claude/CLAUDE.md"
+[ -e "$CL" ] && [ ! -L "$CL" ] && rm -f "$CL"
+ln -sf "$DEST/AGENTS.md" "$CL"
+
+mkdir -p "$HOME/.config/opencode"
+OC="$HOME/.config/opencode/AGENTS.md"
+[ -e "$OC" ] && [ ! -L "$OC" ] && rm -f "$OC"
+ln -sf "$DEST/AGENTS.md" "$OC"
+
+echo "dotclaude: ~/.claude + opencode AGENTS.md synced from rayanrsr/dotclaude"

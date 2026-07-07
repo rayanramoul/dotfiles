@@ -56,3 +56,4 @@ gcp.json
 .claude/hooks
 .claude/CLAUDE.md
 .claude/settings.json
+.config/opencode/AGENTS.md
