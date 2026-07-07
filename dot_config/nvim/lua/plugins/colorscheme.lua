@@ -1,24 +1,26 @@
 return {
   {
-    "folke/tokyonight.nvim",
+    "rose-pine/neovim",
+    name = "rose-pine",
+    main = "rose-pine",
     lazy = false,
     priority = 1000,
     opts = {
-      style = "night",         -- night | storm | day | moon
-      transparent = true,
-      terminal_colors = true,
+      variant = "main", -- main | moon | dawn
+      dark_variant = "main", -- for dark theme
+      dim_inactive_windows = false,
+      extend_background_behind_toggle = true,
       styles = {
-        comments = { italic = true },
-        keywords = { italic = true },
-        sidebars = "transparent",
-        floats = "transparent",
+        bold = true,
+        italic = true,
+        transparency = true,
       },
     },
   },
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "tokyonight",
+      colorscheme = "rose-pine",
     },
   },
 }

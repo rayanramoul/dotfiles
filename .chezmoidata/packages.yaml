@@ -42,7 +42,7 @@ packages:
       - alsa-utils
       - archlinux-xdg-menu
       - brightnessctl
-
+      - faugus-launcher
       - cargo
       - copyq
       - dive

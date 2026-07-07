@@ -36,6 +36,13 @@ gcp.json
 **/.npmrc
 **/.pypirc
 **/known_hosts
+**/known_hosts.old
+**/authorized_keys
+# Custom-named SSH private keys (no id_* prefix, so the patterns above miss them).
+# `chezmoi add ~/.ssh` warns but still adds these unless listed here.
+.ssh/google_compute_engine
+.ssh/truenas
+.ssh/*.pub
 
 # Opencode config - tracked via template, secrets via extraFile
 # dot_config/opencode/opencode.jsonc

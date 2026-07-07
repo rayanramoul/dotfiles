@@ -255,7 +255,7 @@
         "manualSunrise": "06:30",
         "manualSunset": "18:30",
         "monitorForColors": "",
-        "predefinedScheme": "Occult Umbral",
+        "predefinedScheme": "Rosey AMOLED",
         "schedulingMode": "off",
         "syncGsettings": true,
         "useWallpaperColors": false
@@ -396,7 +396,7 @@
         "animationDisabled": false,
         "animationSpeed": 1,
         "autoStartAuth": false,
-        "avatarImage": "/home/rayanramoul/Downloads/shiba.jpg",
+        "avatarImage": "/home/rayanramoul/Documents/Caspar_David_Friedrich_-_Wanderer_above_the_Sea_of_Fog.jpeg",
         "boxRadiusRatio": 1,
         "clockFormat": "hh\\nmm",
         "clockStyle": "custom",
@@ -472,14 +472,14 @@
         "enabled": false,
         "fadeDuration": 5,
         "lockCommand": "",
-        "lockTimeout": 3600,
+        "lockTimeout": 7200,
         "resumeLockCommand": "",
         "resumeScreenOffCommand": "",
         "resumeSuspendCommand": "",
         "screenOffCommand": "",
-        "screenOffTimeout": 3600,
+        "screenOffTimeout": 7200,
         "suspendCommand": "",
-        "suspendTimeout": 1800
+        "suspendTimeout": 3600
     },
     "location": {
         "analogClockInCalendar": false,
