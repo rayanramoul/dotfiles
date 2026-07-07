@@ -52,3 +52,7 @@ gcp.json
 .tmux/**
 .local/share/lutris/**
 .local/share/nvim/lazy/**
+.claude/skills
+.claude/hooks
+.claude/CLAUDE.md
+.claude/settings.json
