@@ -1,0 +1,165 @@
+[bar.default]
+background_opacity = 0.65999998524785042
+capsule = true
+capsule_thickness = 0.99999998137354851
+center = ["media", "clock"]
+end = ["tray", "network", "bluetooth", "volume", "battery", "group:g1"]
+margin_ends = 0
+scale = 1.300000011920929
+start = ["control-center", "workspaces"]
+thickness = 20
+
+[[bar.default.capsule_group]]
+enabled = true
+fill = "surface_variant"
+id = "g1"
+members = ["session", "notifications"]
+opacity = 1.0
+padding = 6.0
+
+[control_center]
+width = 940
+
+[desktop_widgets]
+enabled = false
+
+[lockscreen_widgets]
+enabled = false
+schema_version = 2
+widget_order = ["lockscreen-login-box@DP-2", "lockscreen-login-box@DP-1"]
+
+[lockscreen_widgets.grid]
+cell_size = 16
+major_interval = 4
+visible = true
+
+[lockscreen_widgets.widget."lockscreen-login-box@DP-1"]
+box_height = 70.0
+box_width = 400.0
+cx = 1280.0
+cy = 1321.0
+output = "DP-1"
+rotation = 0.0
+type = "login_box"
+
+[lockscreen_widgets.widget."lockscreen-login-box@DP-1".settings]
+background_color = "surface_variant"
+background_opacity = 0.88
+background_radius = 12.0
+center_password_text = false
+input_opacity = 1.0
+input_radius = 6.0
+show_caps_lock = true
+show_keyboard_layout = true
+show_login_button = true
+show_password_hint = true
+
+[lockscreen_widgets.widget."lockscreen-login-box@DP-2"]
+box_height = 70.0
+box_width = 400.0
+cx = 1280.0
+cy = 1321.0
+output = "DP-2"
+rotation = 0.0
+type = "login_box"
+
+[lockscreen_widgets.widget."lockscreen-login-box@DP-2".settings]
+background_color = "surface_variant"
+background_opacity = 0.88
+background_radius = 12.0
+center_password_text = false
+input_opacity = 1.0
+input_radius = 6.0
+show_caps_lock = true
+show_keyboard_layout = true
+show_login_button = true
+show_password_hint = true
+
+[notification]
+scale = 1.2000000104308128
+
+[plugin_settings."noctalia/wallhaven"]
+download_dir = "~/.local/share/chezmoi/wallpapers"
+
+[plugins]
+enabled = ["noctalia/wallhaven"]
+
+[shell]
+avatar_path = "~/.local/share/chezmoi/assets/avatar.png"
+corner_radius_scale = 1.0500000156462193
+font_family = "JetBrainsMono NF"
+
+[shell.launcher]
+categories = false
+
+[shell.launcher.dmenu.entry.clipboard]
+command = "printf 'Clipboard Manager\\tBrowse copy and paste history\\n'"
+exec = "noctalia msg panel-toggle clipboard"
+global = true
+glyph = "clipboard"
+label = "Clipboard Manager"
+prefix = "/clipboard"
+
+[shell.launcher.dmenu.entry.wallhaven]
+command = "printf 'Wallhaven\\tBrowse and download wallpapers\\n'"
+exec = "noctalia msg panel-toggle noctalia/wallhaven:browser"
+global = true
+glyph = "photo"
+label = "Wallhaven"
+prefix = "/wallhaven"
+
+[shell.launcher.providers.emoji]
+prefix = ""
+
+[shell.panel]
+control_center_placement = "floating"
+open_near_click_control_center = true
+transparency_mode = "soft"
+
+[theme]
+builtin = "Rosé Pine"
+pure_black_dark = true
+
+[theme.templates]
+builtin_ids = ["alacritty", "btop", "foot", "gtk3", "gtk4", "ghostty", "hyprland", "mango", "qt"]
+community_ids = ["zen-browser", "neovim", "obsidian", "zed", "discord", "heroiclauncher", "lazygit", "steam", "telegram", "yazi", "hyprtoolkit"]
+
+[wallpaper]
+directory = "~/.local/share/chezmoi/wallpapers"
+
+[wallpaper.default]
+path = "~/.local/share/chezmoi/wallpapers/wallhaven-7jevve.jpg"
+
+[wallpaper.last]
+path = "~/.local/share/chezmoi/wallpapers/wallhaven-7jevve.jpg"
+
+[wallpaper.monitors.DP-1]
+path = "~/.local/share/chezmoi/wallpapers/wallhaven-7jevve.jpg"
+
+[wallpaper.monitors.DP-2]
+path = "~/.local/share/chezmoi/wallpapers/wallhaven-7jevve.jpg"
+
+[widget.brightness]
+enabled = false
+
+[widget.clock]
+capsule = true
+color = "primary"
+scale = 0.95000000000000007
+
+[widget.control-center]
+glyph = "home-filled"
+
+[widget.media]
+hide_when_no_media = true
+scale = 0.90000000000000002
+
+[widget.session]
+enabled = false
+
+[widget.workspaces]
+active_pill_size = 3.2000000000000002
+empty_color = "on_primary"
+focused_color = "error"
+occupied_color = "on_primary"
+scale = 1.1000000000000001

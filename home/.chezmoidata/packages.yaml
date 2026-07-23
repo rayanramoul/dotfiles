@@ -1,0 +1,135 @@
+packages:
+  # Packages with identical names installed on every supported platform
+  global:
+    - atuin # Shell history sync and search
+    - bat # Syntax-highlighted cat replacement
+    - bpytop # Terminal system monitor
+    - fastfetch # System information summary
+    - fzf # Fuzzy finder
+    - git-delta # Improved Git diff viewer
+    - git # Version control system
+    - glow # Terminal Markdown renderer
+    - just # Command task runner
+    - mpv # Media player
+    - neovim # Terminal text editor
+    - ripgrep # Fast text search
+    - starship # Cross-shell prompt
+    - tmux # Terminal multiplexer
+    - zellij # Terminal workspace manager
+    - zoxide # Smarter cd command
+    - zsh # Interactive shell
+
+  darwin:
+    brews:
+      - carapace # Shell completion generator
+      - dive # Docker image layer explorer
+      - fd # Fast find replacement
+      - gh # GitHub CLI
+      - onefetch # Git repository summary
+      - presenterm # Terminal slide presenter
+      - python # Python runtime
+      - stow # Symlink farm manager
+      - tldr # Short command examples
+      - topgrade # Upgrade all package managers
+    casks:
+      - google-chrome # Web browser
+
+  arch:
+    # Packages specific to Arch (different names or Arch-only)
+    packages:
+      - pomo-cli # Pomodoro timer CLI
+      - adw-gtk-theme # Libadwaita GTK theme
+      - alsa-utils # ALSA audio tools
+      - archlinux-xdg-menu # XDG application menus
+      - brightnessctl # Screen brightness control
+      - faugus-launcher # Game launcher
+      - cargo # Rust package manager
+      - dive # Docker image layer explorer
+      - dolphin # KDE file manager
+      - fd # Fast find replacement
+      - github-cli # GitHub CLI
+      - kvantum # Qt theme engine
+      - lazydocker # Terminal Docker UI
+      - lazygit # Terminal Git UI
+      - lsd # Modern ls replacement
+      - luarocks # Lua package manager
+      - nwg-look # GTK settings editor
+      - onefetch # Git repository summary
+      - openssh # SSH client and server
+      - papirus-icon-theme # Desktop icon theme
+
+      - pavucontrol # Audio mixer GUI
+      - pipewire-alsa # ALSA support for PipeWire
+      - pipewire-pulse # PulseAudio support for PipeWire
+      - playerctl # Media player control CLI
+      - presenterm # Terminal slide presenter
+      - python-pip # Python package installer
+      - python-prompt_toolkit # Python prompt library
+      - qt5ct # Qt5 settings tool
+      - qt6ct # Qt6 settings tool
+      - resvg # SVG previews for Yazi
+
+      - tealdeer # Fast tldr client
+      - tectonic # Modern TeX engine
+      - topgrade # Upgrade all package managers
+      - transmission-qt # BitTorrent client
+      - udiskie # Removable drive automounter
+      - uv # Python package manager
+      - wl-clipboard # Wayland clipboard tools
+      - wireplumber # PipeWire session manager
+      - wine # Windows compatibility layer
+      - yazi # Terminal file manager
+      - zathura # Document viewer
+      - zathura-pdf-mupdf # PDF backend for Zathura
+
+    # Packages only for non-WSL Arch Linux systems (GUI applications, games, etc.)
+    non_wsl_packages:
+      - awesome-terminal-fonts # Icon fonts for terminals
+      - difftastic # Syntax-aware diff tool
+      - docker # Container runtime
+      - ghostty # Terminal emulator
+      - grimblast-git # Hyprland screenshot helper
+      - helium-browser-bin # Web browser
+      - hyprland # Wayland compositor
+      - hyprlock # Hyprland lock screen
+      - satty # Screenshot annotation tool
+      - hyprland-preview-share-picker-git # Hyprland screen share picker
+      - libreoffice-fresh # Office suite
+
+      - lutris # Game manager
+      - lxappearance # GTK theme selector
+
+      - nm-connection-editor # NetworkManager GUI
+      - noctalia-git # Desktop shell UI
+      - noto-fonts # Noto font family
+      - noto-fonts-emoji # Emoji font support
+      - obsidian # Markdown notes app
+      - ollama-cuda # GPU local LLM runner
+      - opencode # AI coding CLI
+      - overskride # Bluetooth manager
+      - protonplus # Proton tool manager
+      - sddm-theme-sugar-candy # SDDM login theme
+      - signal-desktop # Secure messaging app
+      - slurp # Wayland region selector
+      - steam # Game platform
+      - steamtinkerlaunch # Steam launch tweaker
+
+      - sunshine # Game streaming host
+
+      - ttf-material-symbols-variable-git # Material Symbols font
+      - ttf-meslo-nerd # Meslo Nerd Font
+      - xdg-desktop-portal-hyprland # Hyprland desktop portal
+      - xsensors # Hardware sensor monitor
+      - zen-twilight-bin # Web browser
+
+  ubuntu:
+    # Packages specific to Ubuntu (different names or Ubuntu-only)
+    packages:
+      - carapace # Shell completion generator
+      - fd-find # Fast find replacement
+      - gh # GitHub CLI
+      - python3-pip # Python package installer
+      - python3-prompt-toolkit # Python prompt library
+      - tldr # Short command examples
+      - zathura # Document viewer
+      - zathura-pdf-poppler # PDF backend for Zathura

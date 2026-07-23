@@ -1,5 +1,5 @@
 # chezmoi-driving recipes. Run `just` (no args) to list.
-# Requires: just (in packages.yaml global), chezmoi.
+# Requires: just (in home/.chezmoidata/packages.yaml), chezmoi.
 
 set shell := ["bash", "-eu", "-o", "pipefail", "-c"]
 
@@ -22,7 +22,10 @@ force:
 # Bootstrap a fresh machine — clone repo + first apply.
 # Usage: just bootstrap github:youruser/yourdotfilesrepo
 bootstrap REPO:
-    chezmoi init --apply {{REPO}}
+    chezmoi init {{REPO}}
+    test -f "$HOME/.config/chezmoi/key.txt" || { echo "Restore ~/.config/chezmoi/key.txt, then run: chezmoi apply" >&2; exit 1; }
+    chmod 600 "$HOME/.config/chezmoi/key.txt"
+    chezmoi apply
 
 # Pull upstream + re-apply
 update:
@@ -46,7 +49,7 @@ re-add FILE:
 
 # Run the package install script (renders template + applies).
 packages:
-    chezmoi apply --include=run_onchange_install-packages.sh.tmpl
+    chezmoi apply --include=scripts
 
 # Run chezmoi doctor to diagnose config issues
 doctor:

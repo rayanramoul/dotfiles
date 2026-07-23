@@ -1,0 +1,85 @@
+# No OS-specific ignores needed - using single source with conditional destination
+
+# Misc state
+.config/nushell/history.txt
+.ssh/config.gcp
+
+# Secrets — never track these, even if `chezmoi add` is accidentally run.
+# These files contain OAuth tokens / auth keys that must not land in git.
+.config/chezmoi/key.txt
+.config/gh/hosts.yml
+.config/atuin/key
+.config/atuin/session
+.config/atuin/login_session
+.config/discord
+.config/lmstudio
+.netrc
+
+# Defensive patterns for keys/tokens/service accounts. These never belong in
+# a public dotfiles repo. Listed as TARGET paths so `chezmoi add` on any of
+# these refuses (chezmoi consults this file before adding).
+gcp.json
+**/*service-account*.json
+**/credentials.json
+**/*credentials*.json
+**/*api*key*
+**/*.pem
+**/*.p12
+**/*.pfx
+**/id_rsa
+**/id_rsa.*
+**/id_ed25519
+**/id_ed25519.*
+**/id_ecdsa
+**/id_ecdsa.*
+**/*.kdbx
+**/*.kdb
+**/.npmrc
+**/.pypirc
+**/known_hosts
+**/known_hosts.old
+**/authorized_keys
+# Custom-named SSH private keys (no id_* prefix, so the patterns above miss them).
+# `chezmoi add ~/.ssh` warns but still adds these unless listed here.
+.ssh/google_compute_engine
+.ssh/truenas
+.ssh/*.pub
+
+# Opencode config - tracked via template, secrets via extraFile
+# dot_config/opencode/opencode.jsonc
+
+# Cache / runtime artefacts some apps drop in tracked dirs
+.config/yazi/state
+.config/bat/cache
+
+# Noctalia owns and regenerates these theme outputs.
+.cache/noctalia/**
+.config/alacritty/themes/noctalia.toml
+.config/btop/themes/noctalia.theme
+.config/foot/themes/noctalia
+.config/ghostty/themes/noctalia
+.config/gtk-3.0/noctalia.css
+.config/gtk-4.0/noctalia.css
+.config/heroic/themes/matugen.css
+.config/hypr/noctalia.conf
+.config/hypr/noctalia.lua
+.config/hypr/hyprtoolkit.conf
+.config/lazygit/themes/noctalia.yml
+.config/mango/noctalia.conf
+.config/nvim/lua/matugen.lua
+.config/qt5ct/colors/noctalia.conf
+.config/qt6ct/colors/noctalia.conf
+.config/telegram-desktop/themes/noctalia.tdesktop-theme
+.config/vesktop/themes/noctalia*.css
+.config/vesktop/themes/discord-system24.css
+.config/yazi/flavors/noctalia.yazi/**
+.local/share/Steam/steamui/skins/Material-Theme/css/main/colors/matugen.css
+
+# Runtime plugin installs (TPM manages these) and per-machine app state.
+# Were previously tracked; now ignored so chezmoi doesn't try to delete them.
+# Whole ~/.tmux is runtime-managed (TPM clones plugins into it); the legacy
+# symlink_dot_tmux pointed at a Linux-only path and breaks on macOS.
+.tmux
+.tmux/**
+.local/share/lutris/**
+.local/share/nvim/lazy/**

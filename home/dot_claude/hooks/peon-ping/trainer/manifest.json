@@ -1,0 +1,36 @@
+{
+  "trainer.session_start": [
+    { "file": "sounds/session_start/new_day.mp3", "label": "New day! New session! Time for pushups before coding! Peon make you strong!" },
+    { "file": "sounds/session_start/human_back.mp3", "label": "Ah, human back at computer! Before you type type type, do twenty pushups! Start session strong!" },
+    { "file": "sounds/session_start/know_the_rules.mp3", "label": "Session start! You know the rules. Pushups first, code second! Zug zug!" }
+  ],
+  "trainer.remind": [
+    { "file": "sounds/remind/sit_too_long.mp3", "label": "You sit too long! Peon say do pushups NOW!" },
+    { "file": "sounds/remind/human_weak.mp3", "label": "Human weak! Need more squats!" },
+    { "file": "sounds/remind/work_on_muscles.mp3", "label": "Work work... on MUSCLES!" },
+    { "file": "sounds/remind/no_let_lazy.mp3", "label": "Peon no let you be lazy! Squat time!" },
+    { "file": "sounds/remind/just_sitting.mp3", "label": "Me notice you just sitting there." },
+    { "file": "sounds/remind/something_need_doing.mp3", "label": "Something need doing? YES. PUSHUPS." },
+    { "file": "sounds/remind/type_type_type.mp3", "label": "Peon tired of watching human type type type." },
+    { "file": "sounds/remind/code_review_hard.mp3", "label": "You think code review hard? Try three hundred squats!" }
+  ],
+  "trainer.log": [
+    { "file": "sounds/log/not_bad.mp3", "label": "Not bad for puny human." },
+    { "file": "sounds/log/approve.mp3", "label": "Peon approve. Keep going!" },
+    { "file": "sounds/log/work_work.mp3", "label": "Work work! Muscles getting bigger maybe!" },
+    { "file": "sounds/log/proud.mp3", "label": "Good good! Peon proud... a little." },
+    { "file": "sounds/log/okie_dokie.mp3", "label": "Okie dokie. More later!" }
+  ],
+  "trainer.complete": [
+    { "file": "sounds/complete/three_hundred.mp3", "label": "THREE HUNDRED! Human strong like orc now!" },
+    { "file": "sounds/complete/impressed.mp3", "label": "Peon... Peon impressed." },
+    { "file": "sounds/complete/goal_complete.mp3", "label": "GOAL COMPLETE! Peon give you rest." },
+    { "file": "sounds/complete/zug_zug.mp3", "label": "Zug zug! Human finish all reps!" }
+  ],
+  "trainer.slacking": [
+    { "file": "sounds/slacking/disappointed.mp3", "label": "Peon very disappointed." },
+    { "file": "sounds/slacking/half_day.mp3", "label": "Half day gone and you still weak!" },
+    { "file": "sounds/slacking/falling_behind.mp3", "label": "Human, you falling behind." },
+    { "file": "sounds/slacking/not_that_kind.mp3", "label": "Me not that kind of orc... but me WILL nag you." }
+  ]
+}

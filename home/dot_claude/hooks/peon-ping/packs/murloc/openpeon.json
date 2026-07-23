@@ -1,0 +1,49 @@
+{
+  "cesp_version": "1.0",
+  "name": "murloc",
+  "display_name": "Murloc",
+  "version": "1.0.0",
+  "author": {
+    "name": "Ferror",
+    "github": "Ferror"
+  },
+  "license": "CC-BY-NC-4.0",
+  "language": "en",
+  "categories": {
+    "session.start": {
+      "sounds": [
+        { "file": "sounds/mrrgll.mp3", "label": "Mrglglgl!", "sha256": "53b93d0f24c5e164d06f0ab7c50d287c5f283577ad9f362f35419f16fa2703ae" }
+      ]
+    },
+    "task.acknowledge": {
+      "sounds": [
+        { "file": "sounds/mrrgll.mp3", "label": "Glrrm... mrrglll", "sha256": "53b93d0f24c5e164d06f0ab7c50d287c5f283577ad9f362f35419f16fa2703ae" }
+      ]
+    },
+    "task.complete": {
+      "sounds": [
+        { "file": "sounds/mrrgll.mp3", "label": "Mrrglglgl", "sha256": "53b93d0f24c5e164d06f0ab7c50d287c5f283577ad9f362f35419f16fa2703ae" }
+      ]
+    },
+    "task.error": {
+      "sounds": [
+        { "file": "sounds/mrrgll.mp3", "label": "Mrrrgglll?!", "sha256": "53b93d0f24c5e164d06f0ab7c50d287c5f283577ad9f362f35419f16fa2703ae" }
+      ]
+    },
+    "input.required": {
+      "sounds": [
+        { "file": "sounds/mrrgll.mp3", "label": "Glrrm", "sha256": "53b93d0f24c5e164d06f0ab7c50d287c5f283577ad9f362f35419f16fa2703ae" }
+      ]
+    },
+    "resource.limit": {
+      "sounds": [
+        { "file": "sounds/mrrgll.mp3", "label": "Mrglgl", "sha256": "53b93d0f24c5e164d06f0ab7c50d287c5f283577ad9f362f35419f16fa2703ae" }
+      ]
+    },
+    "user.spam": {
+      "sounds": [
+        { "file": "sounds/mrrgll.mp3", "label": "MRRRGLLL!", "sha256": "53b93d0f24c5e164d06f0ab7c50d287c5f283577ad9f362f35419f16fa2703ae" }
+      ]
+    }
+  }
+}

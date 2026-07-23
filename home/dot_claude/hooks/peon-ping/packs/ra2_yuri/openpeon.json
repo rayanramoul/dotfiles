@@ -1,0 +1,90 @@
+{
+  "cesp_version": "1.0",
+  "name": "ra2_yuri",
+  "display_name": "RA2 Yuri (Yuri's Revenge)",
+  "version": "1.0.0",
+  "author": { "name": "PeonPing", "github": "PeonPing" },
+  "license": "CC-BY-NC-4.0",
+  "language": "en",
+  "categories": {
+    "session.start": {
+      "sounds": [
+        { "file": "iyupsea.wav", "label": "I'm here" },
+        { "file": "iyupseb.wav", "label": "You disturb me?" },
+        { "file": "iyupsec.wav", "label": "You will learn from me" },
+        { "file": "iyupsed.wav", "label": "Be of one mind" },
+        { "file": "iyursea.wav", "label": "Perhaps I can be of assistance" },
+        { "file": "iyurseb.wav", "label": "Share your thoughts with me" },
+        { "file": "iyupcrd.wav", "label": "There's only one true Yuri" }
+      ]
+    },
+    "task.acknowledge": {
+      "sounds": [
+        { "file": "iyupmoa.wav", "label": "Your thoughts are mine" },
+        { "file": "iyupmob.wav", "label": "Most unimaginative" },
+        { "file": "iyupmoc.wav", "label": "You will move me there" },
+        { "file": "iyupmod.wav", "label": "Yes, I know" },
+        { "file": "iyupmoe.wav", "label": "I have taught you well!" },
+        { "file": "iyupmof.wav", "label": "A trivial matter" },
+        { "file": "iyupmog.wav", "label": "I've seen this already" },
+        { "file": "iyurmoa.wav", "label": "Yes, good thought" },
+        { "file": "iyurmob.wav", "label": "Understandable" },
+        { "file": "iyurmoc.wav", "label": "Makes sense" },
+        { "file": "iyurmod.wav", "label": "Goes without saying" }
+      ]
+    },
+    "task.complete": {
+      "sounds": [
+        { "file": "iyupsee.wav", "label": "Your orders, my ideas" },
+        { "file": "iyupsef.wav", "label": "Yes, my exquisite mind" },
+        { "file": "iyursec.wav", "label": "They will obey!" },
+        { "file": "iyursed.wav", "label": "Your mind is quicker" },
+        { "file": "iyursee.wav", "label": "The mind is quicker" }
+      ]
+    },
+    "task.error": {
+      "sounds": [
+        { "file": "iyupfea.wav", "label": "I sense trouble" },
+        { "file": "iyupfeb.wav", "label": "This could be a problem!" },
+        { "file": "iyupfec.wav", "label": "I did not foresee this" },
+        { "file": "iyuplo1a.wav", "label": "Pain groan" },
+        { "file": "iyuplo2a.wav", "label": "Pain groan" },
+        { "file": "iyuplo2b.wav", "label": "Pain groan" },
+        { "file": "iyuplo3a.wav", "label": "Pain groan" }
+      ]
+    },
+    "input.required": {
+      "sounds": [
+        { "file": "iyupata.wav", "label": "He will be ours!" },
+        { "file": "iyupatb.wav", "label": "I bring you peace" },
+        { "file": "iyupatc.wav", "label": "I foresaw this need" },
+        { "file": "iyupatd.wav", "label": "He will listen" },
+        { "file": "iyupate.wav", "label": "He shall serve me well" },
+        { "file": "iyupatf.wav", "label": "Another pawn joins us" },
+        { "file": "iyupatg.wav", "label": "Come to Yuri" },
+        { "file": "iyurata.wav", "label": "Something to think about?" },
+        { "file": "iyuratb.wav", "label": "Their will is my will!" },
+        { "file": "iyuratc.wav", "label": "We could use one of those" },
+        { "file": "iyuratd.wav", "label": "He will do as I say!" },
+        { "file": "iyurate.wav", "label": "Yield to me!" }
+      ]
+    },
+    "user.spam": {
+      "sounds": [
+        { "file": "iyuprea.wav", "label": "I cannot be overcome!" },
+        { "file": "iyupreb.wav", "label": "I am my own master" },
+        { "file": "iyuprec.wav", "label": "A pathetic attempt" },
+        { "file": "iyupred.wav", "label": "You can't control me!" },
+        { "file": "iyupdia.wav", "label": "Death scream" },
+        { "file": "iyupdib.wav", "label": "Death scream" },
+        { "file": "iyupdic.wav", "label": "Death scream" },
+        { "file": "iyupdid.wav", "label": "Death scream" },
+        { "file": "iyurdia.wav", "label": "Groan of pain" },
+        { "file": "iyurdib.wav", "label": "Gasp and choke" },
+        { "file": "iyurdic.wav", "label": "Scream of pain" },
+        { "file": "iyurat1a.wav", "label": "Psychic ready" },
+        { "file": "iyurat2a.wav", "label": "All in the mind" }
+      ]
+    }
+  }
+}

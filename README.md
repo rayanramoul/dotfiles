@@ -13,16 +13,20 @@ A set of dotfiles + a package manifest that, in one command, gives you:
 
 - Tiling window management on every OS — **Hyprland** (Linux), **AeroSpace** (macOS), **GlazeWM** (Windows).
 - Coherent keybindings across all three (mapped to `SUPER` on Linux/Windows, `Alt` on macOS).
-- Terminal-first stack — **xonsh** + **tmux** + **Neovim (LazyVim)** + **Ghostty**.
+- Terminal-first stack — **zsh** + **tmux** + **Neovim (LazyVim)** + **Ghostty**.
 - Rose-Pine theming everywhere — GTK / Qt (Kvantum) / KDE / terminal.
 - AI-native — Claude Code, Ollama, LM Studio, opencode wired in.
-- Everything managed by [chezmoi](https://chezmoi.io) — declarative, reproducible, one-line bootstrap.
+- Everything managed by [chezmoi](https://chezmoi.io), with private agent configuration encrypted using age.
 
 ## Quick install
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/rayanramoul/dotfiles/main/install.sh | bash
+export CHEZMOI_AGE_KEY_FILE=/path/to/securely-restored-key.txt
+curl -fsSL https://raw.githubusercontent.com/rayanramoul/dotfiles/master/install.sh | bash
 ```
+
+The age identity is intentionally not stored in Git. Back it up securely and
+restore it before the first apply.
 
 Or manual:
 
@@ -30,8 +34,12 @@ Or manual:
 # 1. Install chezmoi
 sh -c "$(curl -fsLS get.chezmoi.io)"
 
-# 2. Apply
-chezmoi init --apply https://github.com/rayanramoul/dotfiles
+# 2. Initialize the source state
+chezmoi init https://github.com/rayanramoul/dotfiles
+
+# 3. Restore the age identity, then apply
+install -Dm600 /path/to/securely-restored-key.txt ~/.config/chezmoi/key.txt
+chezmoi apply
 ```
 
 ## Stack at a glance
@@ -40,19 +48,19 @@ chezmoi init --apply https://github.com/rayanramoul/dotfiles
 | --- | --- | --- | --- |
 | Window manager | Hyprland | AeroSpace | GlazeWM |
 | Status bar | Noctalia | SketchyBar (+ JankyBorders) | GlazeWM bar |
-| Launcher | Vicinae | Raycast | Wox |
+| Launcher | Noctalia | Raycast | Wox |
 | Terminal | Ghostty | Ghostty | Alacritty / Windows Terminal |
-| Shell | xonsh + Starship + Atuin + Carapace | same | same (via WSL) |
+| Shell | zsh + Starship + Atuin | same | same (via WSL) |
 | Editor | Neovim (LazyVim) | same | same |
 | Multiplexer | Tmux (rose-pine theme) | same | same |
 | File manager | Yazi (TUI) / Dolphin (GUI) | Yazi / Finder | Yazi / Explorer |
 | Lock / idle | Hyprlock + Hypridle | — | — |
-| Wallpaper | swww (via `wallpaperctl.sh`) | — | — |
-| Notifications | SwayNC + Noctalia | native | native |
+| Wallpaper | Noctalia | — | — |
+| Notifications | Noctalia | native | native |
 | Screenshots | grim + slurp + satty | Shottr | — |
 | Theme | Rose-Pine (GTK / Kvantum / KDE / Terminal) | same | same |
 
-CLI tools available everywhere: `bat`, `lsd`, `fzf`, `ripgrep`, `fd`, `zoxide`, `atuin`, `starship`, `just`, `git-delta`, `difftastic`, `lazygit`, `lazydocker`, `btop`, `tealdeer`, `glow`, `dive`, `topgrade`, `fastfetch`, `onefetch`, `presenterm`, `mise`.
+CLI tools include `bat`, `lsd`, `fzf`, `ripgrep`, `fd`, `zoxide`, `atuin`, `starship`, `just`, `git-delta`, `difftastic`, `lazygit`, `lazydocker`, `bpytop`, `tealdeer`, `glow`, `dive`, `topgrade`, `fastfetch`, `onefetch`, and `presenterm`.
 
 ## Keybindings
 
@@ -64,7 +72,7 @@ Open the live cheatsheet anytime with **`SUPER + /`** (renders via `glow` in a f
 | --- | --- |
 | `SUPER + Return` | Open terminal (Ghostty) |
 | `SUPER + Q` | Kill focused window |
-| `SUPER + Space` | Launcher (Vicinae) |
+| `SUPER + Space` | Noctalia launcher |
 | `SUPER + Ctrl + E` | Emoji picker |
 | `SUPER + E` | File manager (Dolphin) |
 | `SUPER + V` | Toggle floating |
@@ -80,7 +88,7 @@ Open the live cheatsheet anytime with **`SUPER + /`** (renders via `glow` in a f
 | `SUPER + Shift + C` | Notes tmux session |
 | `SUPER + Shift + M` | Supersonic (music) |
 | `SUPER + Shift + O` | Obsidian (vault) |
-| `SUPER + Shift + V` | Toggle copyq clipboard history |
+| `SUPER + Shift + V` | Toggle Noctalia clipboard history |
 
 ### Focus & movement
 
@@ -123,11 +131,11 @@ Open the live cheatsheet anytime with **`SUPER + /`** (renders via `glow` in a f
 
 - **Browser** — Zen Browser (Helium also installed)
 - **File explorer** — Yazi (TUI), Dolphin (GUI)
-- **Clipboard** — `wl-clipboard`, `copyq` (history)
+- **Clipboard** — Noctalia history, `wl-clipboard` tools
 - **Audio** — PipeWire stack (`pipewire-pulse`, `wireplumber`, `pavucontrol`)
 - **Bluetooth** — `overskride`
 - **Networking** — `nm-connection-editor` (tray via Noctalia)
-- **Notifications** — `swaync`
+- **Notifications** — Noctalia
 - **Color picker** — `hyprpicker` (planned)
 - **Music** — Supersonic (Navidrome client, rose-pine themed)
 - **Video / streaming** — mpv (with yt-dlp), Stremio
@@ -143,9 +151,9 @@ Open the live cheatsheet anytime with **`SUPER + /`** (renders via `glow` in a f
 
 ### Arch / CachyOS
 
-- All packages declared in `.chezmoidata/packages.yaml` and installed via `paru` by `run_onchange_install-packages.sh.tmpl`.
-- Autostart entries (vicinae, noctalia, hypridle, copyq, gammastep, udiskie, …) live in `dot_config/hypr/autostart.lua`.
-- Quick OS bootstrap: boot the Arch ISO → `archinstall` → log in → run the one-liner above. NVIDIA drivers, kernel mode-setting, multilib: see the [Arch wiki — NVIDIA](https://wiki.archlinux.org/title/NVIDIA).
+- All packages declared in `home/.chezmoidata/packages.yaml` and installed via `paru` by `home/.chezmoiscripts/run_onchange_install-packages.sh.tmpl`.
+- Autostart entries (Noctalia, Hypridle, Udiskie, etc.) live in `home/dot_config/hypr/autostart.lua`.
+- Quick OS bootstrap: boot the Arch ISO → `archinstall` → log in → follow the bootstrap steps above. NVIDIA drivers, kernel mode-setting, multilib: see the [Arch wiki — NVIDIA](https://wiki.archlinux.org/title/NVIDIA).
 
 ### macOS
 
@@ -157,14 +165,14 @@ Open the live cheatsheet anytime with **`SUPER + /`** (renders via `glow` in a f
 ### Windows
 
 - Run inside [WSL Arch](https://github.com/yuk7/ArchWSL) for shell parity.
-- Native side: [GlazeWM](https://github.com/glzr-io/glazewm) (config at `dot_config/glaze_config.yaml`), [Wox](https://github.com/Wox-launcher/Wox/releases) launcher, optional [ExplorerPatcher](https://github.com/valinet/ExplorerPatcher) to hide the taskbar.
-- `wsl --set-default Arch`, then run the one-liner from inside WSL.
+- Native side: [GlazeWM](https://github.com/glzr-io/glazewm) (config at `home/dot_config/glaze_config.yaml`), [Wox](https://github.com/Wox-launcher/Wox/releases) launcher, optional [ExplorerPatcher](https://github.com/valinet/ExplorerPatcher) to hide the taskbar.
+- `wsl --set-default Arch`, then follow the bootstrap steps from inside WSL.
 
 ## AI tooling
 
 - **[Claude Code](https://claude.com/claude-code)** is the main coding agent. Install: `npm install -g @anthropic-ai/claude-code`. Optional [`claude-diff`](https://github.com/gandarfh/claude-diff) hook for visual diffs of proposed edits.
 - **Ollama (CUDA)** + **LM Studio** for local model hosting.
-- Neovim integrations: `claude-code.nvim`, `minuet-ai`, `codediff` / `vscode-diff` for AI-edit previews. Config in `dot_config/nvim/lua/plugins/`.
+- Neovim integrations: `claude-code.nvim`, `minuet-ai`, `codediff` / `vscode-diff` for AI-edit previews. Config in `home/dot_config/nvim/lua/plugins/`.
 
 ### Local LLM Stack (llama-server + OpenWebUI + opencode)
 
@@ -175,24 +183,24 @@ The local LLM setup uses **llama-server** (llama.cpp) as the inference server, *
 | Component | Config Location | Description |
 |-----------|---------------|-------------|
 | llama-server | `.config/systemd/user/llama-cpp.service` | Systemd user service running Qwen3.6-35B model on port 18081 |
-| OpenWebUI | `scripts/executable_deploy_openwebui.sh` | Docker deployment with `--network host` |
-| opencode | `dot_config/opencode/opencode.jsonc.tmpl` | CLI agent config (public parts) |
+| OpenWebUI | `home/scripts/executable_deploy_openwebui.sh` | Docker deployment with `--network host` |
+| opencode | `home/dot_config/opencode/opencode.jsonc.tmpl` | CLI agent config (public parts) |
 
 #### Setup
 
 1. **Build llama.cpp** (once):
    ```bash
-   ./scripts/install_llama_cpp.sh
+   ~/scripts/install_llama_cpp.sh
    ```
 
 2. **Download model**:
    ```bash
-   ./scripts/download_models.sh
+   ~/scripts/download_models.sh
    ```
 
 3. **Deploy OpenWebUI**:
    ```bash
-   ./scripts/deploy_openwebui.sh
+   ~/scripts/deploy_openwebui.sh
    ```
 
 4. **Start services**:
@@ -212,11 +220,11 @@ The local LLM setup uses **llama-server** (llama.cpp) as the inference server, *
 
 #### Updating the Model
 
-1. Edit `scripts/download_models.sh` to change the model repo/symlink
+1. Edit `home/scripts/executable_download_models.sh` to change the model repo/symlink
 
 2. Re-run the download script:
    ```bash
-   ./scripts/download_models.sh
+   ~/scripts/download_models.sh
    ```
 
 3. Update systemd service (`~/.config/systemd/user/llama-cpp.service`) if model name changes:
@@ -230,7 +238,7 @@ The local LLM setup uses **llama-server** (llama.cpp) as the inference server, *
    systemctl --user restart llama-cpp
    ```
 
-5. Update opencode config template (`dot_config/opencode/opencode.jsonc.tmpl`) with new model name and context size, then run `chezmoi apply`
+5. Update opencode config template (`home/dot_config/opencode/opencode.jsonc.tmpl`) with new model name and context size, then run `chezmoi apply`
 
 #### Troubleshooting
 
@@ -241,18 +249,18 @@ The local LLM setup uses **llama-server** (llama.cpp) as the inference server, *
 ## Repo layout
 
 ```
-.chezmoidata/packages.yaml         # all packages, per-OS
-.chezmoi.toml.tmpl                 # bootstrap config (prompts for git identity)
-.chezmoiignore                     # secrets / state files to never track
-dot_config/                        # → ~/.config/
-private_dot_ssh/, private_*        # mode-0600 dirs (still in git — see chezmoiignore)
-run_onchange_install-packages.sh.tmpl
-run_onchange_install-xontribs.sh.tmpl
-run_onchange_install-kvantum-rose-pine.sh
-run_onchange_post-install-services.sh.tmpl   # enable sshd, docker.socket
-run_onchange_remove-legacy.sh                # purge old zsh/p10k/etc.
+.chezmoiroot                       # tells chezmoi to read source state from home/
+home/                              # managed home-directory source state
+├── .chezmoidata/packages.yaml     # packages, per OS
+├── .chezmoiscripts/               # lifecycle and installation scripts
+├── .chezmoitemplates/             # shared template fragments
+├── dot_claude/                    # encrypted private agent config + public hooks
+├── dot_config/                    # -> ~/.config/
+├── private_dot_ssh/               # mode-0600 SSH configuration
+└── scripts/                       # -> ~/scripts/
 justfile                           # `just apply / diff / bootstrap / upgrade`
 docs/cheatsheets/                  # git, ssh, vscode reference cards
+wallpapers/                        # repository-local Noctalia wallpapers
 ```
 
 `just` recipes wrap the common chezmoi flows: `just apply`, `just diff`, `just bootstrap <repo>`, `just upgrade` (topgrade), `just unmanaged` (find files chezmoi doesn't track).

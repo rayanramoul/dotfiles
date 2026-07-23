@@ -1,0 +1,193 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+package_cache_paths=(
+  "$HOME/.cache/uv"
+  "$HOME/.cache/paru"
+  "$HOME/.cache/Shelly"
+  "$HOME/.cache/yay"
+  "$HOME/.cache/yarn"
+  "$HOME/.cache/pip"
+  "$HOME/.cache/electron"
+  "$HOME/.cache/ms-playwright"
+  "$HOME/.cache/node-gyp"
+  "$HOME/.cache/go-build"
+  "$HOME/.cache/pre-commit"
+  "$HOME/.cache/electron-builder"
+  "$HOME/.cache/pnpm"
+  "$HOME/.cache/virtualenv"
+  "$HOME/.cache/golangci-lint"
+  "$HOME/.cache/tealdeer"
+  "$HOME/.cache/jedi"
+)
+
+hugging_face_paths=("$HOME/.cache/huggingface")
+
+obsolete_app_paths=("$HOME/.cache/noctalia-qs")
+
+if ! command -v copyq >/dev/null 2>&1; then
+  obsolete_app_paths+=("$HOME/.config/copyq" "$HOME/.local/share/copyq")
+fi
+
+if ! command -v cliphist >/dev/null 2>&1; then
+  obsolete_app_paths+=("$HOME/.cache/cliphist")
+fi
+
+if ! command -v swaync >/dev/null 2>&1; then
+  obsolete_app_paths+=("$HOME/.config/swaync")
+fi
+
+if ! command -v awww >/dev/null 2>&1; then
+  obsolete_app_paths+=("$HOME/.cache/awww")
+fi
+
+temporary_paths=()
+shopt -s nullglob
+temporary_paths+=("$HOME"/.zcompdump*)
+temporary_paths+=("$HOME"/.claude.json.tmp.*)
+shopt -u nullglob
+
+duplicate_downloads=()
+
+scan_duplicate_downloads() {
+  local candidate directory filename original xdg_download
+  local -a download_directories=("$HOME/Downloads")
+
+  if command -v xdg-user-dir >/dev/null 2>&1; then
+    xdg_download=$(xdg-user-dir DOWNLOAD)
+    if [[ -n $xdg_download && $xdg_download != "$HOME/Downloads" ]]; then
+      download_directories+=("$xdg_download")
+    fi
+  fi
+
+  for directory in "${download_directories[@]}"; do
+    [[ -d $directory ]] || continue
+
+    shopt -s nullglob
+    for candidate in "$directory"/*; do
+      [[ -f $candidate ]] || continue
+      filename=${candidate##*/}
+
+      # Only remove numbered copies when the unnumbered file is byte-identical.
+      if [[ $filename =~ ^(.+)\ \([0-9]+\)(\.[^/]+)$ ]]; then
+        original="$directory/${BASH_REMATCH[1]}${BASH_REMATCH[2]}"
+        if [[ -f $original ]] \
+          && [[ $(stat -c %s -- "$candidate") == $(stat -c %s -- "$original") ]] \
+          && cmp -s -- "$candidate" "$original"; then
+          duplicate_downloads+=("$candidate")
+        fi
+      fi
+    done
+    shopt -u nullglob
+  done
+}
+
+group_size() {
+  local line size=0B
+
+  if (( $# == 0 )); then
+    printf '%s' "$size"
+    return
+  fi
+
+  while IFS= read -r line; do
+    size=${line%%[[:space:]]*}
+  done < <(du -sch -- "$@" 2>/dev/null || true)
+
+  printf '%s' "$size"
+}
+
+remove_paths() {
+  local path
+
+  for path in "$@"; do
+    [[ -e $path || -L $path ]] || continue
+    rm -rf -- "$path"
+    printf 'Removed %s\n' "$path"
+  done
+}
+
+scan_duplicate_downloads
+
+labels=(
+  "Package and development caches"
+  "Hugging Face cache"
+  "Obsolete application leftovers"
+  "Trash"
+  "Shell and temporary files"
+  "Duplicate download copies"
+)
+
+sizes=(
+  "$(group_size "${package_cache_paths[@]}")"
+  "$(group_size "${hugging_face_paths[@]}")"
+  "$(group_size "${obsolete_app_paths[@]}")"
+  "$(group_size "$HOME/.local/share/Trash/files")"
+  "$(group_size "${temporary_paths[@]}")"
+  "$(group_size "${duplicate_downloads[@]}")"
+)
+
+selected=(0 0 0 0 0 0)
+
+while true; do
+  printf '\033[2J\033[H'
+  printf 'Space cleanup\n\n'
+
+  for index in "${!labels[@]}"; do
+    marker=' '
+    (( selected[index] == 1 )) && marker=x
+    printf '%d. [%s] %-34s %8s\n' \
+      "$((index + 1))" "$marker" "${labels[index]}" "${sizes[index]}"
+  done
+
+  printf '\nToggle a number, (a)ll, (n)one, Enter to continue, or (q)uit: '
+  IFS= read -r choice
+
+  case $choice in
+    '') break ;;
+    a|A) selected=(1 1 1 1 1 1) ;;
+    n|N) selected=(0 0 0 0 0 0) ;;
+    q|Q) exit 0 ;;
+    [1-6])
+      index=$((choice - 1))
+      selected[index]=$((1 - selected[index]))
+      ;;
+  esac
+done
+
+chosen=0
+printf '\nSelected cleanup categories:\n'
+for index in "${!labels[@]}"; do
+  if (( selected[index] == 1 )); then
+    printf '  - %s (%s)\n' "${labels[index]}" "${sizes[index]}"
+    chosen=1
+  fi
+done
+
+if (( chosen == 0 )); then
+  printf '  None\n'
+  exit 0
+fi
+
+printf '\nProceed? [y/N] '
+IFS= read -r confirmation
+[[ $confirmation == y || $confirmation == Y ]] || exit 0
+
+(( selected[0] == 0 )) || remove_paths "${package_cache_paths[@]}"
+(( selected[1] == 0 )) || remove_paths "${hugging_face_paths[@]}"
+(( selected[2] == 0 )) || remove_paths "${obsolete_app_paths[@]}"
+
+if (( selected[3] == 1 )); then
+  if command -v gio >/dev/null 2>&1; then
+    gio trash --empty
+    printf 'Emptied Trash\n'
+  else
+    printf 'Skipped Trash: gio is not installed\n' >&2
+  fi
+fi
+
+(( selected[4] == 0 )) || remove_paths "${temporary_paths[@]}"
+(( selected[5] == 0 )) || remove_paths "${duplicate_downloads[@]}"
+
+printf '\nCleanup complete.\n'

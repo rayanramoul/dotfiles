@@ -1,0 +1,38 @@
+#!/bin/bash
+# Enable systemd services after packages install. Named "post-install-" so it
+# sorts after the run_onchange installation scripts
+# (alphabetical: i < p). Runs once — services are idempotently checked.
+set -e
+
+{{ if eq .chezmoi.os "linux" -}}
+
+enable_service() {
+  local svc="$1"
+  if ! systemctl list-unit-files "$svc" --no-legend 2>/dev/null | grep -q "^$svc"; then
+    echo "  $svc: not installed, skipping"
+    return
+  fi
+  if systemctl is-enabled "$svc" >/dev/null 2>&1; then
+    echo "  $svc: already enabled"
+    return
+  fi
+  echo "  $svc: enabling and starting..."
+  sudo systemctl enable --now "$svc"
+}
+
+echo "Enabling systemd services..."
+enable_service sshd.service
+enable_service docker.socket
+
+# Add current user to docker group so `docker` doesn't need sudo.
+# Group membership requires re-login (or `newgrp docker`) to take effect.
+if getent group docker >/dev/null 2>&1; then
+  if id -nG "$USER" | tr ' ' '\n' | grep -qx docker; then
+    echo "  $USER already in docker group"
+  else
+    echo "  adding $USER to docker group (re-login required to use docker without sudo)"
+    sudo usermod -aG docker "$USER"
+  fi
+fi
+
+{{- end }}

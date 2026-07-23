@@ -1,11 +1,18 @@
 .aider*
 .webui_secret_key
-dot_config/nushell/history.txt
-private_dot_ssh/config.gcp
+home/dot_config/nushell/history.txt
+home/private_dot_ssh/config.gcp
 
 # Claude Code runtime state — created when Claude Code runs inside this repo
 .claude/
 
 # Opencode config (contains MCP URLs with tokens)
-dot_config/opencode/opencode.jsonc
+home/dot_config/opencode/opencode.jsonc
 
+# Runtime checkouts and generated application state
+home/dot_tmux/
+home/exact_dot_fzf/
+home/private_dot_cache/
+home/private_dot_local/private_share/lutris/
+home/private_dot_local/private_share/private_Steam/
+home/private_dot_local/private_share/private_keyrings/
