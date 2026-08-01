@@ -72,7 +72,7 @@ Open the live cheatsheet anytime with **`SUPER + /`** (renders via `glow` in a f
 | --- | --- |
 | `SUPER + Return` | Open terminal (Ghostty) |
 | `SUPER + Q` | Kill focused window |
-| `SUPER + Space` | Noctalia launcher |
+| `SUPER + Space` | Vicinae launcher |
 | `SUPER + Ctrl + E` | Emoji picker |
 | `SUPER + E` | File manager (Dolphin) |
 | `SUPER + V` | Toggle floating |

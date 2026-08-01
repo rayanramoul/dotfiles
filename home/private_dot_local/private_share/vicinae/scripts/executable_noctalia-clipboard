@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# @vicinae.schemaVersion 1
+# @vicinae.title Noctalia Clipboard
+# @vicinae.mode silent
+# @vicinae.keywords ["clipboard", "history", "noctalia", "/clipboard"]
+# @vicinae.description Open Noctalia's clipboard history panel
+
+set -euo pipefail
+
+noctalia msg panel-toggle clipboard
+printf 'Opened Noctalia Clipboard\n'

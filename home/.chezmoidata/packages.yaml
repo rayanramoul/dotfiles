@@ -82,6 +82,8 @@ packages:
       - zathura # Document viewer
       - zathura-pdf-mupdf # PDF backend for Zathura
 
+      - tuicr # Review PRs in Terminal
+
     # Packages only for non-WSL Arch Linux systems (GUI applications, games, etc.)
     non_wsl_packages:
       - awesome-terminal-fonts # Icon fonts for terminals
@@ -108,6 +110,7 @@ packages:
       - opencode # AI coding CLI
       - overskride # Bluetooth manager
       - protonplus # Proton tool manager
+      - vicinae-bin # Desktop launcher
       - sddm-theme-sugar-candy # SDDM login theme
       - signal-desktop # Secure messaging app
       - slurp # Wayland region selector

@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# @vicinae.schemaVersion 1
+# @vicinae.title Noctalia Wallhaven
+# @vicinae.mode silent
+# @vicinae.keywords ["wallhaven", "wallpaper", "noctalia", "/wallhaven"]
+# @vicinae.description Open Noctalia's Wallhaven wallpaper browser
+
+set -euo pipefail
+
+noctalia msg panel-toggle noctalia/wallhaven:browser
+printf 'Opened Noctalia Wallhaven\n'

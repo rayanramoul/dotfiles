@@ -140,8 +140,8 @@ hl.window_rule({
 })
 
 -- Borderless / shadowless portal chrome
-each_class({ "Xdg-desktop-portal-gtk" }, { border_size = 0 })
-each_class({ "Xdg-desktop-portal-gtk" }, { no_shadow = true })
+each_class({ "vicinae", "Xdg-desktop-portal-gtk" }, { border_size = 0 })
+each_class({ "vicinae", "Xdg-desktop-portal-gtk" }, { no_shadow = true })
 
 -- XWayland helper crud: prevent empty stray windows from stealing focus
 hl.window_rule({
