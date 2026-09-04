@@ -16,18 +16,18 @@ each_class({
 	"^(Brave-browser|Brave-browser-nightly)$",
 	"^(Chromium|Chromium-browser|Google-chrome|Google-chrome-stable|Google-chrome-beta|Google-chrome-unstable)$",
 	"^Vivaldi-stable$",
-	"^(zen-bin|zen|Zen|Zen-browser)$",
-}, { workspace = "2" })
+	"^(zen-bin|zen|Zen|Zen-browser|zen-twilight)$",
+}, { workspace = "1" })
 
 each_class({
 	"^(Alacritty|Tilix|Kitty|kitty|ghostty|Ghostty|com\\.mitchellh\\.ghostty)$",
-}, { workspace = "1" })
-hl.window_rule({ match = { title = "RayTerm" }, workspace = "1" })
+}, { workspace = "3" })
+hl.window_rule({ match = { title = "RayTerm" }, workspace = "3" })
 
 each_class({ "^(Code|code)$", "^(Cursor|cursor)$" }, { workspace = "3" })
 
 hl.window_rule({
-	match = { class = "^(discord|Discord|Spotify|Slack|slack|Signal|signal-desktop)$" },
+	match = { class = "^(discord|Discord|Spotify|Slack|slack|Signal|signal-desktop|signal)$" },
 	workspace = "4",
 })
 

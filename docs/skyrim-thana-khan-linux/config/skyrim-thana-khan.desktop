@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Skyrim — Thana Khan Modspack
+Comment=Skyrim SE 1.5.97 + SKSE with 1800 mods (mods deployed into Data; no Mod Organizer)
+Exec=/home/rayanramoul/.local/bin/thana-khan-play
+Icon=applications-games
+Terminal=false
+Categories=Game;RolePlaying;
+StartupNotify=true

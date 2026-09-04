@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+# Report how far the last Skyrim run got, and anything that looks like a cause.
+set -uo pipefail
+
+PFX="$HOME/MegaDrive/SteamLibrary/steamapps/compatdata/489830/pfx"
+SKSE="$PFX/drive_c/users/steamuser/Documents/My Games/Skyrim Special Edition/SKSE"
+STDERR="$HOME/MegaDrive/SkyrimModding/last-run.log"
+
+running=$(pgrep -f "SkyrimSE.exe" 2>/dev/null | wc -l)
+echo "game running      : $([ "$running" -gt 0 ] && echo "YES" || echo "no")"
+
+if [ -f "$SKSE/skse64.log" ]; then
+	echo "last run          : $(stat -c '%y' "$SKSE/skse64.log" | cut -d. -f1)"
+	n=$(grep -c "sending message type 8" "$SKSE/skse64.log" 2>/dev/null || echo 0)
+	echo "plugins DataLoaded: $n  (needs ~125; a stall near 65 = the old OAR crash)"
+	last=$(grep "sending message type 8" "$SKSE/skse64.log" 2>/dev/null | tail -1 | grep -oE '[0-9]+$')
+	if [ -n "${last:-}" ]; then
+		name=$(grep "(handle $last)" "$SKSE/skse64.log" 2>/dev/null | sed 's/.*Plugins.//; s/ (.*//')
+		echo "last plugin       : handle $last  ${name:-?}"
+	fi
+else
+	echo "no skse64.log yet"
+fi
+
+echo
+echo "-- Open Animation Replacer --"
+grep -E "Parsing:|Total:" "$SKSE/OpenAnimationReplacer.log" 2>/dev/null | tail -2 || echo "  (no log)"
+
+echo
+echo "-- critical errors across plugin logs --"
+found=0
+for f in "$SKSE"/*.log; do
+	[ -f "$f" ] || continue
+	# Require a trailing colon on E5xxx so Skyrim form IDs (0xDE5012, [REF:FE524801])
+	# don't masquerade as shader-compiler errors. The ENB notice is expected: ENB is off.
+	out=$(grep -hE "\[critical\]|failed to compile|E5[0-9]{3}:" "$f" 2>/dev/null \
+		| grep -viE "ENB is not loaded" | head -2)
+	if [ -n "$out" ]; then echo "  $(basename "$f"):"; echo "$out" | sed 's/^/     /'; found=1; fi
+done
+[ "$found" -eq 0 ] && echo "  none"
+
+echo
+echo "-- wine aborts (unimplemented functions) --"
+if [ -f "$STDERR" ]; then
+	grep -iE "unimplemented|aborting|Unhandled exception" "$STDERR" | tail -3 || echo "  none"
+else
+	echo "  (run via 'thana-khan-play' to capture $STDERR)"
+fi

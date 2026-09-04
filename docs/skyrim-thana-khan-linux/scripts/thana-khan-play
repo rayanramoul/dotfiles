@@ -1,0 +1,127 @@
+#!/usr/bin/env bash
+# Launch Skyrim + SKSE directly, with no Mod Organizer and no usvfs.
+# The 1800 mods are hardlinked straight into the game's Data folder
+# (see scratchpad/deploy.py), because OpenAnimationReplacer crashes
+# scanning 340k files through MO2's virtual filesystem under Wine.
+set -euo pipefail
+
+APPID=489830
+STEAM_ROOT="$HOME/.local/share/Steam"
+LIBRARY="$HOME/MegaDrive/SteamLibrary"
+
+# Proton 10 is the default and the only one that works: 9's DXVK exhausts VRAM,
+# 11's rejects the shaders. The prefix is 10.1000-105 and prefixes do NOT downgrade,
+# so launching with 9 against it would fail. Override with THANA_PROTON=9|11|ge.
+case "${THANA_PROTON:-10}" in
+	11) PROTON="$LIBRARY/steamapps/common/Proton 11.0/proton"
+	    RUNTIME="$STEAM_ROOT/steamapps/common/SteamLinuxRuntime_4/_v2-entry-point" ;;
+	10) # Proton 10 lives in the default library here, not the MegaDrive one.
+	    PROTON="$STEAM_ROOT/steamapps/common/Proton 10.0/proton"
+	    [ -e "$PROTON" ] || PROTON="$LIBRARY/steamapps/common/Proton 10.0/proton"
+	    RUNTIME="$STEAM_ROOT/steamapps/common/SteamLinuxRuntime_sniper/_v2-entry-point" ;;
+	ge) PROTON="$HOME/.steam/root/compatibilitytools.d/GE-Proton11-3/proton"
+	    RUNTIME="$STEAM_ROOT/steamapps/common/SteamLinuxRuntime_4/_v2-entry-point" ;;
+	*)  PROTON="$LIBRARY/steamapps/common/Proton 9.0 (Beta)/proton"
+	    RUNTIME="$STEAM_ROOT/steamapps/common/SteamLinuxRuntime_sniper/_v2-entry-point" ;;
+esac
+COMPATDATA="$LIBRARY/steamapps/compatdata/$APPID"
+GAME_DIR="$LIBRARY/steamapps/common/Skyrim Special Edition"
+
+for p in "$PROTON" "$RUNTIME" "$GAME_DIR/skse64_loader.exe"; do
+	[ -e "$p" ] || { echo "thana-khan-play: missing $p" >&2; exit 1; }
+done
+
+export STEAM_COMPAT_CLIENT_INSTALL_PATH="$STEAM_ROOT"
+export STEAM_COMPAT_DATA_PATH="$COMPATDATA"
+export STEAM_COMPAT_INSTALL_PATH="$GAME_DIR"
+export STEAM_COMPAT_APP_ID="$APPID"
+export STEAM_COMPAT_LIBRARY_PATHS="$LIBRARY"
+export SteamAppId="$APPID"
+export SteamGameId="$APPID"
+export STEAM_COMPAT_MOUNTS="$HOME/MegaDrive"
+
+# Audio. The pack runs 21 sound mods including UHDAP (uncompressed HD audio), streamed
+# off a DRAM-less SATA SSD. A larger PulseAudio buffer stops the crackle/stutter that
+# causes under Wine; 60ms is the usual sweet spot before latency becomes noticeable.
+export PULSE_LATENCY_MSEC="${PULSE_LATENCY_MSEC:-60}"
+
+# DLSS Frame Generation needs Proton's NGX bits enabled.
+export PROTON_ENABLE_NGX_UPDATER=1
+
+export DXVK_STATE_CACHE_PATH="$HOME/MegaDrive/SkyrimModding/.dxvk-cache"
+export __GL_SHADER_DISK_CACHE_PATH="$HOME/MegaDrive/SkyrimModding/.nv-cache"
+mkdir -p "$DXVK_STATE_CACHE_PATH" "$__GL_SHADER_DISK_CACHE_PATH"
+
+export LANG=en_US.UTF-8
+
+# Open Animation Replacer 3.x parses animations in parallel via Microsoft's
+# Concurrency Runtime. Wine's builtin concrt140 lacks _TaskCollection and hard-aborts
+# ("unimplemented function concrt140.dll.??0_TaskCollection@..."). vcrun2022 is
+# installed into the prefix; force the native DLLs, because the registry override
+# winetricks writes is outranked by the WINEDLLOVERRIDES Proton sets itself.
+# d3dcompiler_47 must be Microsoft's: Wine's vkd3d-shader HLSL parser rejects the
+# `namespace` keyword ("E5000: syntax error, unexpected KW_NAMESPACE"), which fails
+# ~3,400 of Community Shaders' shaders. Same root cause as the E5032 loop-unrolling
+# error that broke Local Map Upgrade.
+# XAudio2 must be Microsoft's too: Skyrim stores voices as .fuz and music as .xwm,
+# both xWMA-encoded, and Wine's XAudio2 fails to decode them -- silent dialogue and
+# music while plain-WAV effects still play. Installed via `winetricks xact xact_x64`.
+export WINEDLLOVERRIDES="concrt140,msvcp140,msvcp140_1,msvcp140_2,msvcp140_atomic_wait,msvcp140_codecvt_ids,vcruntime140,vcruntime140_1,vcruntime140_threads,d3dcompiler_47,xaudio2_0,xaudio2_1,xaudio2_2,xaudio2_3,xaudio2_4,xaudio2_5,xaudio2_6,xaudio2_7,xactengine3_7,x3daudio1_7,xapofx1_5=n,b${WINEDLLOVERRIDES:+;$WINEDLLOVERRIDES}"
+
+# Self-heal: switching Proton versions runs wineboot, which can restore Wine's stub
+# DLLs over the Microsoft ones. Without the real concrt140, OAR 3.x hard-aborts.
+MSVC_KEEP="$HOME/MegaDrive/SkyrimModding/_msvc-native"
+SYS32="$COMPATDATA/pfx/drive_c/windows/system32"
+# Byte-compare against the stash rather than sniffing strings. Wine's stubs are a
+# similar size AND still contain the symbol names they don't implement, so every
+# heuristic I tried gave a false negative and the game aborted on concrt140.
+if [ -d "$MSVC_KEEP" ]; then
+	mkdir -p "$SYS32"
+	for src in "$MSVC_KEEP"/*.dll; do
+		[ -f "$src" ] || continue
+		dst="$SYS32/$(basename "$src")"
+		if ! cmp -s "$src" "$dst"; then
+			echo "thana-khan-play: restoring native $(basename "$src")" >&2
+			cp -f "$src" "$dst"
+		fi
+	done
+fi
+
+if [ "${THANA_DEBUG:-0}" = "1" ]; then
+	export PROTON_LOG=1
+	export PROTON_LOG_DIR="$HOME/MegaDrive/SkyrimModding"
+fi
+
+# ENB. Its d3d11.dll wrapper sits in the game folder and must load as native, or
+# Wine hands the game Proton's DXVK directly and ENB never initialises. ENB then
+# chain-loads the real d3d11 (Proton's DXVK) itself -- enblocal.ini's proxy to the
+# bundled Windows DXVK build is switched off, since Proton already provides one.
+# Set THANA_ENB=0 to run without ENB without having to rename anything.
+if [ "${THANA_ENB:-1}" = "1" ] && [ -f "$GAME_DIR/d3d11.dll" ]; then
+	# d3dx9_42 is also SSE Engine Fixes part 2's loader, so it wants native regardless.
+	export WINEDLLOVERRIDES="d3d11,d3dcompiler_46e,d3dx9_42=n,b;$WINEDLLOVERRIDES"
+else
+	export WINEDLLOVERRIDES="d3d11=b;d3dx9_42=n,b;$WINEDLLOVERRIDES"
+fi
+
+# Provision the prefix. Idempotent, so a freshly created prefix (e.g. after switching
+# Proton) still gets the load order and inis the game reads -- MO2 is not injecting them.
+PROFILE="$HOME/MegaDrive/SkyrimModding/Skyrim Thana Khan Modspack v8.4/profiles/01 - Ecran standard"
+APPD="$COMPATDATA/pfx/drive_c/users/steamuser/AppData/Local/Skyrim Special Edition"
+MYGAMES="$COMPATDATA/pfx/drive_c/users/steamuser/Documents/My Games/Skyrim Special Edition"
+if [ -d "$PROFILE" ] && [ ! -f "$APPD/plugins.txt" ]; then
+	echo "thana-khan-play: provisioning fresh prefix (load order + inis)" >&2
+	mkdir -p "$APPD" "$MYGAMES"
+	cp -f "$PROFILE/plugins.txt" "$PROFILE/loadorder.txt" "$APPD/"
+	for i in Skyrim.ini SkyrimPrefs.ini SkyrimCustom.ini; do
+		[ -f "$PROFILE/$i" ] && cp -f "$PROFILE/$i" "$MYGAMES/$i"
+	done
+fi
+
+# Keep the last run's output so `thana-khan-status` can explain a crash.
+LOG="$HOME/MegaDrive/SkyrimModding/last-run.log"
+exec > >(tee "$LOG") 2>&1
+
+cd "$GAME_DIR"
+exec "$RUNTIME" --verb=waitforexitandrun -- \
+	"$PROTON" waitforexitandrun "$GAME_DIR/skse64_loader.exe" "$@"

@@ -260,6 +260,7 @@ home/                              # managed home-directory source state
 └── scripts/                       # -> ~/scripts/
 justfile                           # `just apply / diff / bootstrap / upgrade`
 docs/cheatsheets/                  # git, ssh, vscode reference cards
+docs/skyrim-thana-khan-linux/      # running a 1,800-mod Skyrim modlist under Proton
 wallpapers/                        # repository-local Noctalia wallpapers
 ```
 
@@ -268,6 +269,10 @@ wallpapers/                        # repository-local Noctalia wallpapers
 ## Cheatsheets
 
 Outside-the-stack reference material lives in [`docs/cheatsheets/`](docs/cheatsheets/) — short notes on git, ssh, and a vscode PDF. Use `glow docs/cheatsheets/git.md` for in-terminal rendering.
+
+## Gaming
+
+[`docs/skyrim-thana-khan-linux/`](docs/skyrim-thana-khan-linux/) documents getting the Thana Khan Modspack v8.4 (1,800 mods, Windows-only by design) running on CachyOS under Proton — every Linux-specific failure and its fix, plus the launcher, deploy and audit scripts.
 
 ## ❤️ If RayTerm has been helpful
 
