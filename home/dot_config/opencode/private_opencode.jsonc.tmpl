@@ -1,0 +1,54 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  // tmux-agent-sidebar bridge: reports agent status/prompts/activity to the
+  // sidebar TUI. Loaded from the TPM plugin checkout rather than symlinked into
+  // ~/.config/opencode/plugin*, because opencode scans BOTH `plugin/` and
+  // `plugins/` and a link in each would double-fire every hook. The bridge
+  // locates hook.sh by walking up from this path, so it must stay the real file.
+  "plugin": [
+    "{{ .chezmoi.homeDir }}/.tmux/plugins/tmux-agent-sidebar/.opencode/plugins/tmux-agent-sidebar.js"
+  ],
+  // MCP servers, rendered from the one encrypted source shared with Claude Code
+  // (~/.config/agent-rules/mcp.json). That file uses Claude's `mcpServers`
+  // shape, so the types are translated here: http -> remote, stdio -> local.
+  // Add a server there, not in this file, and both agents pick it up.
+{{- $mcp := (include "dot_config/private_agent-rules/encrypted_private_mcp.json.age" | decrypt | fromJson) }}
+  "mcp": {
+{{- range $name, $s := $mcp.mcpServers }}
+  {{- if eq $s.type "stdio" }}
+    {{ $name | quote }}: {
+      "type": "local",
+      "command": {{ prepend $s.args $s.command | toJson }},
+      {{- with $s.env }}
+      "environment": {{ . | toJson }},
+      {{- end }}
+      "enabled": true
+    },
+  {{- else }}
+    {{ $name | quote }}: {
+      "type": "remote",
+      "url": {{ $s.url | quote }},
+      "enabled": true
+    },
+  {{- end }}
+{{- end }}
+  },
+  "provider": {
+    "ollama": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Ollama (local)",
+      "options": {
+        "baseURL": "http://127.0.0.1:18081/v1"
+      },
+      "models": {
+        "qwen3.6-35b-iq4_xs.gguf": {
+          "name": "Qwen 3.6 35B (IQ4_XS) - llama-server",
+          "limit": {
+            "context": 120000,
+            "output": 8192
+          }
+        }
+      }
+    }
+  }
+}

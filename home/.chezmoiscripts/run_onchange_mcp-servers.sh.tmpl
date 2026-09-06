@@ -1,0 +1,41 @@
+#!/bin/bash
+# Register the shared MCP servers with Claude Code at user scope.
+#
+# ~/.config/agent-rules/mcp.json is the single source of truth, encrypted in the
+# chezmoi repo and shared with opencode (which reads the same file through a
+# template in ~/.config/opencode/opencode.jsonc). Claude Code has no settings
+# key that points at an external MCP file — user-scope servers live inside
+# ~/.claude.json, which is session state and not worth tracking — so they are
+# replayed through the CLI here instead.
+#
+# Re-runs when the server list changes:
+# mcp.json hash: {{ include "dot_config/private_agent-rules/encrypted_private_mcp.json.age" | decrypt | sha256sum }}
+set -e
+
+MCP_FILE="$HOME/.config/agent-rules/mcp.json"
+
+if ! command -v claude >/dev/null 2>&1; then
+  echo "mcp-servers: claude not installed, skipping"
+  exit 0
+fi
+if [ ! -r "$MCP_FILE" ]; then
+  echo "mcp-servers: $MCP_FILE missing, skipping"
+  exit 0
+fi
+
+# `add-json` refuses to overwrite, so drop the user-scope entry first. The
+# remove is expected to fail on a server that isn't registered yet.
+while IFS=$'\t' read -r name json; do
+  [ -n "$name" ] || continue
+  claude mcp remove "$name" --scope user >/dev/null 2>&1 || true
+  if claude mcp add-json --scope user "$name" "$json" >/dev/null 2>&1; then
+    echo "mcp-servers: registered $name"
+  else
+    echo "mcp-servers: FAILED to register $name"
+  fi
+done < <(python3 -c '
+import json, sys
+servers = json.load(open(sys.argv[1]))["mcpServers"]
+for name, cfg in servers.items():
+    print(name, json.dumps(cfg), sep="\t")
+' "$MCP_FILE")

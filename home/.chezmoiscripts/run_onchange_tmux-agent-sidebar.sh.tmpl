@@ -1,0 +1,61 @@
+#!/bin/bash
+# Bootstrap the tmux-agent-sidebar checkout + binary outside of tmux.
+#
+# The sidebar is a TPM plugin, but two consumers reference its checkout by
+# absolute path and neither waits for tmux to start:
+#   - ~/.claude/settings.json     registers it as a `directory` marketplace
+#   - ~/.config/opencode/opencode.jsonc  loads .opencode/plugins/*.js from it
+# TPM only clones it on `prefix + I`, so without this a fresh machine would
+# leave both agents pointing at a missing directory until tmux is first run.
+#
+# Sorts after run_onchange_install-packages (i < t) so git is present.
+#
+# Re-runs when the tmux plugin list changes:
+# tmux.conf hash: {{ include "dot_tmux.conf" | sha256sum }}
+set -e
+
+TPM_DIR="$HOME/.tmux/plugins/tpm"
+SIDEBAR_DIR="$HOME/.tmux/plugins/tmux-agent-sidebar"
+
+if ! command -v git >/dev/null 2>&1; then
+  echo "tmux-agent-sidebar: git not available, skipping"
+  exit 0
+fi
+
+# TPM itself. ~/.tmux.conf clones this too, but only once tmux actually starts.
+if [ ! -d "$TPM_DIR" ]; then
+  echo "tmux-agent-sidebar: cloning tpm"
+  git clone --depth=1 https://github.com/tmux-plugins/tpm "$TPM_DIR"
+fi
+
+if [ -d "$SIDEBAR_DIR/.git" ]; then
+  git -C "$SIDEBAR_DIR" pull --ff-only --quiet || \
+    echo "tmux-agent-sidebar: pull failed, keeping existing checkout"
+else
+  echo "tmux-agent-sidebar: cloning plugin"
+  git clone --depth=1 https://github.com/hiroppy/tmux-agent-sidebar "$SIDEBAR_DIR"
+fi
+
+# The hooks that feed the sidebar resolve this binary on every fire and exit 0
+# silently when it is missing, so a failed download degrades to "no sidebar
+# data" rather than breaking Claude Code or opencode sessions.
+BINARY="$SIDEBAR_DIR/bin/tmux-agent-sidebar"
+want="$(sed -n 's/^version *= *"\(.*\)"/\1/p' "$SIDEBAR_DIR/Cargo.toml")"
+have="$("$BINARY" version 2>/dev/null || true)"
+
+if [ -n "$want" ] && [ "$want" = "$have" ]; then
+  echo "tmux-agent-sidebar: binary $have already current"
+elif ! command -v curl >/dev/null 2>&1; then
+  echo "tmux-agent-sidebar: curl not available, binary install deferred to tmux"
+else
+  echo "tmux-agent-sidebar: fetching binary ${want:-latest}"
+  # </dev/null: the wizard's EXIT trap blocks on `read -n 1` when a download
+  # fails, and it reloads tmux.conf on success — both are noise here, so the
+  # result is checked below instead of trusting the exit status.
+  bash "$SIDEBAR_DIR/install-wizard.sh" download-binary </dev/null >/dev/null 2>&1 || true
+  if [ -x "$BINARY" ]; then
+    echo "tmux-agent-sidebar: binary installed ($("$BINARY" version 2>/dev/null))"
+  else
+    echo "tmux-agent-sidebar: download failed; run 'prefix + I' in tmux to retry"
+  fi
+fi

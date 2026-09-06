@@ -21,6 +21,17 @@ cleanups=(
   "$HOME/.config/caelestia"
   "$HOME/.config/wal"
   "$HOME/.config/ulauncher"
+
+  # peon-ping: shipped 8 MB of sound packs but was never wired into
+  # settings.json hooks, so it never played anything. Removed along with its
+  # four control skills.
+  "$HOME/.claude/hooks/peon-ping"
+  "$HOME/.claude/skills/peon-ping-config"
+  "$HOME/.claude/skills/peon-ping-log"
+  "$HOME/.claude/skills/peon-ping-toggle"
+  "$HOME/.claude/skills/peon-ping-use"
+  "$HOME/.openpeon"
+  "$HOME/.config/opencode/peon-ping"
 )
 
 for path in "${cleanups[@]}"; do
